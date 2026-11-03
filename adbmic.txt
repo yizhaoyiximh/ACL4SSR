@@ -1,5 +1,3 @@
-
-zhifawang@Mac 7870_audio_ko % adb shell su -c '/system/bin/tinymix -D 0'
 Mixer name: 'sprdphone-sc2730'
 Number of controls: 344
 ctl	type	num	name                                     value
@@ -348,353 +346,46 @@ ctl	type	num	name                                     value
 341	BOOL	1	PDM_DMIC0 Switch                         Off
 342	BOOL	1	PDM_DMIC1 Switch                         Off
 343	BOOL	1	PDM_DMIC2 Switch                         Off
-zhifawang@Mac 7870_audio_ko % adb shell su -c '/system/bin/tinymix -D 0 -a'
-Mixer name: 'sprdphone-sc2730'
-Number of controls: 344
-ctl	type	num	name                                     value
-	range/values
-0	INT	2	VBC DAC0 DSP MDG Set                     0 1 (dsrange 0->8191)
-1	INT	2	VBC DAC1 DSP MDG Set                     0 4 (dsrange 0->8191)
-2	INT	2	VBC DAC0 AUD MDG Set                     0 1 (dsrange 0->8191)
-3	INT	2	VBC DAC0 AUD23 MDG Set                   0 1 (dsrange 0->8191)
-4	INT	1	VBC_SRC_DAC0                             0 (dsrange 0->48000)
-5	INT	1	VBC_SRC_DAC1                             0 (dsrange 0->48000)
-6	INT	1	VBC_SRC_ADC0                             0 (dsrange 0->48000)
-7	INT	1	VBC_SRC_ADC1                             0 (dsrange 0->48000)
-8	INT	1	VBC_SRC_ADC2                             0 (dsrange 0->48000)
-9	INT	1	VBC_SRC_ADC3                             0 (dsrange 0->48000)
-10	INT	1	VBC_SRC_BT_DAC                           0 (dsrange 0->48000)
-11	INT	1	VBC_SRC_BT_ADC                           0 (dsrange 0->48000)
-12	INT	1	VBC_SRC_FM                               0 (dsrange 0->48000)
-13	INT	2	VBC DAC0 DG Set                          0 0 (dsrange 0->127)
-14	INT	2	VBC DAC1 DG Set                          0 0 (dsrange 0->127)
-15	INT	2	VBC ADC0 DG Set                          21 21 (dsrange 0->127)
-16	INT	2	VBC ADC1 DG Set                          0 0 (dsrange 0->127)
-17	INT	2	VBC ADC2 DG Set                          0 0 (dsrange 0->127)
-18	INT	2	VBC ADC3 DG Set                          0 0 (dsrange 0->127)
-19	INT	2	VBC FM DG Set                            0 0 (dsrange 0->127)
-20	INT	2	VBC ST DG Set                            0 0 (dsrange 0->127)
-21	INT	2	OFFLOAD DG Set                           0 0 (dsrange 0->4096)
-22	INT	2	VBC_SMTHDG_DAC0                          0 0 (dsrange 0->65535)
-23	INT	1	VBC_SMTHDG_DAC0_STEP                     0 (dsrange 0->8191)
-24	INT	2	VBC_MIXERDG_DAC0_MAIN                    0 0 (dsrange 0->65535)
-25	INT	2	VBC_MIXERDG_DAC0_MIX                     0 0 (dsrange 0->65535)
-26	INT	2	VBC_MIXERDG_DAC1_MAIN                    0 0 (dsrange 0->65535)
-27	INT	2	VBC_MIXERDG_DAC1_MIX                     0 0 (dsrange 0->65535)
-28	INT	1	VBC_MIXERDG_STEP                         0 (dsrange 0->65535)
-29	ENUM	1	VBC_MIXER0_DAC0                          >NOT_MIX INTERCHANGE HALF_ADD HALF_SUB DATA_INV INTERCHANGE_INV HALF_ADD_INV HALF_SUB_INV
-30	ENUM	1	VBC_MIXER1_DAC0                          >NOT_MIX INTERCHANGE HALF_ADD HALF_SUB DATA_INV INTERCHANGE_INV HALF_ADD_INV HALF_SUB_INV
-31	ENUM	1	VBC_MIXER0_DAC1                          >NOT_MIX INTERCHANGE HALF_ADD HALF_SUB DATA_INV INTERCHANGE_INV HALF_ADD_INV HALF_SUB_INV
-32	ENUM	1	VBC_MIXER_ST                             >NOT_MIX INTERCHANGE HALF_ADD HALF_SUB DATA_INV INTERCHANGE_INV HALF_ADD_INV HALF_SUB_INV
-33	ENUM	1	VBC_MIXER_FM                             >NOT_MIX INTERCHANGE HALF_ADD HALF_SUB DATA_INV INTERCHANGE_INV HALF_ADD_INV HALF_SUB_INV
-34	ENUM	1	VBC_MUX_ADC0_SOURCE                      >ADC_SOURCE_IIS ADC_SOURCE_VBCIF
-35	ENUM	1	VBC_MUX_ADC1_SOURCE                      >ADC_SOURCE_IIS ADC_SOURCE_VBCIF
-36	ENUM	1	VBC_MUX_ADC2_SOURCE                      >ADC_SOURCE_IIS ADC_SOURCE_VBCIF
-37	ENUM	1	VBC_MUX_ADC3_SOURCE                      >ADC_SOURCE_IIS ADC_SOURCE_VBCIF
-38	ENUM	1	VBC_MUX_DAC0_OUT_SEL                     >DAC_OUT_FROM_IIS DAC_OUT_FROM_VBCIF
-39	ENUM	1	VBC_MUX_DAC1_OUT_SEL                     >DAC_OUT_FROM_IIS DAC_OUT_FROM_VBCIF
-40	ENUM	1	VBC_MUX_ADC0                             >ADC_IN_IIS0_ADC ADC_IN_IIS1_ADC ADC_IN_IIS2_ADC ADC_IN_IIS3_ADC ADC_IN_DAC0 ADC_IN_DAC1 ADC_IN_DAC_LOOP ADC_IN_TDM
-41	ENUM	1	VBC_MUX_ADC1                             >ADC_IN_IIS0_ADC ADC_IN_IIS1_ADC ADC_IN_IIS2_ADC ADC_IN_IIS3_ADC ADC_IN_DAC0 ADC_IN_DAC1 ADC_IN_DAC_LOOP ADC_IN_TDM
-42	ENUM	1	VBC_MUX_ADC2                             >ADC_IN_IIS0_ADC ADC_IN_IIS1_ADC ADC_IN_IIS2_ADC ADC_IN_IIS3_ADC ADC_IN_DAC0 ADC_IN_DAC1 ADC_IN_DAC_LOOP ADC_IN_TDM
-43	ENUM	1	VBC_MUX_ADC3                             >ADC_IN_IIS0_ADC ADC_IN_IIS1_ADC ADC_IN_IIS2_ADC ADC_IN_IIS3_ADC ADC_IN_DAC0 ADC_IN_DAC1 ADC_IN_DAC_LOOP ADC_IN_TDM
-44	ENUM	1	VBC_MUX_FM                               >FM_IN_FM_SRC_OUT FM_IN_VBC_IF_ADC0 FM_IN_VBC_IF_ADC1 FM_IN_VBC_IF_ADC2
-45	ENUM	1	VBC_MUX_ST                               >ST_IN_ADC0 ST_IN_ADC0_DG ST_IN_ADC1 ST_IN_ADC1_DG ST_IN_ADC2 ST_IN_ADC2_DG ST_IN_ADC3 ST_IN_ADC3_DG
-46	ENUM	1	VBC_MUX_LOOP_DAC0                        >DAC0_SMTHDG_OUT DAC0_MIX1_OUT DAC0_EQ4_OUT DAC0_MBDRC_OUT
-47	ENUM	1	VBC_MUX_LOOP_DAC1                        >DAC1_MIXER_OUT DAC1_MIXERDG_OUT
-48	ENUM	1	VBC_MUX_LOOP_DAC0_DAC1                   >DAC0_DAC1_SEL_DAC1 DAC0_DAC1_SEL_DAC0
-49	ENUM	1	VBC_MUX_AUDRCD01                         >AUDRCD_IN_ADC0 AUDRCD_IN_ADC1 AUDRCD_IN_ADC2 AUDRCD_IN_ADC3
-50	ENUM	1	VBC_MUX_AUDRCD23                         >AUDRCD_IN_ADC0 AUDRCD_IN_ADC1 AUDRCD_IN_ADC2 AUDRCD_IN_ADC3
-51	ENUM	1	VBC_MUX_TDM_AUDRCD23                     >AUDRCD23_TDM_SEL_AUDRCD23 AUDRCD23_TDM_SEL_TDM
-52	ENUM	1	VBC_MUX_AP01_DSP_PLY                     >AP01_TO_DSP_DISABLE AP01_TO_DSP_ENABLE
-53	ENUM	1	VBC_MUX_AP01_DSP_RCD                     >AP01_TO_DSP_DISABLE AP01_TO_DSP_ENABLE
-54	ENUM	1	VBC_MUX_DAC0_IIS_PORT_SEL                >VBC_IIS_PORT_IIS0 VBC_IIS_PORT_IIS1 VBC_IIS_PORT_IIS2 VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
-55	ENUM	1	VBC_MUX_DAC1_IIS_PORT_SEL                VBC_IIS_PORT_IIS0 >VBC_IIS_PORT_IIS1 VBC_IIS_PORT_IIS2 VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
-56	ENUM	1	VBC_MUX_DAC2_IIS_PORT_SEL                VBC_IIS_PORT_IIS0 VBC_IIS_PORT_IIS1 >VBC_IIS_PORT_IIS2 VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
-57	ENUM	1	VBC_MUX_ADC0_IIS_PORT_SEL                >VBC_IIS_PORT_IIS0 VBC_IIS_PORT_IIS1 VBC_IIS_PORT_IIS2 VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
-58	ENUM	1	VBC_MUX_ADC1_IIS_PORT_SEL                >VBC_IIS_PORT_IIS0 VBC_IIS_PORT_IIS1 VBC_IIS_PORT_IIS2 VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
-59	ENUM	1	VBC_MUX_ADC2_IIS_PORT_SEL                >VBC_IIS_PORT_IIS0 VBC_IIS_PORT_IIS1 VBC_IIS_PORT_IIS2 VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
-60	ENUM	1	VBC_MUX_ADC3_IIS_PORT_SEL                VBC_IIS_PORT_IIS0 VBC_IIS_PORT_IIS1 VBC_IIS_PORT_IIS2 >VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
-61	ENUM	1	VBC_MUX_IIS0_PORT_DO_SEL                 >IIS_DO_VAL_DAC0 IIS_DO_VAL_DAC1 IIS_DO_VAL_DAC2
-62	ENUM	1	VBC_MUX_IIS1_PORT_DO_SEL                 IIS_DO_VAL_DAC0 >IIS_DO_VAL_DAC1 IIS_DO_VAL_DAC2
-63	ENUM	1	VBC_MUX_IIS2_PORT_DO_SEL                 IIS_DO_VAL_DAC0 IIS_DO_VAL_DAC1 >IIS_DO_VAL_DAC2
-64	ENUM	1	VBC_MUX_IIS3_PORT_DO_SEL                 >IIS_DO_VAL_DAC0 IIS_DO_VAL_DAC1 IIS_DO_VAL_DAC2
-65	ENUM	1	VBC_MUX_MST_IIS0_PORT_DO_SEL             >IIS_DO_VAL_DAC0 IIS_DO_VAL_DAC1 IIS_DO_VAL_DAC2
-66	ENUM	1	VBC_ADDER_OFLD                           >ADDER_MOD_IGNORE ADDER_MOD_ADD ADDER_MOD_MINUS
-67	ENUM	1	VBC_ADDER_FM_DAC0                        >ADDER_MOD_IGNORE ADDER_MOD_ADD ADDER_MOD_MINUS
-68	ENUM	1	VBC_ADDER_ST_DAC0                        >ADDER_MOD_IGNORE ADDER_MOD_ADD ADDER_MOD_MINUS
-69	INT	1	VBC_DSP_LOOPBACK_ARM_RATE                0 (dsrange 0->-1)
-70	INT	1	VBC_DSP_LOOPBACK_VOICE_FMT               0 (dsrange 0->-1)
-71	INT	1	VBC_DSP_LOOPBACK_LOOP_MODE               0 (dsrange 0->-1)
-72	ENUM	1	VBC_DSP_LOOPBACK_TYPE                    >ADDA AD_ULDL_DA_PROCESS AD_UL_ENCODE_DECODE_DL_DA_PROCESS
-73	ENUM	1	VBC_DAC0_DP_EN                           >disable enable
-74	ENUM	1	VBC_DAC1_DP_EN                           >disable enable
-75	ENUM	1	VBC_DAC2_DP_EN                           >disable enable
-76	ENUM	1	VBC_ADC0_DP_EN                           >disable enable
-77	ENUM	1	VBC_ADC1_DP_EN                           >disable enable
-78	ENUM	1	VBC_ADC2_DP_EN                           >disable enable
-79	ENUM	1	VBC_ADC3_DP_EN                           >disable enable
-80	ENUM	1	VBC_OFLD_DP_EN                           >disable enable
-81	ENUM	1	VBC_FM_DP_EN                             >disable enable
-82	ENUM	1	VBC_ST_DP_EN                             >disable enable
-83	ENUM	1	VBC_UL_MUTE                              >disable enable
-84	ENUM	1	VBC_DL_MUTE                              >disable enable
-85	ENUM	1	VBC IIS Master Setting                   >disable_iis0 disable_loop iis0 loop
-86	BOOL	1	agdsp_access_en                          On
-87	BOOL	1	agdsp_access_a2dp_en                     On
-88	INT	1	VBC FM_MUTE_SMOOTHDG STEP                1 (dsrange 0->4095)
-89	ENUM	1	VBC_FM_UNMUTE_SMOOTH                     >mute unmute
-90	INT	1	VBC_VOLUME                               0 (dsrange 0->-1)
-91	INT	1	Audio Structure Profile Update           0 (dsrange 0->2)
-92	INT	1	DSP VBC Profile Update                   0 (dsrange 0->2)
-93	INT	1	CVS Profile Update                       0 (dsrange 0->2)
-94	INT	1	DSP SMARTAMP Update                      0 (dsrange 0->2)
-95	INT	1	Audio Structure Profile Select           0 (dsrange 0->268435455)
-96	INT	1	DSP VBC Profile Select                   0 (dsrange 0->268435455)
-97	INT	1	NXP Profile Select                       0 (dsrange 0->268435455)
-98	INT	1	DSP FFSMARTAMP Select                    0 (dsrange 0->268435455)
-99	ENUM	1	VBC_IIS_TX0_WD_SEL                       WD_16BIT >WD_24BIT
-100	ENUM	1	VBC_IIS_TX1_WD_SEL                       >WD_16BIT WD_24BIT
-101	ENUM	1	VBC_IIS_TX2_WD_SEL                       >WD_16BIT WD_24BIT
-102	ENUM	1	VBC_IIS_RX0_WD_SEL                       WD_16BIT >WD_24BIT
-103	ENUM	1	VBC_IIS_RX1_WD_SEL                       WD_16BIT >WD_24BIT
-104	ENUM	1	VBC_IIS_RX2_WD_SEL                       WD_16BIT >WD_24BIT
-105	ENUM	1	VBC_IIS_RX3_WD_SEL                       >WD_16BIT WD_24BIT
-106	ENUM	1	VBC_IIS_TX0_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
-107	ENUM	1	VBC_IIS_TX1_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
-108	ENUM	1	VBC_IIS_TX2_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
-109	ENUM	1	VBC_IIS_RX0_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
-110	ENUM	1	VBC_IIS_RX1_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
-111	ENUM	1	VBC_IIS_RX2_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
-112	ENUM	1	VBC_IIS_RX3_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
-113	ENUM	1	VBC_IIS_MASTER_ENALBE                    >disable enable
-114	ENUM	1	VBC_IIS_MST_SEL_0_TYPE                   >VBC_MASTER_EXTERNAL VBC_MASTER_INTERNAL
-115	ENUM	1	VBC_IIS_MST_SEL_1_TYPE                   >VBC_MASTER_EXTERNAL VBC_MASTER_INTERNAL
-116	ENUM	1	VBC_IIS_MST_SEL_2_TYPE                   >VBC_MASTER_EXTERNAL VBC_MASTER_INTERNAL
-117	ENUM	1	VBC_IIS_MST_SEL_3_TYPE                   >VBC_MASTER_EXTERNAL VBC_MASTER_INTERNAL
-118	ENUM	1	VBC_IIS_MST_WIDTH_SET                    >WD_16BIT WD_24BIT
-119	ENUM	1	VBC_DSP_MAINMIC_PATH_SEL                 >MAINMIC_FROM_LEFT MAINMIC_FROM_RIGHT
-120	ENUM	1	VBC_DSP_MAINMIC_REF_PATH_SEL             >MAINMIC_FROM_LEFT MAINMIC_FROM_RIGHT
-121	ENUM	1	IVSENCE_FUNC_DSP                         >disable enable
-122	ENUM	1	ag_iis0_ext_sel                          >disable enable
-123	ENUM	1	ag_iis1_ext_sel                          >disable enable
-124	ENUM	1	ag_iis2_ext_sel                          >disable enable
-125	ENUM	1	ag_iis0_ext_sel_v1                       >top_dac_iis pdm_top_iis0 l5_top
-126	ENUM	1	ag_iis1_ext_sel_v1                       >top_adc_iis0 pdm_top_iis1 l5_top
-127	ENUM	1	ag_iis2_ext_sel_v1                       >l5_top_usb_iism top_adc_iis1 pdm_iis2
-128	ENUM	1	ag_iis4_ext_sel_v1                       >top_adc_iis1 pdm_iis2 l5_top
-129	ENUM	1	ag_iis0_ext_sel_v2                       >pad_top aud_4ad_iis0_da0 pdm_top_iis0
-130	ENUM	1	ag_iis1_ext_sel_v2                       pad_top >aud_4ad_iis0_ad0 pdm_top_iis1
-131	ENUM	1	ag_iis2_ext_sel_v2                       >pad_top aud_4ad_iis1_ad0 pdm_top_iis2
-132	ENUM	1	ag_iis4_ext_sel_v2                       >pad_top aud_4ad_iis1_ad0 pdm_top_iis2
-133	ENUM	1	ag_iis3_ext_sel_v2                       >pad_top aud_4ad_iis_da0
-134	ENUM	1	SYS_IIS0                                 >vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
-135	ENUM	1	SYS_IIS1                                 vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 >ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
-136	ENUM	1	SYS_IIS2                                 >vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
-137	ENUM	1	SYS_IIS3                                 >vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
-138	ENUM	1	SYS_IIS4                                 >vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
-139	ENUM	1	SYS_IIS5                                 >vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
-140	ENUM	1	SYS_IIS6                                 >vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
-141	INT	1	VBC_BAK_REG_SET                          0 (dsrange 0->2)
-142	ENUM	1	VBC_DUMP_POS                             >DUMP_POS_DAC0_E DUMP_POS_DAC1_E DUMP_POS_A4 DUMP_POS_A3 DUMP_POS_A2 DUMP_POS_A1 DUMP_POS_V2 DUMP_POS_V1 DUMP_POS_DAC0_TO_ADC1 DUMP_POS_DAC0_TO_ADC2 DUMP_POS_DAC0_TO_ADC3
-143	ENUM	1	VBC_DUMP_POS_CMD                         >DUMP_POS_DAC0_E DUMP_POS_DAC1_E DUMP_POS_A4 DUMP_POS_A3 DUMP_POS_A2 DUMP_POS_A1 DUMP_POS_V2 DUMP_POS_V1 DUMP_POS_DAC0_TO_ADC1 DUMP_POS_DAC0_TO_ADC2 DUMP_POS_DAC0_TO_ADC3
-144	BYTE	64	SBC_PARAS                                 00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
-145	ENUM	1	VBC_IIS_INF_SYS_SEL                      vbc_iis_to_pad >vbc_iis_to_aon_usb
-146	ENUM	1	DMIC_CHN_SEL                             >VBC_DMIC_NONE VBC_DMIC_0L VBC_DMIC_0R VBC_DMIC_0L_0R VBC_DMIC_1L VBC_DMIC_0L_1L VBC_DMIC_0R_1L VBC_DMIC_0L_0R_1L VBC_DMIC_1R VBC_DMIC_0L_1R VBC_DMIC_0R_1R VBC_DMIC_0L_0R_1R VBC_DMIC_1L_1R VBC_DMIC_0L_1L_1R VBC_DMIC_0R_1L_1R VBC_DMIC_0L_0R_1L_1R
-147	ENUM	1	VBC_DSP_VOICE_CAPTURE_TYPE               >VOICE_CAPTURE_DOWNLINK VOICE_CAPTURE_UPLINK VOICE_CAPTURE_UPLINK_DOWNLINK
-148	ENUM	1	VBC_DSP_VOICE_PCM_PLAY_MODE              >VOICE_PCM_PLAY_UPLINK_MIX VOICE_PCM_PLAY_UPLINK_ONLY
-149	ENUM	1	VAD_DIN_AD_SEL                           >vad_din_sel_add0 vad_din_sel_add1
-150	BOOL	1	HP_CROSSTALK_EN                          Off
-151	INT	2	HP_CROSSTALK_GAIN                        0 0 (dsrange 0->65535)
-152	ENUM	1	DSP_AUX_MIC2_SEL                         >disable enable
-153	ENUM	1	DSP_SMARTAMP_IV_EXCHANGE                 >disable enable
-154	ENUM	1	DSP_DAC0_LR_EXCHANGE                     >disable enable
-155	ENUM	1	VBC_CUSTM_DEV_CHANGE                     >TYPE_INIT TYPE_RCV TYPE_HP TYPE_SPK TYPE_MIC TYPE_BT TYPE_USB_HP
-156	ENUM	1	VBC_SYSTEM_DEV_CHANGE                    >TYPE_INIT TYPE_RCV TYPE_HP TYPE_SPK TYPE_MIC TYPE_BT TYPE_USB_HP
-157	ENUM	1	VBC_CUSTM_VOL_CHANGE                     >VOL_DOWN VOL_UP
-158	BOOL	1	AUDIO_ZOOM_ST                            Off
-159	INT	1	AUDIO_ZOOM_RATIO                         0 (dsrange 0->-1)
-160	BYTE	20	AUDIO_ZOOM_FOCUS                          00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
-161	BYTE	20	DSP IIS Port En                           00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
-162	BYTE	20	DSP IIS Params                            00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
-163	ENUM	1	SYS_DMIC0                                >pdm_dmic0 pdm_dmic1 pdm_dmic2
-164	ENUM	1	SYS_DMIC1                                >pdm_dmic0 pdm_dmic1 pdm_dmic2
-165	ENUM	1	SYS_DMIC2                                >pdm_dmic0 pdm_dmic1 pdm_dmic2
-166	ENUM	1	Aud Codec Info                           2713 2723 2723E 2723T 2731S Realtek 2721 2730 >ump9620
-167	INT	1	Inter PA Config                          303 (dsrange 0->2147483647)
-168	ENUM	1	DAC LRCLK Select                         >normal invert
-169	ENUM	1	ADC LRCLK Select                         normal >invert
-170	ENUM	1	ADC1 LRCLK Select                        normal >invert
-171	INT	1	HP mix mode                              0 (dsrange 0->2147483647)
-172	INT	1	SPK DG fall                              1 (dsrange 0->2147483647)
-173	ENUM	1	DAS Input Mux                            >L+R L*2 R*2 ZERO
-174	INT	1	TEST_FIXED_RATE                          48000 (dsrange 0->2147483647)
-175	BOOL	1	Codec Digital Access Disable             Off
-176	ENUM	1	IVSENCE_DMIC_SEL                         >NONE DMIC0 DMIC1 DMIC0_1
-177	BOOL	1	DALDO BYPASS                             Off
-178	ENUM	1	CLK 26M IN SEL                           >in_26m in_pll
-179	INT	1	DRV SOFT T                               0 (dsrange 0->7)
-180	ENUM	1	DAAOL BUF DCCAL                          >HW_CAL_MODE SW_CAL_MODE NOT_CAL
-181	ENUM	1	DAAOR BUF DCCAL                          >HW_CAL_MODE SW_CAL_MODE NOT_CAL
-182	ENUM	1	DAHP OS INV                              >normal invert
-183	INT	1	DAHP OS D                                0 (dsrange 0->7)
-184	ENUM	1	DAHPL BUF DCCAL                          >HW_CAL_MODE SW_CAL_MODE NOT_CAL
-185	ENUM	1	DAHPR BUF DCCAL                          >HW_CAL_MODE SW_CAL_MODE NOT_CAL
-186	BOOL	1	RCV POP RAMP                             Off
-187	INT	1	SDM_L SET                                0 (dsrange 0->2147483647)
-188	INT	1	SDM_H SET                                0 (dsrange 0->2147483647)
-189	ENUM	1	HP CHN TYPE                              >HP_LR_TYPE HP_R_TYPE HP_L_TYPE
-190	ENUM	1	ADD0 DATA SEL                            ADD0_DATA_MIC12 >ADD0_DATA_MIC13 ADD0_DATA_MIC23
-191	BOOL	1	BIAS Power                               Off
-192	INT	1	Codec Chip ID                            40962 (dsrange 0->2147483647)
-193	BOOL	1	PDM MODULE EN                            Off
-194	INT	1	PDM ADC0L DG                             16 (dsrange 0->255)
-195	INT	1	PDM ADC0R DG                             16 (dsrange 0->255)
-196	INT	1	PDM ADC2L DG                             16 (dsrange 0->255)
-197	INT	1	PDM ADC2R DG                             16 (dsrange 0->255)
-198	INT	1	DP Data Width                            24 (dsrange 0->24)
-199	BOOL	1	Speaker Function                         Off
-200	BOOL	1	Speaker1 Function                        Off
-201	BOOL	1	Earpiece Function                        Off
-202	BOOL	1	HeadPhone Function                       Off
-203	BOOL	1	Line Function                            Off
-204	BOOL	1	Mic Function                             On
-205	BOOL	1	Aux Mic Function                         Off
-206	BOOL	1	Aux Mic2 Function                        On
-207	BOOL	1	HP Mic Function                          Off
-208	BOOL	1	DMic Function                            Off
-209	BOOL	1	DMic1 Function                           Off
-210	BOOL	1	Digital FM Function                      Off
-211	BOOL	1	Speaker Mute                             Off
-212	BOOL	1	Speaker2 Mute                            Off
-213	BOOL	1	HeadPhone Mute                           Off
-214	BOOL	1	Earpiece Mute                            Off
-215	ENUM	1	SmartAmp Boost                           >Bypass 5V
-216	BOOL	1	S_NORMAL_AP01_P_CODEC SWITCH             Off
-217	BOOL	1	S_NORMAL_AP01_C_CODEC SWITCH             Off
-218	BOOL	1	S_NORMAL_AP23_P_CODEC SWITCH             Off
-219	BOOL	1	S_NORMAL_AP23_C_CODEC SWITCH             Off
-220	BOOL	1	S_CAPTURE_DSP_CODEC SWITCH               Off
-221	BOOL	1	S_FAST_P_CODEC SWITCH                    Off
-222	BOOL	1	S_FAST_P_CODEC_MM SWITCH                 Off
-223	BOOL	1	S_OFFLOAD_CODEC SWITCH                   Off
-224	BOOL	1	S_VOICE_P_CODEC SWITCH                   Off
-225	BOOL	1	S_VOICE_C_CODEC SWITCH                   Off
-226	BOOL	1	S_VOIP_P_CODEC SWITCH                    Off
-227	BOOL	1	S_VOIP_C_CODEC SWITCH                    Off
-228	BOOL	1	S_FM_CODEC SWITCH                        Off
-229	BOOL	1	S_LOOP_P_CODEC SWITCH                    Off
-230	BOOL	1	S_LOOP_C_CODEC SWITCH                    Off
-231	BOOL	1	S_FM_DSP_CODEC SWITCH                    Off
-232	BOOL	1	S_NORMAL_AP01_P_USB SWITCH               Off
-233	BOOL	1	S_NORMAL_AP01_C_USB SWITCH               Off
-234	BOOL	1	S_NORMAL_AP23_P_USB SWITCH               Off
-235	BOOL	1	S_NORMAL_AP23_C_USB SWITCH               Off
-236	BOOL	1	S_CAPTURE_DSP_USB SWITCH                 Off
-237	BOOL	1	S_FAST_P_USB SWITCH                      Off
-238	BOOL	1	S_OFFLOAD_USB SWITCH                     Off
-239	BOOL	1	S_VOICE_P_USB SWITCH                     Off
-240	BOOL	1	S_VOICE_C_USB SWITCH                     Off
-241	BOOL	1	S_VOIP_P_USB SWITCH                      Off
-242	BOOL	1	S_VOIP_C_USB SWITCH                      Off
-243	BOOL	1	S_FM_USB SWITCH                          Off
-244	BOOL	1	S_LOOP_P_USB SWITCH                      Off
-245	BOOL	1	S_LOOP_C_USB SWITCH                      Off
-246	BOOL	1	S_FM_DSP_USB SWITCH                      Off
-247	BOOL	1	S_OFFLOAD_A2DP SWITCH                    Off
-248	BOOL	1	S_PCM_A2DP SWITCH                        Off
-249	BOOL	1	S_VOICE_P_BT SWITCH                      Off
-250	BOOL	1	S_VOICE_C_BT SWITCH                      Off
-251	BOOL	1	S_VOIP_P_BT SWITCH                       Off
-252	BOOL	1	S_VOIP_C_BT SWITCH                       Off
-253	BOOL	1	S_LOOP_P_BT SWITCH                       Off
-254	BOOL	1	S_LOOP_C_BT SWITCH                       Off
-255	BOOL	1	S_CAPTURE_BT SWITCH                      Off
-256	BOOL	1	S_FAST_P_BT SWITCH                       Off
-257	BOOL	1	S_NORMAL_AP01_P_BT SWITCH                Off
-258	BOOL	1	S_NORMAL_AP01_P_HIFI SWITCH              Off
-259	BOOL	1	S_NORMAL_AP23_P_HIFI SWITCH              Off
-260	BOOL	1	S_FAST_P_HIFI SWITCH                     Off
-261	BOOL	1	S_OFFLOAD_HIFI SWITCH                    Off
-262	BOOL	1	S_VOICE_P_HIFI SWITCH                    Off
-263	BOOL	1	S_VOIP_P_HIFI SWITCH                     Off
-264	BOOL	1	S_FM_HIFI SWITCH                         Off
-265	BOOL	1	S_LOOP_P_HIFI SWITCH                     Off
-266	BOOL	1	S_FM_DSP_HIFI SWITCH                     Off
-267	BOOL	1	S_VOICE_CAP_C SWITCH                     Off
-268	BOOL	1	S_FM_CAP_C SWITCH                        Off
-269	BOOL	1	S_FM_CAP_DSP_C SWITCH                    Off
-270	BOOL	1	S_BTSCO_CAP_DSP_C SWITCH                 Off
-271	BOOL	1	S_VBC_DUMP SWITCH                        Off
-272	BOOL	1	S_HFP_P SWITCH                           Off
-273	BOOL	1	S_HFP_C SWITCH                           Off
-274	BOOL	1	S_CAPTURE_RECOGNISE_CODEC SWITCH         Off
-275	BOOL	1	S_VOICE_PCM_P SWITCH                     Off
-276	BOOL	1	S_NORMAL_AP01_P_SMTPA SWITCH             Off
-277	BOOL	1	S_NORMAL_AP23_P_SMTPA SWITCH             Off
-278	BOOL	1	S_FAST_P_SMTPA SWITCH                    Off
-279	BOOL	1	S_FAST_P_SMART_AMP SWITCH                Off
-280	BOOL	1	S_OFFLOAD_SMTPA SWITCH                   Off
-281	BOOL	1	S_VOICE_P_SMTPA SWITCH                   Off
-282	BOOL	1	S_VOIP_P_SMTPA SWITCH                    Off
-283	BOOL	1	S_FM_SMTPA SWITCH                        Off
-284	BOOL	1	S_LOOP_P_SMTPA SWITCH                    Off
-285	BOOL	1	S_FM_DSP_SMTPA SWITCH                    Off
-286	BOOL	1	S_HIFI_P SWITCH                          Off
-287	BOOL	1	S_DSP_HIFI_FAST_P SWITCH                 Off
-288	BOOL	1	S_AGCP_IIS0_TX SWITCH                    Off
-289	BOOL	1	S_NORMAL_AP01_EXCODEC SWITCH             On
-290	BOOL	1	S_NORMAL_AP23_ECXCODEC SWITCH            On
-291	BOOL	1	S_CAPTURE_DSP_EXCODEC SWITCH             On
-292	BOOL	1	S_VOICE_EXCODEC SWITCH                   On
-293	BOOL	1	S_VOIP_EXCODEC SWITCH                    On
-294	BOOL	1	S_NORMAL_AP01_C_DMIC0 SWITCH             Off
-295	BOOL	1	S_NORMAL_AP23_C_DMIC0 SWITCH             Off
-296	BOOL	1	S_CAPTURE_DSP_DMIC0 SWITCH               Off
-297	BOOL	1	S_VOICE_C_DMIC0 SWITCH                   Off
-298	BOOL	1	S_VOIP_C_DMIC0 SWITCH                    Off
-299	BOOL	1	S_LOOP_DMIC0 SWITCH                      Off
-300	BOOL	1	ADC_1 Mixer MIC1PGA_1 Switch             On
-301	BOOL	1	ADC_1 Mixer HPMICPGA_1 Switch            Off
-302	BOOL	1	ADC_2 Mixer MIC2PGA_2 Switch             Off
-303	BOOL	1	ADC_2 Mixer HPMICPGA_2 Switch            Off
-304	BOOL	1	ADC_3 Mixer MIC3PGA_3 Switch             On
-305	BOOL	1	ADC_3 Mixer HPMICPGA_3 Switch            Off
-306	BOOL	1	VAD_SMIC1 Switch                         Off
-307	BOOL	1	VAD_SMIC2 Switch                         Off
-308	BOOL	1	VAD_SMIC3 Switch                         Off
-309	BOOL	1	AUD ADC0L Switch                         On
-310	BOOL	1	AUD ADC0R Switch                         On
-311	BOOL	1	AUD ADC1L Switch                         Off
-312	BOOL	1	AUD ADC1R Switch                         Off
-313	INT	1	ADC_1 Gain ADC_1 Capture Volume          6 (dsrange 0->7)
-314	INT	1	ADC_2 Gain ADC_2 Capture Volume          7 (dsrange 0->7)
-315	INT	1	ADC_3 Gain ADC_3 Capture Volume          6 (dsrange 0->7)
-316	INT	1	VAD_AD Gain VAD Capture Volume           0 (dsrange 0->7)
-317	INT	1	DAC Gain DAC Playback Volume             0 (dsrange 0->2)
-318	INT	1	AO Gain AO Playback Volume               0 (dsrange 0->15)
-319	BOOL	1	AO Mixer AOL Switch                      Off
-320	BOOL	1	AO Mixer AOR Switch                      Off
-321	ENUM	1	AOL EAR Sel                              >EAR AOL
-322	BOOL	1	DA AOR Switch                            Off
-323	INT	1	HPL Gain HPL Playback Volume             15 (dsrange 0->15)
-324	INT	1	HPR Gain HPR Playback Volume             15 (dsrange 0->15)
-325	BOOL	1	HPL Mixer DACLHPL Switch                 Off
-326	BOOL	1	HPR Mixer DACRHPR Switch                 Off
-327	BOOL	1	HP Virt Switch                           Off
-328	INT	1	EAR Gain EAR Playback Volume             15 (dsrange 0->15)
-329	BOOL	1	EAR_HPL Mixer DACHPL Switch              Off
-330	BOOL	1	EAR_AOL Mixer DACAOL Switch              Off
-331	ENUM	1	HPL EAR Sel                              >EAR HPL
-332	BOOL	1	Virt Output Switch                       Off
-333	BOOL	1	ADC-DAC Adie Loop switch                 Off
-334	BOOL	1	ADC1-DAC Adie Loop switch                Off
-335	BOOL	1	ADC-DAC Digital Loop switch              Off
-336	BOOL	1	ADC1-DAC Digital Loop switch             Off
-337	ENUM	1	Digital ADC In Sel                       >ADC DAC DMIC
-338	ENUM	1	Digital ADC1 In Sel                      >ADC DAC DMIC
-339	BOOL	1	VAD_VirtL Switch                         Off
-340	BOOL	1	VAD_VirtR Switch                         Off
-341	BOOL	1	PDM_DMIC0 Switch                         Off
-342	BOOL	1	PDM_DMIC1 Switch                         Off
-343	BOOL	1	PDM_DMIC2 Switch                         Off
-zhifawang@Mac 7870_audio_ko % 
+adb shell cat /proc/asound/pcm
+adb shell cat /proc/asound/card0/pcm2c/sub0/status
+adb shell cat /proc/asound/card0/pcm2c/sub0/hw_params
+00-00: FE_ST_NORMAL_AP01 (*) :  : playback 1 : capture 1
+00-01: FE_ST_NORMAL_AP23 (*) :  : playback 1 : capture 1
+00-02: FE_ST_CAPTURE_DSP (*) :  : capture 1
+00-03: FE_ST_FAST (*) :  : playback 1
+00-05: FE_ST_VOICE (*) :  : playback 1 : capture 1
+00-06: FE_ST_VOIP (*) :  : playback 1 : capture 1
+00-07: FE_ST_FM (*) :  : playback 1
+00-08: FE_ST_FM_C (*) :  : capture 1
+00-09: FE_ST_VOICE_C (*) :  : capture 1
+00-10: FE_ST_LOOP (*) :  : playback 1 : capture 1
+00-12: FE_ST_A2DP_PCM (*) :  : playback 1
+00-13: FE_ST_CAPTURE_FM_DSP (*) :  : capture 1
+00-14: FE_ST_CAPTURE_BTSCO_DSP (*) :  : capture 1
+00-15: FE_ST_FM_DSP (*) :  : playback 1
+00-16: FE_ST_DUMP (*) :  : capture 1
+00-17: FE_ST_BTCAP_AP (*) :  : capture 1
+00-49: FE_ST_TEST_CODEC (*) :  : playback 1 : capture 1
+00-53: FE_ST_VOICE_PCM_P (*) :  : playback 1
+00-55: FE_ST_MM_P (*) :  : playback 1
+00-59: DisplayPort MultiMedia (*) :  : playback 1
+00-60: FE_ST_HFP (*) :  : playback 1 : capture 1
+01-00: tdm-dai-snd-soc-dummy-dai snd-soc-dummy-dai-0 :  : playback 1 : capture 1
+01-01: i2s_bt_sco0-snd-soc-dummy-dai snd-soc-dummy-dai-1 :  : playback 1 : capture 1
+state: RUNNING
+owner_pid   : 20569
+trigger_time: 13456.913585835
+tstamp      : 0.000000000
+delay       : 0
+avail       : 0
+avail_max   : 0
+-----
+hw_ptr      : 0
+appl_ptr    : 0
+access: MMAP_INTERLEAVED
+format: S16_LE
+subformat: STD
+channels: 2
+rate: 16000 (16000/1)
+period_size: 960
+buffer_size: 3840
