@@ -1,1400 +1,700 @@
-xcrun llvm-objdump -d --no-show-raw-insn \
-  --start-address=0x27f00 \
-  --stop-address=0x29100 \
-  snd-soc-sprd-vbc-v4.ko
 
-snd-soc-sprd-vbc-v4.ko:	file format elf64-littleaarch64
+zhifawang@Mac 7870_audio_ko % adb shell su -c '/system/bin/tinymix -D 0'
+Mixer name: 'sprdphone-sc2730'
+Number of controls: 344
+ctl	type	num	name                                     value
 
-Disassembly of section .text:
-
-0000000000027e8c <dsp_vbc_mixerdg_mixpath_set>:
-   27f00:      	adrp	x0, 0x27000 <ap_vbc_watermark_type2name+0x24>
-   27f04:      	adrp	x1, 0x27000 <ap_vbc_watermark_type2name+0x24>
-   27f08:      	add	x0, x0, #0x0
-   27f0c:      	add	x1, x1, #0x0
-   27f10:      	bl	0x27f10 <dsp_vbc_mixerdg_mixpath_set+0x84>
-   27f14:      	b	0x27ed4 <dsp_vbc_mixerdg_mixpath_set+0x48>
-   27f18:      	bl	0x27f18 <dsp_vbc_mixerdg_mixpath_set+0x8c>
-
-0000000000027f1c <dsp_vbc_mixerdg_step_set>:
-   27f1c:      	sub	sp, sp, #0x20
-   27f20:      	str	x30, [x18], #0x8
-   27f24:      	stp	x29, x30, [sp, #0x10]
-   27f28:      	add	x29, sp, #0x10
-   27f2c:      	adrp	x8, 0x27000 <ap_vbc_watermark_type2name+0x24>
-   27f30:      	ldr	x8, [x8]
-   27f34:      	add	x4, sp, #0x4
-   27f38:      	mov	w1, #0x8                // =8
-   27f3c:      	mov	w2, #-0x1               // =-1
-   27f40:      	str	x8, [sp, #0x8]
-   27f44:      	strh	w0, [sp, #0x4]
-   27f48:      	mov	w3, #0x9                // =9
-   27f4c:      	mov	w5, #0x2                // =2
-   27f50:      	mov	w6, #-0x1               // =-1
-   27f54:      	mov	w0, wzr
-   27f58:      	bl	0x27f58 <dsp_vbc_mixerdg_step_set+0x3c>
-   27f5c:      	tbnz	w0, #0x1f, 0x27f88 <dsp_vbc_mixerdg_step_set+0x6c>
-   27f60:      	adrp	x9, 0x27000 <ap_vbc_watermark_type2name+0x24>
-   27f64:      	ldr	x8, [sp, #0x8]
-   27f68:      	ldr	x9, [x9]
-   27f6c:      	cmp	x9, x8
-   27f70:      	b.ne	0x27fa4 <dsp_vbc_mixerdg_step_set+0x88>
-   27f74:      	ldp	x29, x30, [sp, #0x10]
-   27f78:      	ldr	x30, [x18, #-0x8]!
-   27f7c:      	mov	w0, wzr
-   27f80:      	add	sp, sp, #0x20
-   27f84:      	ret
-   27f88:      	mov	w2, w0
-   27f8c:      	adrp	x0, 0x27000 <ap_vbc_watermark_type2name+0x24>
-   27f90:      	adrp	x1, 0x27000 <ap_vbc_watermark_type2name+0x24>
-   27f94:      	add	x0, x0, #0x0
-   27f98:      	add	x1, x1, #0x0
-   27f9c:      	bl	0x27f9c <dsp_vbc_mixerdg_step_set+0x80>
-   27fa0:      	b	0x27f60 <dsp_vbc_mixerdg_step_set+0x44>
-   27fa4:      	bl	0x27fa4 <dsp_vbc_mixerdg_step_set+0x88>
-
-0000000000027fa8 <dsp_vbc_mixer_set>:
-   27fa8:      	sub	sp, sp, #0x30
-   27fac:      	str	x30, [x18], #0x8
-   27fb0:      	stp	x29, x30, [sp, #0x20]
-   27fb4:      	add	x29, sp, #0x20
-   27fb8:      	adrp	x8, 0x27000 <ap_vbc_watermark_type2name+0x24>
-   27fbc:      	ldr	x8, [x8]
-   27fc0:      	add	x4, sp, #0x8
-   27fc4:      	mov	w2, #-0x1               // =-1
-   27fc8:      	mov	w3, #0x9                // =9
-   27fcc:      	stur	x8, [x29, #-0x8]
-   27fd0:      	stp	wzr, w0, [sp, #0x8]
-   27fd4:      	str	w1, [sp, #0x10]
-   27fd8:      	mov	w1, #0x9                // =9
-   27fdc:      	mov	w5, #0xc                // =12
-   27fe0:      	mov	w6, #-0x1               // =-1
-   27fe4:      	mov	w0, wzr
-   27fe8:      	bl	0x27fe8 <dsp_vbc_mixer_set+0x40>
-   27fec:      	tbnz	w0, #0x1f, 0x28018 <dsp_vbc_mixer_set+0x70>
-   27ff0:      	adrp	x9, 0x27000 <ap_vbc_watermark_type2name+0x24>
-   27ff4:      	ldur	x8, [x29, #-0x8]
-   27ff8:      	ldr	x9, [x9]
-   27ffc:      	cmp	x9, x8
-   28000:      	b.ne	0x28034 <dsp_vbc_mixer_set+0x8c>
-   28004:      	ldp	x29, x30, [sp, #0x20]
-   28008:      	ldr	x30, [x18, #-0x8]!
-   2800c:      	mov	w0, wzr
-   28010:      	add	sp, sp, #0x30
-   28014:      	ret
-   28018:      	mov	w2, w0
-   2801c:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28020:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28024:      	add	x0, x0, #0x0
-   28028:      	add	x1, x1, #0x0
-   2802c:      	bl	0x2802c <dsp_vbc_mixer_set+0x84>
-   28030:      	b	0x27ff0 <dsp_vbc_mixer_set+0x48>
-   28034:      	bl	0x28034 <dsp_vbc_mixer_set+0x8c>
-
-0000000000028038 <dsp_vbc_mux_adc_source_set>:
-   28038:      	sub	sp, sp, #0x20
-   2803c:      	str	x30, [x18], #0x8
-   28040:      	stp	x29, x30, [sp, #0x10]
-   28044:      	add	x29, sp, #0x10
-   28048:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   2804c:      	ldr	x8, [x8]
-   28050:      	mov	x4, sp
-   28054:      	mov	w2, #-0x1               // =-1
-   28058:      	mov	w3, #0x9                // =9
-   2805c:      	str	x8, [sp, #0x8]
-   28060:      	stp	w0, w1, [sp]
-   28064:      	mov	w1, #0xa                // =10
-   28068:      	mov	w5, #0x8                // =8
-   2806c:      	mov	w6, #-0x1               // =-1
-   28070:      	mov	w0, wzr
-   28074:      	bl	0x28074 <dsp_vbc_mux_adc_source_set+0x3c>
-   28078:      	tbnz	w0, #0x1f, 0x280a4 <dsp_vbc_mux_adc_source_set+0x6c>
-   2807c:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28080:      	ldr	x8, [sp, #0x8]
-   28084:      	ldr	x9, [x9]
-   28088:      	cmp	x9, x8
-   2808c:      	b.ne	0x280c0 <dsp_vbc_mux_adc_source_set+0x88>
-   28090:      	ldp	x29, x30, [sp, #0x10]
-   28094:      	ldr	x30, [x18, #-0x8]!
-   28098:      	mov	w0, wzr
-   2809c:      	add	sp, sp, #0x20
-   280a0:      	ret
-   280a4:      	mov	w2, w0
-   280a8:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   280ac:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   280b0:      	add	x0, x0, #0x0
-   280b4:      	add	x1, x1, #0x0
-   280b8:      	bl	0x280b8 <dsp_vbc_mux_adc_source_set+0x80>
-   280bc:      	b	0x2807c <dsp_vbc_mux_adc_source_set+0x44>
-   280c0:      	bl	0x280c0 <dsp_vbc_mux_adc_source_set+0x88>
-
-00000000000280c4 <dsp_vbc_mux_dac_out_set>:
-   280c4:      	sub	sp, sp, #0x20
-   280c8:      	str	x30, [x18], #0x8
-   280cc:      	stp	x29, x30, [sp, #0x10]
-   280d0:      	add	x29, sp, #0x10
-   280d4:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   280d8:      	ldr	x8, [x8]
-   280dc:      	mov	x4, sp
-   280e0:      	mov	w2, #-0x1               // =-1
-   280e4:      	mov	w3, #0x9                // =9
-   280e8:      	str	x8, [sp, #0x8]
-   280ec:      	stp	w0, w1, [sp]
-   280f0:      	mov	w1, #0xb                // =11
-   280f4:      	mov	w5, #0x8                // =8
-   280f8:      	mov	w6, #-0x1               // =-1
-   280fc:      	mov	w0, wzr
-   28100:      	bl	0x28100 <dsp_vbc_mux_dac_out_set+0x3c>
-   28104:      	tbnz	w0, #0x1f, 0x28130 <dsp_vbc_mux_dac_out_set+0x6c>
-   28108:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   2810c:      	ldr	x8, [sp, #0x8]
-   28110:      	ldr	x9, [x9]
-   28114:      	cmp	x9, x8
-   28118:      	b.ne	0x2814c <dsp_vbc_mux_dac_out_set+0x88>
-   2811c:      	ldp	x29, x30, [sp, #0x10]
-   28120:      	ldr	x30, [x18, #-0x8]!
-   28124:      	mov	w0, wzr
-   28128:      	add	sp, sp, #0x20
-   2812c:      	ret
-   28130:      	mov	w2, w0
-   28134:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28138:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   2813c:      	add	x0, x0, #0x0
-   28140:      	add	x1, x1, #0x0
-   28144:      	bl	0x28144 <dsp_vbc_mux_dac_out_set+0x80>
-   28148:      	b	0x28108 <dsp_vbc_mux_dac_out_set+0x44>
-   2814c:      	bl	0x2814c <dsp_vbc_mux_dac_out_set+0x88>
-
-0000000000028150 <dsp_vbc_mux_adc_set>:
-   28150:      	sub	sp, sp, #0x20
-   28154:      	str	x30, [x18], #0x8
-   28158:      	stp	x29, x30, [sp, #0x10]
-   2815c:      	add	x29, sp, #0x10
-   28160:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28164:      	ldr	x8, [x8]
-   28168:      	mov	x4, sp
-   2816c:      	mov	w2, #-0x1               // =-1
-   28170:      	mov	w3, #0x9                // =9
-   28174:      	str	x8, [sp, #0x8]
-   28178:      	stp	w0, w1, [sp]
-   2817c:      	mov	w1, #0xc                // =12
-   28180:      	mov	w5, #0x8                // =8
-   28184:      	mov	w6, #-0x1               // =-1
-   28188:      	mov	w0, wzr
-   2818c:      	bl	0x2818c <dsp_vbc_mux_adc_set+0x3c>
-   28190:      	tbnz	w0, #0x1f, 0x281bc <dsp_vbc_mux_adc_set+0x6c>
-   28194:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28198:      	ldr	x8, [sp, #0x8]
-   2819c:      	ldr	x9, [x9]
-   281a0:      	cmp	x9, x8
-   281a4:      	b.ne	0x281d8 <dsp_vbc_mux_adc_set+0x88>
-   281a8:      	ldp	x29, x30, [sp, #0x10]
-   281ac:      	ldr	x30, [x18, #-0x8]!
-   281b0:      	mov	w0, wzr
-   281b4:      	add	sp, sp, #0x20
-   281b8:      	ret
-   281bc:      	mov	w2, w0
-   281c0:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   281c4:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   281c8:      	add	x0, x0, #0x0
-   281cc:      	add	x1, x1, #0x0
-   281d0:      	bl	0x281d0 <dsp_vbc_mux_adc_set+0x80>
-   281d4:      	b	0x28194 <dsp_vbc_mux_adc_set+0x44>
-   281d8:      	bl	0x281d8 <dsp_vbc_mux_adc_set+0x88>
-
-00000000000281dc <dsp_vbc_mux_fm_set>:
-   281dc:      	sub	sp, sp, #0x20
-   281e0:      	str	x30, [x18], #0x8
-   281e4:      	stp	x29, x30, [sp, #0x10]
-   281e8:      	add	x29, sp, #0x10
-   281ec:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   281f0:      	ldr	x8, [x8]
-   281f4:      	mov	x4, sp
-   281f8:      	mov	w2, #-0x1               // =-1
-   281fc:      	mov	w3, #0x9                // =9
-   28200:      	str	x8, [sp, #0x8]
-   28204:      	stp	w0, w1, [sp]
-   28208:      	mov	w1, #0xd                // =13
-   2820c:      	mov	w5, #0x8                // =8
-   28210:      	mov	w6, #-0x1               // =-1
-   28214:      	mov	w0, wzr
-   28218:      	bl	0x28218 <dsp_vbc_mux_fm_set+0x3c>
-   2821c:      	tbnz	w0, #0x1f, 0x28248 <dsp_vbc_mux_fm_set+0x6c>
-   28220:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28224:      	ldr	x8, [sp, #0x8]
-   28228:      	ldr	x9, [x9]
-   2822c:      	cmp	x9, x8
-   28230:      	b.ne	0x28264 <dsp_vbc_mux_fm_set+0x88>
-   28234:      	ldp	x29, x30, [sp, #0x10]
-   28238:      	ldr	x30, [x18, #-0x8]!
-   2823c:      	mov	w0, wzr
-   28240:      	add	sp, sp, #0x20
-   28244:      	ret
-   28248:      	mov	w2, w0
-   2824c:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28250:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28254:      	add	x0, x0, #0x0
-   28258:      	add	x1, x1, #0x0
-   2825c:      	bl	0x2825c <dsp_vbc_mux_fm_set+0x80>
-   28260:      	b	0x28220 <dsp_vbc_mux_fm_set+0x44>
-   28264:      	bl	0x28264 <dsp_vbc_mux_fm_set+0x88>
-
-0000000000028268 <dsp_vbc_mux_st_set>:
-   28268:      	sub	sp, sp, #0x20
-   2826c:      	str	x30, [x18], #0x8
-   28270:      	stp	x29, x30, [sp, #0x10]
-   28274:      	add	x29, sp, #0x10
-   28278:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   2827c:      	ldr	x8, [x8]
-   28280:      	mov	x4, sp
-   28284:      	mov	w2, #-0x1               // =-1
-   28288:      	mov	w3, #0x9                // =9
-   2828c:      	str	x8, [sp, #0x8]
-   28290:      	stp	w0, w1, [sp]
-   28294:      	mov	w1, #0xe                // =14
-   28298:      	mov	w5, #0x8                // =8
-   2829c:      	mov	w6, #-0x1               // =-1
-   282a0:      	mov	w0, wzr
-   282a4:      	bl	0x282a4 <dsp_vbc_mux_st_set+0x3c>
-   282a8:      	tbnz	w0, #0x1f, 0x282d4 <dsp_vbc_mux_st_set+0x6c>
-   282ac:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   282b0:      	ldr	x8, [sp, #0x8]
-   282b4:      	ldr	x9, [x9]
-   282b8:      	cmp	x9, x8
-   282bc:      	b.ne	0x282f0 <dsp_vbc_mux_st_set+0x88>
-   282c0:      	ldp	x29, x30, [sp, #0x10]
-   282c4:      	ldr	x30, [x18, #-0x8]!
-   282c8:      	mov	w0, wzr
-   282cc:      	add	sp, sp, #0x20
-   282d0:      	ret
-   282d4:      	mov	w2, w0
-   282d8:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   282dc:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   282e0:      	add	x0, x0, #0x0
-   282e4:      	add	x1, x1, #0x0
-   282e8:      	bl	0x282e8 <dsp_vbc_mux_st_set+0x80>
-   282ec:      	b	0x282ac <dsp_vbc_mux_st_set+0x44>
-   282f0:      	bl	0x282f0 <dsp_vbc_mux_st_set+0x88>
-
-00000000000282f4 <dsp_vbc_mux_loop_da0_set>:
-   282f4:      	sub	sp, sp, #0x20
-   282f8:      	str	x30, [x18], #0x8
-   282fc:      	stp	x29, x30, [sp, #0x10]
-   28300:      	add	x29, sp, #0x10
-   28304:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28308:      	ldr	x8, [x8]
-   2830c:      	mov	x4, sp
-   28310:      	mov	w2, #-0x1               // =-1
-   28314:      	mov	w3, #0x9                // =9
-   28318:      	str	x8, [sp, #0x8]
-   2831c:      	stp	w0, w1, [sp]
-   28320:      	mov	w1, #0xf                // =15
-   28324:      	mov	w5, #0x8                // =8
-   28328:      	mov	w6, #-0x1               // =-1
-   2832c:      	mov	w0, wzr
-   28330:      	bl	0x28330 <dsp_vbc_mux_loop_da0_set+0x3c>
-   28334:      	tbnz	w0, #0x1f, 0x28360 <dsp_vbc_mux_loop_da0_set+0x6c>
-   28338:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   2833c:      	ldr	x8, [sp, #0x8]
-   28340:      	ldr	x9, [x9]
-   28344:      	cmp	x9, x8
-   28348:      	b.ne	0x2837c <dsp_vbc_mux_loop_da0_set+0x88>
-   2834c:      	ldp	x29, x30, [sp, #0x10]
-   28350:      	ldr	x30, [x18, #-0x8]!
-   28354:      	mov	w0, wzr
-   28358:      	add	sp, sp, #0x20
-   2835c:      	ret
-   28360:      	mov	w2, w0
-   28364:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28368:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   2836c:      	add	x0, x0, #0x0
-   28370:      	add	x1, x1, #0x0
-   28374:      	bl	0x28374 <dsp_vbc_mux_loop_da0_set+0x80>
-   28378:      	b	0x28338 <dsp_vbc_mux_loop_da0_set+0x44>
-   2837c:      	bl	0x2837c <dsp_vbc_mux_loop_da0_set+0x88>
-
-0000000000028380 <dsp_vbc_mux_loop_da1_set>:
-   28380:      	sub	sp, sp, #0x20
-   28384:      	str	x30, [x18], #0x8
-   28388:      	stp	x29, x30, [sp, #0x10]
-   2838c:      	add	x29, sp, #0x10
-   28390:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28394:      	ldr	x8, [x8]
-   28398:      	mov	x4, sp
-   2839c:      	mov	w2, #-0x1               // =-1
-   283a0:      	mov	w3, #0x9                // =9
-   283a4:      	str	x8, [sp, #0x8]
-   283a8:      	stp	w0, w1, [sp]
-   283ac:      	mov	w1, #0x10               // =16
-   283b0:      	mov	w5, #0x8                // =8
-   283b4:      	mov	w6, #-0x1               // =-1
-   283b8:      	mov	w0, wzr
-   283bc:      	bl	0x283bc <dsp_vbc_mux_loop_da1_set+0x3c>
-   283c0:      	tbnz	w0, #0x1f, 0x283ec <dsp_vbc_mux_loop_da1_set+0x6c>
-   283c4:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   283c8:      	ldr	x8, [sp, #0x8]
-   283cc:      	ldr	x9, [x9]
-   283d0:      	cmp	x9, x8
-   283d4:      	b.ne	0x28408 <dsp_vbc_mux_loop_da1_set+0x88>
-   283d8:      	ldp	x29, x30, [sp, #0x10]
-   283dc:      	ldr	x30, [x18, #-0x8]!
-   283e0:      	mov	w0, wzr
-   283e4:      	add	sp, sp, #0x20
-   283e8:      	ret
-   283ec:      	mov	w2, w0
-   283f0:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   283f4:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   283f8:      	add	x0, x0, #0x0
-   283fc:      	add	x1, x1, #0x0
-   28400:      	bl	0x28400 <dsp_vbc_mux_loop_da1_set+0x80>
-   28404:      	b	0x283c4 <dsp_vbc_mux_loop_da1_set+0x44>
-   28408:      	bl	0x28408 <dsp_vbc_mux_loop_da1_set+0x88>
-
-000000000002840c <dsp_vbc_mux_loop_da0_da1_set>:
-   2840c:      	sub	sp, sp, #0x20
-   28410:      	str	x30, [x18], #0x8
-   28414:      	stp	x29, x30, [sp, #0x10]
-   28418:      	add	x29, sp, #0x10
-   2841c:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28420:      	ldr	x8, [x8]
-   28424:      	mov	x4, sp
-   28428:      	mov	w2, #-0x1               // =-1
-   2842c:      	mov	w3, #0x9                // =9
-   28430:      	str	x8, [sp, #0x8]
-   28434:      	stp	w0, w1, [sp]
-   28438:      	mov	w1, #0x11               // =17
-   2843c:      	mov	w5, #0x8                // =8
-   28440:      	mov	w6, #-0x1               // =-1
-   28444:      	mov	w0, wzr
-   28448:      	bl	0x28448 <dsp_vbc_mux_loop_da0_da1_set+0x3c>
-   2844c:      	tbnz	w0, #0x1f, 0x28478 <dsp_vbc_mux_loop_da0_da1_set+0x6c>
-   28450:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28454:      	ldr	x8, [sp, #0x8]
-   28458:      	ldr	x9, [x9]
-   2845c:      	cmp	x9, x8
-   28460:      	b.ne	0x28494 <dsp_vbc_mux_loop_da0_da1_set+0x88>
-   28464:      	ldp	x29, x30, [sp, #0x10]
-   28468:      	ldr	x30, [x18, #-0x8]!
-   2846c:      	mov	w0, wzr
-   28470:      	add	sp, sp, #0x20
-   28474:      	ret
-   28478:      	mov	w2, w0
-   2847c:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28480:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28484:      	add	x0, x0, #0x0
-   28488:      	add	x1, x1, #0x0
-   2848c:      	bl	0x2848c <dsp_vbc_mux_loop_da0_da1_set+0x80>
-   28490:      	b	0x28450 <dsp_vbc_mux_loop_da0_da1_set+0x44>
-   28494:      	bl	0x28494 <dsp_vbc_mux_loop_da0_da1_set+0x88>
-
-0000000000028498 <dsp_vbc_mux_audrcd_set>:
-   28498:      	sub	sp, sp, #0x20
-   2849c:      	str	x30, [x18], #0x8
-   284a0:      	stp	x29, x30, [sp, #0x10]
-   284a4:      	add	x29, sp, #0x10
-   284a8:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   284ac:      	ldr	x8, [x8]
-   284b0:      	mov	x4, sp
-   284b4:      	mov	w2, #-0x1               // =-1
-   284b8:      	mov	w3, #0x9                // =9
-   284bc:      	str	x8, [sp, #0x8]
-   284c0:      	stp	w0, w1, [sp]
-   284c4:      	mov	w1, #0x12               // =18
-   284c8:      	mov	w5, #0x8                // =8
-   284cc:      	mov	w6, #-0x1               // =-1
-   284d0:      	mov	w0, wzr
-   284d4:      	bl	0x284d4 <dsp_vbc_mux_audrcd_set+0x3c>
-   284d8:      	tbnz	w0, #0x1f, 0x28504 <dsp_vbc_mux_audrcd_set+0x6c>
-   284dc:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   284e0:      	ldr	x8, [sp, #0x8]
-   284e4:      	ldr	x9, [x9]
-   284e8:      	cmp	x9, x8
-   284ec:      	b.ne	0x28520 <dsp_vbc_mux_audrcd_set+0x88>
-   284f0:      	ldp	x29, x30, [sp, #0x10]
-   284f4:      	ldr	x30, [x18, #-0x8]!
-   284f8:      	mov	w0, wzr
-   284fc:      	add	sp, sp, #0x20
-   28500:      	ret
-   28504:      	mov	w2, w0
-   28508:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   2850c:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28510:      	add	x0, x0, #0x0
-   28514:      	add	x1, x1, #0x0
-   28518:      	bl	0x28518 <dsp_vbc_mux_audrcd_set+0x80>
-   2851c:      	b	0x284dc <dsp_vbc_mux_audrcd_set+0x44>
-   28520:      	bl	0x28520 <dsp_vbc_mux_audrcd_set+0x88>
-
-0000000000028524 <dsp_vbc_mux_tdm_audrcd23_set>:
-   28524:      	sub	sp, sp, #0x20
-   28528:      	str	x30, [x18], #0x8
-   2852c:      	stp	x29, x30, [sp, #0x10]
-   28530:      	add	x29, sp, #0x10
-   28534:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28538:      	ldr	x8, [x8]
-   2853c:      	mov	x4, sp
-   28540:      	mov	w2, #-0x1               // =-1
-   28544:      	mov	w3, #0x9                // =9
-   28548:      	str	x8, [sp, #0x8]
-   2854c:      	stp	w0, w1, [sp]
-   28550:      	mov	w1, #0x13               // =19
-   28554:      	mov	w5, #0x8                // =8
-   28558:      	mov	w6, #-0x1               // =-1
-   2855c:      	mov	w0, wzr
-   28560:      	bl	0x28560 <dsp_vbc_mux_tdm_audrcd23_set+0x3c>
-   28564:      	tbnz	w0, #0x1f, 0x28590 <dsp_vbc_mux_tdm_audrcd23_set+0x6c>
-   28568:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   2856c:      	ldr	x8, [sp, #0x8]
-   28570:      	ldr	x9, [x9]
-   28574:      	cmp	x9, x8
-   28578:      	b.ne	0x285ac <dsp_vbc_mux_tdm_audrcd23_set+0x88>
-   2857c:      	ldp	x29, x30, [sp, #0x10]
-   28580:      	ldr	x30, [x18, #-0x8]!
-   28584:      	mov	w0, wzr
-   28588:      	add	sp, sp, #0x20
-   2858c:      	ret
-   28590:      	mov	w2, w0
-   28594:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28598:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   2859c:      	add	x0, x0, #0x0
-   285a0:      	add	x1, x1, #0x0
-   285a4:      	bl	0x285a4 <dsp_vbc_mux_tdm_audrcd23_set+0x80>
-   285a8:      	b	0x28568 <dsp_vbc_mux_tdm_audrcd23_set+0x44>
-   285ac:      	bl	0x285ac <dsp_vbc_mux_tdm_audrcd23_set+0x88>
-
-00000000000285b0 <dsp_vbc_mux_ap01_dsp_set>:
-   285b0:      	sub	sp, sp, #0x20
-   285b4:      	str	x30, [x18], #0x8
-   285b8:      	stp	x29, x30, [sp, #0x10]
-   285bc:      	add	x29, sp, #0x10
-   285c0:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   285c4:      	ldr	x8, [x8]
-   285c8:      	mov	x4, sp
-   285cc:      	mov	w2, #-0x1               // =-1
-   285d0:      	mov	w3, #0x9                // =9
-   285d4:      	str	x8, [sp, #0x8]
-   285d8:      	stp	w0, w1, [sp]
-   285dc:      	mov	w1, #0x14               // =20
-   285e0:      	mov	w5, #0x8                // =8
-   285e4:      	mov	w6, #-0x1               // =-1
-   285e8:      	mov	w0, wzr
-   285ec:      	bl	0x285ec <dsp_vbc_mux_ap01_dsp_set+0x3c>
-   285f0:      	tbnz	w0, #0x1f, 0x2861c <dsp_vbc_mux_ap01_dsp_set+0x6c>
-   285f4:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   285f8:      	ldr	x8, [sp, #0x8]
-   285fc:      	ldr	x9, [x9]
-   28600:      	cmp	x9, x8
-   28604:      	b.ne	0x28638 <dsp_vbc_mux_ap01_dsp_set+0x88>
-   28608:      	ldp	x29, x30, [sp, #0x10]
-   2860c:      	ldr	x30, [x18, #-0x8]!
-   28610:      	mov	w0, wzr
-   28614:      	add	sp, sp, #0x20
-   28618:      	ret
-   2861c:      	mov	w2, w0
-   28620:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28624:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28628:      	add	x0, x0, #0x0
-   2862c:      	add	x1, x1, #0x0
-   28630:      	bl	0x28630 <dsp_vbc_mux_ap01_dsp_set+0x80>
-   28634:      	b	0x285f4 <dsp_vbc_mux_ap01_dsp_set+0x44>
-   28638:      	bl	0x28638 <dsp_vbc_mux_ap01_dsp_set+0x88>
-
-000000000002863c <dsp_vbc_mux_iis_tx_set>:
-   2863c:      	sub	sp, sp, #0x20
-   28640:      	str	x30, [x18], #0x8
-   28644:      	stp	x29, x30, [sp, #0x10]
-   28648:      	add	x29, sp, #0x10
-   2864c:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28650:      	ldr	x8, [x8]
-   28654:      	mov	x4, sp
-   28658:      	mov	w2, #-0x1               // =-1
-   2865c:      	mov	w3, #0x9                // =9
-   28660:      	str	x8, [sp, #0x8]
-   28664:      	stp	w0, w1, [sp]
-   28668:      	mov	w1, #0x15               // =21
-   2866c:      	mov	w5, #0x8                // =8
-   28670:      	mov	w6, #-0x1               // =-1
-   28674:      	mov	w0, wzr
-   28678:      	bl	0x28678 <dsp_vbc_mux_iis_tx_set+0x3c>
-   2867c:      	tbnz	w0, #0x1f, 0x286a8 <dsp_vbc_mux_iis_tx_set+0x6c>
-   28680:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28684:      	ldr	x8, [sp, #0x8]
-   28688:      	ldr	x9, [x9]
-   2868c:      	cmp	x9, x8
-   28690:      	b.ne	0x286c4 <dsp_vbc_mux_iis_tx_set+0x88>
-   28694:      	ldp	x29, x30, [sp, #0x10]
-   28698:      	ldr	x30, [x18, #-0x8]!
-   2869c:      	mov	w0, wzr
-   286a0:      	add	sp, sp, #0x20
-   286a4:      	ret
-   286a8:      	mov	w2, w0
-   286ac:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   286b0:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   286b4:      	add	x0, x0, #0x0
-   286b8:      	add	x1, x1, #0x0
-   286bc:      	bl	0x286bc <dsp_vbc_mux_iis_tx_set+0x80>
-   286c0:      	b	0x28680 <dsp_vbc_mux_iis_tx_set+0x44>
-   286c4:      	bl	0x286c4 <dsp_vbc_mux_iis_tx_set+0x88>
-
-00000000000286c8 <dsp_vbc_mux_iis_rx_set>:
-   286c8:      	sub	sp, sp, #0x20
-   286cc:      	str	x30, [x18], #0x8
-   286d0:      	stp	x29, x30, [sp, #0x10]
-   286d4:      	add	x29, sp, #0x10
-   286d8:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   286dc:      	ldr	x8, [x8]
-   286e0:      	mov	x4, sp
-   286e4:      	mov	w2, #-0x1               // =-1
-   286e8:      	mov	w3, #0x9                // =9
-   286ec:      	str	x8, [sp, #0x8]
-   286f0:      	stp	w0, w1, [sp]
-   286f4:      	mov	w1, #0x16               // =22
-   286f8:      	mov	w5, #0x8                // =8
-   286fc:      	mov	w6, #-0x1               // =-1
-   28700:      	mov	w0, wzr
-   28704:      	bl	0x28704 <dsp_vbc_mux_iis_rx_set+0x3c>
-   28708:      	tbnz	w0, #0x1f, 0x28734 <dsp_vbc_mux_iis_rx_set+0x6c>
-   2870c:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28710:      	ldr	x8, [sp, #0x8]
-   28714:      	ldr	x9, [x9]
-   28718:      	cmp	x9, x8
-   2871c:      	b.ne	0x28750 <dsp_vbc_mux_iis_rx_set+0x88>
-   28720:      	ldp	x29, x30, [sp, #0x10]
-   28724:      	ldr	x30, [x18, #-0x8]!
-   28728:      	mov	w0, wzr
-   2872c:      	add	sp, sp, #0x20
-   28730:      	ret
-   28734:      	mov	w2, w0
-   28738:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   2873c:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28740:      	add	x0, x0, #0x0
-   28744:      	add	x1, x1, #0x0
-   28748:      	bl	0x28748 <dsp_vbc_mux_iis_rx_set+0x80>
-   2874c:      	b	0x2870c <dsp_vbc_mux_iis_rx_set+0x44>
-   28750:      	bl	0x28750 <dsp_vbc_mux_iis_rx_set+0x88>
-
-0000000000028754 <dsp_vbc_mux_iis_port_do_set>:
-   28754:      	sub	sp, sp, #0x20
-   28758:      	str	x30, [x18], #0x8
-   2875c:      	stp	x29, x30, [sp, #0x10]
-   28760:      	add	x29, sp, #0x10
-   28764:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28768:      	ldr	x8, [x8]
-   2876c:      	mov	x4, sp
-   28770:      	mov	w2, #-0x1               // =-1
-   28774:      	mov	w3, #0x9                // =9
-   28778:      	str	x8, [sp, #0x8]
-   2877c:      	stp	w0, w1, [sp]
-   28780:      	mov	w1, #0x17               // =23
-   28784:      	mov	w5, #0x8                // =8
-   28788:      	mov	w6, #-0x1               // =-1
-   2878c:      	mov	w0, wzr
-   28790:      	bl	0x28790 <dsp_vbc_mux_iis_port_do_set+0x3c>
-   28794:      	tbnz	w0, #0x1f, 0x287c0 <dsp_vbc_mux_iis_port_do_set+0x6c>
-   28798:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   2879c:      	ldr	x8, [sp, #0x8]
-   287a0:      	ldr	x9, [x9]
-   287a4:      	cmp	x9, x8
-   287a8:      	b.ne	0x287dc <dsp_vbc_mux_iis_port_do_set+0x88>
-   287ac:      	ldp	x29, x30, [sp, #0x10]
-   287b0:      	ldr	x30, [x18, #-0x8]!
-   287b4:      	mov	w0, wzr
-   287b8:      	add	sp, sp, #0x20
-   287bc:      	ret
-   287c0:      	mov	w2, w0
-   287c4:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   287c8:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   287cc:      	add	x0, x0, #0x0
-   287d0:      	add	x1, x1, #0x0
-   287d4:      	bl	0x287d4 <dsp_vbc_mux_iis_port_do_set+0x80>
-   287d8:      	b	0x28798 <dsp_vbc_mux_iis_port_do_set+0x44>
-   287dc:      	bl	0x287dc <dsp_vbc_mux_iis_port_do_set+0x88>
-
-00000000000287e0 <dsp_vbc_set_volume>:
-   287e0:      	sub	sp, sp, #0x20
-   287e4:      	str	x30, [x18], #0x8
-   287e8:      	stp	x29, x30, [sp, #0x10]
-   287ec:      	add	x29, sp, #0x10
-   287f0:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   287f4:      	ldr	x8, [x8]
-   287f8:      	mov	w2, w0
-   287fc:      	add	x4, sp, #0x4
-   28800:      	mov	w1, #0x18               // =24
-   28804:      	str	x8, [sp, #0x8]
-   28808:      	str	w0, [sp, #0x4]
-   2880c:      	mov	w3, #0x9                // =9
-   28810:      	mov	w5, #0x4                // =4
-   28814:      	mov	w6, #-0x1               // =-1
-   28818:      	mov	w0, wzr
-   2881c:      	bl	0x2881c <dsp_vbc_set_volume+0x3c>
-   28820:      	tbnz	w0, #0x1f, 0x2884c <dsp_vbc_set_volume+0x6c>
-   28824:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28828:      	ldr	x8, [sp, #0x8]
-   2882c:      	ldr	x9, [x9]
-   28830:      	cmp	x9, x8
-   28834:      	b.ne	0x28868 <dsp_vbc_set_volume+0x88>
-   28838:      	ldp	x29, x30, [sp, #0x10]
-   2883c:      	ldr	x30, [x18, #-0x8]!
-   28840:      	mov	w0, wzr
-   28844:      	add	sp, sp, #0x20
-   28848:      	ret
-   2884c:      	mov	w2, w0
-   28850:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28854:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28858:      	add	x0, x0, #0x0
-   2885c:      	add	x1, x1, #0x0
-   28860:      	bl	0x28860 <dsp_vbc_set_volume+0x80>
-   28864:      	b	0x28824 <dsp_vbc_set_volume+0x44>
-   28868:      	bl	0x28868 <dsp_vbc_set_volume+0x88>
-
-000000000002886c <dsp_vbc_adder_set>:
-   2886c:      	sub	sp, sp, #0x30
-   28870:      	str	x30, [x18], #0x8
-   28874:      	stp	x29, x30, [sp, #0x20]
-   28878:      	add	x29, sp, #0x20
-   2887c:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28880:      	ldr	x8, [x8]
-   28884:      	add	x4, sp, #0x8
-   28888:      	mov	w3, #0x9                // =9
-   2888c:      	mov	w5, #0xc                // =12
-   28890:      	stur	x8, [x29, #-0x8]
-   28894:      	stp	w0, w1, [sp, #0x8]
-   28898:      	str	w2, [sp, #0x10]
-   2889c:      	mov	w1, #0x19               // =25
-   288a0:      	mov	w2, #-0x1               // =-1
-   288a4:      	mov	w6, #-0x1               // =-1
-   288a8:      	mov	w0, wzr
-   288ac:      	bl	0x288ac <dsp_vbc_adder_set+0x40>
-   288b0:      	tbnz	w0, #0x1f, 0x288dc <dsp_vbc_adder_set+0x70>
-   288b4:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   288b8:      	ldur	x8, [x29, #-0x8]
-   288bc:      	ldr	x9, [x9]
-   288c0:      	cmp	x9, x8
-   288c4:      	b.ne	0x288f8 <dsp_vbc_adder_set+0x8c>
-   288c8:      	ldp	x29, x30, [sp, #0x20]
-   288cc:      	ldr	x30, [x18, #-0x8]!
-   288d0:      	mov	w0, wzr
-   288d4:      	add	sp, sp, #0x30
-   288d8:      	ret
-   288dc:      	mov	w2, w0
-   288e0:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   288e4:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   288e8:      	add	x0, x0, #0x0
-   288ec:      	add	x1, x1, #0x0
-   288f0:      	bl	0x288f0 <dsp_vbc_adder_set+0x84>
-   288f4:      	b	0x288b4 <dsp_vbc_adder_set+0x48>
-   288f8:      	bl	0x288f8 <dsp_vbc_adder_set+0x8c>
-
-00000000000288fc <dsp_vbc_loopback_set>:
-   288fc:      	str	x30, [x18], #0x8
-   28900:      	stp	x29, x30, [sp, #-0x20]!
-   28904:      	str	x19, [sp, #0x10]
-   28908:      	mov	x29, sp
-   2890c:      	mov	x19, x0
-   28910:      	bl	0x28910 <dsp_vbc_loopback_set+0x14>
-   28914:      	tbnz	w0, #0x0, 0x2897c <dsp_vbc_loopback_set+0x80>
-   28918:      	bl	0x28918 <dsp_vbc_loopback_set+0x1c>
-   2891c:      	tbnz	w0, #0x0, 0x289a8 <dsp_vbc_loopback_set+0xac>
-   28920:      	bl	0x28920 <dsp_vbc_loopback_set+0x24>
-   28924:      	tbnz	w0, #0x0, 0x289cc <dsp_vbc_loopback_set+0xd0>
-   28928:      	mov	w1, #0x1a               // =26
-   2892c:      	mov	w2, #-0x1               // =-1
-   28930:      	mov	w3, #0x9                // =9
-   28934:      	mov	w5, #0x10               // =16
-   28938:      	mov	w6, #-0x1               // =-1
-   2893c:      	mov	w0, wzr
-   28940:      	mov	x4, x19
-   28944:      	bl	0x28944 <dsp_vbc_loopback_set+0x48>
-   28948:      	tbnz	w0, #0x1f, 0x28960 <dsp_vbc_loopback_set+0x64>
-   2894c:      	ldr	x19, [sp, #0x10]
-   28950:      	mov	w0, wzr
-   28954:      	ldp	x29, x30, [sp], #0x20
-   28958:      	ldr	x30, [x18, #-0x8]!
-   2895c:      	ret
-   28960:      	mov	w2, w0
-   28964:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28968:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   2896c:      	add	x0, x0, #0x0
-   28970:      	add	x1, x1, #0x0
-   28974:      	bl	0x28974 <dsp_vbc_loopback_set+0x78>
-   28978:      	b	0x2894c <dsp_vbc_loopback_set+0x50>
-   2897c:      	nop
-   28980:      	b	0x28918 <dsp_vbc_loopback_set+0x1c>
-   28984:      	ldr	w3, [x19]
-   28988:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   2898c:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28990:      	adrp	x2, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28994:      	add	x0, x0, #0x0
-   28998:      	add	x1, x1, #0x0
-   2899c:      	add	x2, x2, #0x0
-   289a0:      	bl	0x289a0 <dsp_vbc_loopback_set+0xa4>
-   289a4:      	b	0x28918 <dsp_vbc_loopback_set+0x1c>
-   289a8:      	nop
-   289ac:      	b	0x28920 <dsp_vbc_loopback_set+0x24>
-   289b0:      	ldp	w2, w3, [x19, #0x4]
-   289b4:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   289b8:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   289bc:      	add	x0, x0, #0x0
-   289c0:      	add	x1, x1, #0x0
-   289c4:      	bl	0x289c4 <dsp_vbc_loopback_set+0xc8>
-   289c8:      	b	0x28920 <dsp_vbc_loopback_set+0x24>
-   289cc:      	nop
-   289d0:      	b	0x28928 <dsp_vbc_loopback_set+0x2c>
-   289d4:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   289d8:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   289dc:      	add	x0, x0, #0x0
-   289e0:      	add	x1, x1, #0x0
-   289e4:      	mov	w2, #0x9                // =9
-   289e8:      	mov	w3, #0x1a               // =26
-   289ec:      	bl	0x289ec <dsp_vbc_loopback_set+0xf0>
-   289f0:      	b	0x28928 <dsp_vbc_loopback_set+0x2c>
-
-00000000000289f4 <dsp_vbc_dp_en_set>:
-   289f4:      	sub	sp, sp, #0x20
-   289f8:      	str	x30, [x18], #0x8
-   289fc:      	stp	x29, x30, [sp, #0x10]
-   28a00:      	add	x29, sp, #0x10
-   28a04:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28a08:      	ldr	x8, [x8]
-   28a0c:      	mov	x4, sp
-   28a10:      	mov	w2, #-0x1               // =-1
-   28a14:      	mov	w3, #0x9                // =9
-   28a18:      	str	x8, [sp, #0x8]
-   28a1c:      	str	xzr, [sp]
-   28a20:      	str	w0, [sp]
-   28a24:      	strh	w1, [sp, #0x4]
-   28a28:      	mov	w1, #0x1b               // =27
-   28a2c:      	mov	w5, #0x8                // =8
-   28a30:      	mov	w6, #-0x1               // =-1
-   28a34:      	mov	w0, wzr
-   28a38:      	bl	0x28a38 <dsp_vbc_dp_en_set+0x44>
-   28a3c:      	tbnz	w0, #0x1f, 0x28a68 <dsp_vbc_dp_en_set+0x74>
-   28a40:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28a44:      	ldr	x8, [sp, #0x8]
-   28a48:      	ldr	x9, [x9]
-   28a4c:      	cmp	x9, x8
-   28a50:      	b.ne	0x28a84 <dsp_vbc_dp_en_set+0x90>
-   28a54:      	ldp	x29, x30, [sp, #0x10]
-   28a58:      	ldr	x30, [x18, #-0x8]!
-   28a5c:      	mov	w0, wzr
-   28a60:      	add	sp, sp, #0x20
-   28a64:      	ret
-   28a68:      	mov	w2, w0
-   28a6c:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28a70:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28a74:      	add	x0, x0, #0x0
-   28a78:      	add	x1, x1, #0x0
-   28a7c:      	bl	0x28a7c <dsp_vbc_dp_en_set+0x88>
-   28a80:      	b	0x28a40 <dsp_vbc_dp_en_set+0x4c>
-   28a84:      	bl	0x28a84 <dsp_vbc_dp_en_set+0x90>
-
-0000000000028a88 <dsp_call_mute_set>:
-   28a88:      	sub	sp, sp, #0x20
-   28a8c:      	str	x30, [x18], #0x8
-   28a90:      	stp	x29, x30, [sp, #0x10]
-   28a94:      	add	x29, sp, #0x10
-   28a98:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28a9c:      	ldr	x8, [x8]
-   28aa0:      	and	w9, w1, #0xffff
-   28aa4:      	mov	x4, sp
-   28aa8:      	mov	w1, #0x1c               // =28
-   28aac:      	str	x8, [sp, #0x8]
-   28ab0:      	stp	w0, w9, [sp]
-   28ab4:      	mov	w2, #-0x1               // =-1
-   28ab8:      	mov	w3, #0x9                // =9
-   28abc:      	mov	w5, #0x8                // =8
-   28ac0:      	mov	w6, #-0x1               // =-1
-   28ac4:      	mov	w0, wzr
-   28ac8:      	bl	0x28ac8 <dsp_call_mute_set+0x40>
-   28acc:      	tbnz	w0, #0x1f, 0x28af8 <dsp_call_mute_set+0x70>
-   28ad0:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28ad4:      	ldr	x8, [sp, #0x8]
-   28ad8:      	ldr	x9, [x9]
-   28adc:      	cmp	x9, x8
-   28ae0:      	b.ne	0x28b14 <dsp_call_mute_set+0x8c>
-   28ae4:      	ldp	x29, x30, [sp, #0x10]
-   28ae8:      	ldr	x30, [x18, #-0x8]!
-   28aec:      	mov	w0, wzr
-   28af0:      	add	sp, sp, #0x20
-   28af4:      	ret
-   28af8:      	mov	w2, w0
-   28afc:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28b00:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28b04:      	add	x0, x0, #0x0
-   28b08:      	add	x1, x1, #0x0
-   28b0c:      	bl	0x28b0c <dsp_call_mute_set+0x84>
-   28b10:      	b	0x28ad0 <dsp_call_mute_set+0x48>
-   28b14:      	bl	0x28b14 <dsp_call_mute_set+0x8c>
-
-0000000000028b18 <fm_mute_set>:
-   28b18:      	sub	sp, sp, #0x30
-   28b1c:      	str	x30, [x18], #0x8
-   28b20:      	stp	x29, x30, [sp, #0x20]
-   28b24:      	add	x29, sp, #0x20
-   28b28:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28b2c:      	ldr	x8, [x8]
-   28b30:      	mov	x9, #0x100000000        // =4294967296
-   28b34:      	add	x4, sp, #0x10
-   28b38:      	mov	w3, #0x9                // =9
-   28b3c:      	stur	x8, [x29, #-0x8]
-   28b40:      	stp	xzr, x9, [sp]
-   28b44:      	strh	w2, [sp, #0x10]
-   28b48:      	str	w0, [sp, #0x8]
-   28b4c:      	str	w0, [sp]
-   28b50:      	strh	w1, [sp, #0x4]
-   28b54:      	mov	w1, #0x2a               // =42
-   28b58:      	mov	w2, #-0x1               // =-1
-   28b5c:      	mov	w5, #0x2                // =2
-   28b60:      	mov	w6, #-0x1               // =-1
-   28b64:      	mov	w0, wzr
-   28b68:      	bl	0x28b68 <fm_mute_set+0x50>
-   28b6c:      	tbnz	w0, #0x1f, 0x28be0 <fm_mute_set+0xc8>
-   28b70:      	add	x4, sp, #0x8
-   28b74:      	mov	w1, #0x28               // =40
-   28b78:      	mov	w2, #-0x1               // =-1
-   28b7c:      	mov	w3, #0x9                // =9
-   28b80:      	mov	w5, #0x8                // =8
-   28b84:      	mov	w6, #-0x1               // =-1
-   28b88:      	mov	w0, wzr
-   28b8c:      	bl	0x28b8c <fm_mute_set+0x74>
-   28b90:      	tbnz	w0, #0x1f, 0x28bfc <fm_mute_set+0xe4>
-   28b94:      	mov	x4, sp
-   28b98:      	mov	w1, #0x29               // =41
-   28b9c:      	mov	w2, #-0x1               // =-1
-   28ba0:      	mov	w3, #0x9                // =9
-   28ba4:      	mov	w5, #0x8                // =8
-   28ba8:      	mov	w6, #-0x1               // =-1
-   28bac:      	mov	w0, wzr
-   28bb0:      	bl	0x28bb0 <fm_mute_set+0x98>
-   28bb4:      	tbnz	w0, #0x1f, 0x28c18 <fm_mute_set+0x100>
-   28bb8:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28bbc:      	ldur	x8, [x29, #-0x8]
-   28bc0:      	ldr	x9, [x9]
-   28bc4:      	cmp	x9, x8
-   28bc8:      	b.ne	0x28c34 <fm_mute_set+0x11c>
-   28bcc:      	ldp	x29, x30, [sp, #0x20]
-   28bd0:      	ldr	x30, [x18, #-0x8]!
-   28bd4:      	mov	w0, wzr
-   28bd8:      	add	sp, sp, #0x30
-   28bdc:      	ret
-   28be0:      	mov	w2, w0
-   28be4:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28be8:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28bec:      	add	x0, x0, #0x0
-   28bf0:      	add	x1, x1, #0x0
-   28bf4:      	bl	0x28bf4 <fm_mute_set+0xdc>
-   28bf8:      	b	0x28b70 <fm_mute_set+0x58>
-   28bfc:      	mov	w2, w0
-   28c00:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28c04:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28c08:      	add	x0, x0, #0x0
-   28c0c:      	add	x1, x1, #0x0
-   28c10:      	bl	0x28c10 <fm_mute_set+0xf8>
-   28c14:      	b	0x28b94 <fm_mute_set+0x7c>
-   28c18:      	mov	w2, w0
-   28c1c:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28c20:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28c24:      	add	x0, x0, #0x0
-   28c28:      	add	x1, x1, #0x0
-   28c2c:      	bl	0x28c2c <fm_mute_set+0x114>
-   28c30:      	b	0x28bb8 <fm_mute_set+0xa0>
-   28c34:      	bl	0x28c34 <fm_mute_set+0x11c>
-
-0000000000028c38 <dsp_vbc_iis_tx_width_set>:
-   28c38:      	sub	sp, sp, #0x20
-   28c3c:      	str	x30, [x18], #0x8
-   28c40:      	stp	x29, x30, [sp, #0x10]
-   28c44:      	add	x29, sp, #0x10
-   28c48:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28c4c:      	ldr	x8, [x8]
-   28c50:      	mov	x4, sp
-   28c54:      	mov	w2, #-0x1               // =-1
-   28c58:      	mov	w3, #0x9                // =9
-   28c5c:      	str	x8, [sp, #0x8]
-   28c60:      	stp	w0, w1, [sp]
-   28c64:      	mov	w1, #0x1d               // =29
-   28c68:      	mov	w5, #0x8                // =8
-   28c6c:      	mov	w6, #-0x1               // =-1
-   28c70:      	mov	w0, wzr
-   28c74:      	bl	0x28c74 <dsp_vbc_iis_tx_width_set+0x3c>
-   28c78:      	tbnz	w0, #0x1f, 0x28ca4 <dsp_vbc_iis_tx_width_set+0x6c>
-   28c7c:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28c80:      	ldr	x8, [sp, #0x8]
-   28c84:      	ldr	x9, [x9]
-   28c88:      	cmp	x9, x8
-   28c8c:      	b.ne	0x28cc0 <dsp_vbc_iis_tx_width_set+0x88>
-   28c90:      	ldp	x29, x30, [sp, #0x10]
-   28c94:      	ldr	x30, [x18, #-0x8]!
-   28c98:      	mov	w0, wzr
-   28c9c:      	add	sp, sp, #0x20
-   28ca0:      	ret
-   28ca4:      	mov	w2, w0
-   28ca8:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28cac:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28cb0:      	add	x0, x0, #0x0
-   28cb4:      	add	x1, x1, #0x0
-   28cb8:      	bl	0x28cb8 <dsp_vbc_iis_tx_width_set+0x80>
-   28cbc:      	b	0x28c7c <dsp_vbc_iis_tx_width_set+0x44>
-   28cc0:      	bl	0x28cc0 <dsp_vbc_iis_tx_width_set+0x88>
-
-0000000000028cc4 <dsp_vbc_iis_tx_lr_mod_set>:
-   28cc4:      	sub	sp, sp, #0x20
-   28cc8:      	str	x30, [x18], #0x8
-   28ccc:      	stp	x29, x30, [sp, #0x10]
-   28cd0:      	add	x29, sp, #0x10
-   28cd4:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28cd8:      	ldr	x8, [x8]
-   28cdc:      	mov	x4, sp
-   28ce0:      	mov	w2, #-0x1               // =-1
-   28ce4:      	mov	w3, #0x9                // =9
-   28ce8:      	str	x8, [sp, #0x8]
-   28cec:      	stp	w0, w1, [sp]
-   28cf0:      	mov	w1, #0x1e               // =30
-   28cf4:      	mov	w5, #0x8                // =8
-   28cf8:      	mov	w6, #-0x1               // =-1
-   28cfc:      	mov	w0, wzr
-   28d00:      	bl	0x28d00 <dsp_vbc_iis_tx_lr_mod_set+0x3c>
-   28d04:      	tbnz	w0, #0x1f, 0x28d30 <dsp_vbc_iis_tx_lr_mod_set+0x6c>
-   28d08:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28d0c:      	ldr	x8, [sp, #0x8]
-   28d10:      	ldr	x9, [x9]
-   28d14:      	cmp	x9, x8
-   28d18:      	b.ne	0x28d4c <dsp_vbc_iis_tx_lr_mod_set+0x88>
-   28d1c:      	ldp	x29, x30, [sp, #0x10]
-   28d20:      	ldr	x30, [x18, #-0x8]!
-   28d24:      	mov	w0, wzr
-   28d28:      	add	sp, sp, #0x20
-   28d2c:      	ret
-   28d30:      	mov	w2, w0
-   28d34:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28d38:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28d3c:      	add	x0, x0, #0x0
-   28d40:      	add	x1, x1, #0x0
-   28d44:      	bl	0x28d44 <dsp_vbc_iis_tx_lr_mod_set+0x80>
-   28d48:      	b	0x28d08 <dsp_vbc_iis_tx_lr_mod_set+0x44>
-   28d4c:      	bl	0x28d4c <dsp_vbc_iis_tx_lr_mod_set+0x88>
-
-0000000000028d50 <dsp_vbc_iis_rx_width_set>:
-   28d50:      	sub	sp, sp, #0x20
-   28d54:      	str	x30, [x18], #0x8
-   28d58:      	stp	x29, x30, [sp, #0x10]
-   28d5c:      	add	x29, sp, #0x10
-   28d60:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28d64:      	ldr	x8, [x8]
-   28d68:      	mov	x4, sp
-   28d6c:      	mov	w2, #-0x1               // =-1
-   28d70:      	mov	w3, #0x9                // =9
-   28d74:      	str	x8, [sp, #0x8]
-   28d78:      	stp	w0, w1, [sp]
-   28d7c:      	mov	w1, #0x1f               // =31
-   28d80:      	mov	w5, #0x8                // =8
-   28d84:      	mov	w6, #-0x1               // =-1
-   28d88:      	mov	w0, wzr
-   28d8c:      	bl	0x28d8c <dsp_vbc_iis_rx_width_set+0x3c>
-   28d90:      	tbnz	w0, #0x1f, 0x28dbc <dsp_vbc_iis_rx_width_set+0x6c>
-   28d94:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28d98:      	ldr	x8, [sp, #0x8]
-   28d9c:      	ldr	x9, [x9]
-   28da0:      	cmp	x9, x8
-   28da4:      	b.ne	0x28dd8 <dsp_vbc_iis_rx_width_set+0x88>
-   28da8:      	ldp	x29, x30, [sp, #0x10]
-   28dac:      	ldr	x30, [x18, #-0x8]!
-   28db0:      	mov	w0, wzr
-   28db4:      	add	sp, sp, #0x20
-   28db8:      	ret
-   28dbc:      	mov	w2, w0
-   28dc0:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28dc4:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28dc8:      	add	x0, x0, #0x0
-   28dcc:      	add	x1, x1, #0x0
-   28dd0:      	bl	0x28dd0 <dsp_vbc_iis_rx_width_set+0x80>
-   28dd4:      	b	0x28d94 <dsp_vbc_iis_rx_width_set+0x44>
-   28dd8:      	bl	0x28dd8 <dsp_vbc_iis_rx_width_set+0x88>
-
-0000000000028ddc <dsp_vbc_iis_rx_lr_mod_set>:
-   28ddc:      	sub	sp, sp, #0x20
-   28de0:      	str	x30, [x18], #0x8
-   28de4:      	stp	x29, x30, [sp, #0x10]
-   28de8:      	add	x29, sp, #0x10
-   28dec:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28df0:      	ldr	x8, [x8]
-   28df4:      	mov	x4, sp
-   28df8:      	mov	w2, #-0x1               // =-1
-   28dfc:      	mov	w3, #0x9                // =9
-   28e00:      	str	x8, [sp, #0x8]
-   28e04:      	stp	w0, w1, [sp]
-   28e08:      	mov	w1, #0x20               // =32
-   28e0c:      	mov	w5, #0x8                // =8
-   28e10:      	mov	w6, #-0x1               // =-1
-   28e14:      	mov	w0, wzr
-   28e18:      	bl	0x28e18 <dsp_vbc_iis_rx_lr_mod_set+0x3c>
-   28e1c:      	tbnz	w0, #0x1f, 0x28e48 <dsp_vbc_iis_rx_lr_mod_set+0x6c>
-   28e20:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28e24:      	ldr	x8, [sp, #0x8]
-   28e28:      	ldr	x9, [x9]
-   28e2c:      	cmp	x9, x8
-   28e30:      	b.ne	0x28e64 <dsp_vbc_iis_rx_lr_mod_set+0x88>
-   28e34:      	ldp	x29, x30, [sp, #0x10]
-   28e38:      	ldr	x30, [x18, #-0x8]!
-   28e3c:      	mov	w0, wzr
-   28e40:      	add	sp, sp, #0x20
-   28e44:      	ret
-   28e48:      	mov	w2, w0
-   28e4c:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28e50:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28e54:      	add	x0, x0, #0x0
-   28e58:      	add	x1, x1, #0x0
-   28e5c:      	bl	0x28e5c <dsp_vbc_iis_rx_lr_mod_set+0x80>
-   28e60:      	b	0x28e20 <dsp_vbc_iis_rx_lr_mod_set+0x44>
-   28e64:      	bl	0x28e64 <dsp_vbc_iis_rx_lr_mod_set+0x88>
-
-0000000000028e68 <dsp_vbc_mst_sel_type_set>:
-   28e68:      	sub	sp, sp, #0x30
-   28e6c:      	str	x30, [x18], #0x8
-   28e70:      	stp	x29, x30, [sp, #0x10]
-   28e74:      	str	x19, [sp, #0x20]
-   28e78:      	add	x29, sp, #0x10
-   28e7c:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28e80:      	ldr	x8, [x8]
-   28e84:      	mov	x4, sp
-   28e88:      	mov	w2, #-0x1               // =-1
-   28e8c:      	mov	w3, #0x9                // =9
-   28e90:      	str	x8, [sp, #0x8]
-   28e94:      	stp	w0, w1, [sp]
-   28e98:      	mov	w1, #0x25               // =37
-   28e9c:      	mov	w5, #0x8                // =8
-   28ea0:      	mov	w6, #-0x1               // =-1
-   28ea4:      	mov	w0, wzr
-   28ea8:      	bl	0x28ea8 <dsp_vbc_mst_sel_type_set+0x40>
-   28eac:      	mov	w19, w0
-   28eb0:      	tbnz	w0, #0x1f, 0x28ee0 <dsp_vbc_mst_sel_type_set+0x78>
-   28eb4:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28eb8:      	ldr	x8, [sp, #0x8]
-   28ebc:      	ldr	x9, [x9]
-   28ec0:      	cmp	x9, x8
-   28ec4:      	b.ne	0x28ef4 <dsp_vbc_mst_sel_type_set+0x8c>
-   28ec8:      	ldp	x29, x30, [sp, #0x10]
-   28ecc:      	mov	w0, w19
-   28ed0:      	ldr	x19, [sp, #0x20]
-   28ed4:      	ldr	x30, [x18, #-0x8]!
-   28ed8:      	add	sp, sp, #0x30
-   28edc:      	ret
-   28ee0:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28ee4:      	add	x0, x0, #0x0
-   28ee8:      	mov	w1, w19
-   28eec:      	bl	0x28eec <dsp_vbc_mst_sel_type_set+0x84>
-   28ef0:      	b	0x28eb4 <dsp_vbc_mst_sel_type_set+0x4c>
-   28ef4:      	bl	0x28ef4 <dsp_vbc_mst_sel_type_set+0x8c>
-
-0000000000028ef8 <dsp_vbc_iis_master_start>:
-   28ef8:      	sub	sp, sp, #0x20
-   28efc:      	str	x30, [x18], #0x8
-   28f00:      	stp	x29, x30, [sp, #0x10]
-   28f04:      	add	x29, sp, #0x10
-   28f08:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28f0c:      	ldr	x8, [x8]
-   28f10:      	mov	x4, sp
-   28f14:      	mov	w1, #0x21               // =33
-   28f18:      	mov	w2, #-0x1               // =-1
-   28f1c:      	str	x8, [sp, #0x8]
-   28f20:      	str	xzr, [sp]
-   28f24:      	str	w0, [sp, #0x4]
-   28f28:      	mov	w3, #0x9                // =9
-   28f2c:      	mov	w5, #0x8                // =8
-   28f30:      	mov	w6, #-0x1               // =-1
-   28f34:      	mov	w0, wzr
-   28f38:      	bl	0x28f38 <dsp_vbc_iis_master_start+0x40>
-   28f3c:      	tbnz	w0, #0x1f, 0x28f68 <dsp_vbc_iis_master_start+0x70>
-   28f40:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28f44:      	ldr	x8, [sp, #0x8]
-   28f48:      	ldr	x9, [x9]
-   28f4c:      	cmp	x9, x8
-   28f50:      	b.ne	0x28f84 <dsp_vbc_iis_master_start+0x8c>
-   28f54:      	ldp	x29, x30, [sp, #0x10]
-   28f58:      	ldr	x30, [x18, #-0x8]!
-   28f5c:      	mov	w0, wzr
-   28f60:      	add	sp, sp, #0x20
-   28f64:      	ret
-   28f68:      	mov	w2, w0
-   28f6c:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28f70:      	adrp	x1, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28f74:      	add	x0, x0, #0x0
-   28f78:      	add	x1, x1, #0x0
-   28f7c:      	bl	0x28f7c <dsp_vbc_iis_master_start+0x84>
-   28f80:      	b	0x28f40 <dsp_vbc_iis_master_start+0x48>
-   28f84:      	bl	0x28f84 <dsp_vbc_iis_master_start+0x8c>
-
-0000000000028f88 <dsp_vbc_iis_master_width_set>:
-   28f88:      	sub	sp, sp, #0x20
-   28f8c:      	str	x30, [x18], #0x8
-   28f90:      	stp	x29, x30, [sp, #0x10]
-   28f94:      	add	x29, sp, #0x10
-   28f98:      	adrp	x8, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28f9c:      	ldr	x8, [x8]
-   28fa0:      	add	x4, sp, #0x4
-   28fa4:      	mov	w1, #0x26               // =38
-   28fa8:      	mov	w2, #-0x1               // =-1
-   28fac:      	str	x8, [sp, #0x8]
-   28fb0:      	str	w0, [sp, #0x4]
-   28fb4:      	mov	w3, #0x9                // =9
-   28fb8:      	mov	w5, #0x4                // =4
-   28fbc:      	mov	w6, #-0x1               // =-1
-   28fc0:      	mov	w0, wzr
-   28fc4:      	bl	0x28fc4 <dsp_vbc_iis_master_width_set+0x3c>
-   28fc8:      	tbnz	w0, #0x1f, 0x28ff0 <dsp_vbc_iis_master_width_set+0x68>
-   28fcc:      	adrp	x9, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28fd0:      	ldr	x8, [sp, #0x8]
-   28fd4:      	ldr	x9, [x9]
-   28fd8:      	cmp	x9, x8
-   28fdc:      	b.ne	0x29004 <dsp_vbc_iis_master_width_set+0x7c>
-   28fe0:      	ldp	x29, x30, [sp, #0x10]
-   28fe4:      	ldr	x30, [x18, #-0x8]!
-   28fe8:      	add	sp, sp, #0x20
-   28fec:      	ret
-   28ff0:      	mov	w1, w0
-   28ff4:      	adrp	x0, 0x28000 <dsp_vbc_mixer_set+0x58>
-   28ff8:      	add	x0, x0, #0x0
-   28ffc:      	bl	0x28ffc <dsp_vbc_iis_master_width_set+0x74>
-   29000:      	b	0x28fcc <dsp_vbc_iis_master_width_set+0x44>
-   29004:      	bl	0x29004 <dsp_vbc_iis_master_width_set+0x7c>
-
-0000000000029008 <dsp_vbc_mainmic_path_set>:
-   29008:      	sub	sp, sp, #0x20
-   2900c:      	str	x30, [x18], #0x8
-   29010:      	stp	x29, x30, [sp, #0x10]
-   29014:      	add	x29, sp, #0x10
-   29018:      	adrp	x8, 0x29000 <dsp_vbc_iis_master_width_set+0x78>
-   2901c:      	ldr	x8, [x8]
-   29020:      	mov	x4, sp
-   29024:      	mov	w2, #-0x1               // =-1
-   29028:      	mov	w3, #0x9                // =9
-   2902c:      	str	x8, [sp, #0x8]
-   29030:      	stp	w0, w1, [sp]
-   29034:      	mov	w1, #0x23               // =35
-   29038:      	mov	w5, #0x8                // =8
-   2903c:      	mov	w6, #-0x1               // =-1
-   29040:      	mov	w0, wzr
-   29044:      	bl	0x29044 <dsp_vbc_mainmic_path_set+0x3c>
-   29048:      	tbnz	w0, #0x1f, 0x29074 <dsp_vbc_mainmic_path_set+0x6c>
-   2904c:      	adrp	x9, 0x29000 <dsp_vbc_iis_master_width_set+0x78>
-   29050:      	ldr	x8, [sp, #0x8]
-   29054:      	ldr	x9, [x9]
-   29058:      	cmp	x9, x8
-   2905c:      	b.ne	0x29090 <dsp_vbc_mainmic_path_set+0x88>
-   29060:      	ldp	x29, x30, [sp, #0x10]
-   29064:      	ldr	x30, [x18, #-0x8]!
-   29068:      	mov	w0, wzr
-   2906c:      	add	sp, sp, #0x20
-   29070:      	ret
-   29074:      	mov	w2, w0
-   29078:      	adrp	x0, 0x29000 <dsp_vbc_iis_master_width_set+0x78>
-   2907c:      	adrp	x1, 0x29000 <dsp_vbc_iis_master_width_set+0x78>
-   29080:      	add	x0, x0, #0x0
-   29084:      	add	x1, x1, #0x0
-   29088:      	bl	0x29088 <dsp_vbc_mainmic_path_set+0x80>
-   2908c:      	b	0x2904c <dsp_vbc_mainmic_path_set+0x44>
-   29090:      	bl	0x29090 <dsp_vbc_mainmic_path_set+0x88>
-
-0000000000029094 <dsp_ivsence_func>:
-   29094:      	sub	sp, sp, #0x20
-   29098:      	str	x30, [x18], #0x8
-   2909c:      	stp	x29, x30, [sp, #0x10]
-   290a0:      	add	x29, sp, #0x10
-   290a4:      	adrp	x8, 0x29000 <dsp_vbc_iis_master_width_set+0x78>
-   290a8:      	ldr	x8, [x8]
-   290ac:      	mov	x4, sp
-   290b0:      	mov	w2, #-0x1               // =-1
-   290b4:      	mov	w3, #0x9                // =9
-   290b8:      	str	x8, [sp, #0x8]
-   290bc:      	stp	w0, w1, [sp]
-   290c0:      	mov	w1, #0x24               // =36
-   290c4:      	mov	w5, #0x8                // =8
-   290c8:      	mov	w6, #-0x1               // =-1
-   290cc:      	mov	w0, wzr
-   290d0:      	bl	0x290d0 <dsp_ivsence_func+0x3c>
-   290d4:      	tbnz	w0, #0x1f, 0x29100 <dsp_ivsence_func+0x6c>
-   290d8:      	adrp	x9, 0x29000 <dsp_vbc_iis_master_width_set+0x78>
-   290dc:      	ldr	x8, [sp, #0x8]
-   290e0:      	ldr	x9, [x9]
-   290e4:      	cmp	x9, x8
-   290e8:      	b.ne	0x2911c <dsp_ivsence_func+0x88>
-   290ec:      	ldp	x29, x30, [sp, #0x10]
-   290f0:      	ldr	x30, [x18, #-0x8]!
-   290f4:      	mov	w0, wzr
-   290f8:      	add	sp, sp, #0x20
-   290fc:      	ret
- xcrun llvm-objdump -d --no-show-raw-insn \
-  --start-address=0x1b80 \
-  --stop-address=0x1e00 \
-  snd-soc-sprd-vbc-v4.ko
-
-snd-soc-sprd-vbc-v4.ko:	file format elf64-littleaarch64
-
-Disassembly of section .text:
-
-0000000000001a54 <vbc_put_mixer_ops>:
-    1b80:      	b.hi	0x1c0c <vbc_put_mixer_ops+0x1b8>
-    1b84:      	mov	w8, #0xc                // =12
-    1b88:      	madd	x8, x19, x8, x21
-    1b8c:      	mov	x4, sp
-    1b90:      	mov	w1, #0x9                // =9
-    1b94:      	mov	w2, #-0x1               // =-1
-    1b98:      	mov	w3, #0x9                // =9
-    1b9c:      	mov	w5, #0xc                // =12
-    1ba0:      	mov	w6, #-0x1               // =-1
-    1ba4:      	mov	w0, wzr
-    1ba8:      	str	w19, [x8, #0x4a8]
-    1bac:      	str	w20, [x8, #0x4ac]
-    1bb0:      	stp	wzr, w19, [sp]
-    1bb4:      	str	w20, [sp, #0x8]
-    1bb8:      	bl	0x1bb8 <vbc_put_mixer_ops+0x164>
-    1bbc:      	tbnz	w0, #0x1f, 0x1bf0 <vbc_put_mixer_ops+0x19c>
-    1bc0:      	mov	w0, wzr
-    1bc4:      	adrp	x9, 0x1000 <vbc_src_put+0x20>
-    1bc8:      	ldur	x8, [x29, #-0x8]
-    1bcc:      	ldr	x9, [x9]
-    1bd0:      	cmp	x9, x8
-    1bd4:      	b.ne	0x1c14 <vbc_put_mixer_ops+0x1c0>
-    1bd8:      	ldp	x29, x30, [sp, #0x30]
-    1bdc:      	ldp	x20, x19, [sp, #0x50]
-    1be0:      	ldp	x22, x21, [sp, #0x40]
-    1be4:      	ldr	x30, [x18, #-0x8]!
-    1be8:      	add	sp, sp, #0x60
-    1bec:      	ret
-    1bf0:      	mov	w2, w0
-    1bf4:      	adrp	x0, 0x1000 <vbc_src_put+0x20>
-    1bf8:      	adrp	x1, 0x1000 <vbc_src_put+0x20>
-    1bfc:      	add	x0, x0, #0x0
-    1c00:      	add	x1, x1, #0x0
-    1c04:      	bl	0x1c04 <vbc_put_mixer_ops+0x1b0>
-    1c08:      	b	0x1bc0 <vbc_put_mixer_ops+0x16c>
-    1c0c:      	mov	w0, #0x12               // =18
-    1c10:      	bl	0x1c10 <vbc_put_mixer_ops+0x1bc>
-    1c14:      	bl	0x1c14 <vbc_put_mixer_ops+0x1c0>
-
-0000000000001c18 <vbc_mux_adc_source_get>:
-    1c18:      	str	x30, [x18], #0x8
-    1c1c:      	stp	x29, x30, [sp, #-0x10]!
-    1c20:      	mov	x29, sp
-    1c24:      	ldr	x8, [x0, #0x78]
-    1c28:      	ldr	w8, [x8]
-    1c2c:      	cmp	w8, #0x4
-    1c30:      	b.hs	0x1c5c <vbc_mux_adc_source_get+0x44>
-    1c34:      	ldr	x9, [x0, #0x80]
-    1c38:      	mov	w0, wzr
-    1c3c:      	ldr	x9, [x9, #0x18]
-    1c40:      	ldr	x9, [x9, #0x98]
-    1c44:      	add	x8, x9, x8, lsl #3
-    1c48:      	ldr	w8, [x8, #0x238]
-    1c4c:      	str	x8, [x1, #0x48]
-    1c50:      	ldp	x29, x30, [sp], #0x10
-    1c54:      	ldr	x30, [x18, #-0x8]!
-    1c58:      	ret
-    1c5c:      	mov	w0, #0x12               // =18
-    1c60:      	bl	0x1c60 <vbc_mux_adc_source_get+0x48>
-
-0000000000001c64 <vbc_mux_adc_source_put>:
-    1c64:      	sub	sp, sp, #0x40
-    1c68:      	str	x30, [x18], #0x8
-    1c6c:      	stp	x29, x30, [sp, #0x10]
-    1c70:      	stp	x22, x21, [sp, #0x20]
-    1c74:      	stp	x20, x19, [sp, #0x30]
-    1c78:      	add	x29, sp, #0x10
-    1c7c:      	adrp	x8, 0x1000 <vbc_src_put+0x20>
-    1c80:      	ldr	x8, [x8]
-    1c84:      	str	x8, [sp, #0x8]
-    1c88:      	ldr	x22, [x0, #0x78]
-    1c8c:      	ldr	x20, [x1, #0x48]
-    1c90:      	ldr	w8, [x22, #0x8]
-    1c94:      	cmp	w8, w20
-    1c98:      	b.ls	0x1ce0 <vbc_mux_adc_source_put+0x7c>
-    1c9c:      	ldr	x8, [x0, #0x80]
-    1ca0:      	ldr	w19, [x22]
-    1ca4:      	ldr	x8, [x8, #0x18]
-    1ca8:      	cmp	w19, #0x4
-    1cac:      	ldr	x21, [x8, #0x98]
-    1cb0:      	b.lt	0x1d04 <vbc_mux_adc_source_put+0xa0>
-    1cb4:      	adrp	x1, 0x1000 <vbc_src_put+0x20>
-    1cb8:      	adrp	x0, 0x1000 <vbc_src_put+0x20>
-    1cbc:      	add	x1, x1, #0x0
-    1cc0:      	add	x0, x0, #0x0
-    1cc4:      	mov	w2, #0x3dd              // =989
-    1cc8:      	mov	x3, x1
-    1ccc:      	mov	w4, w19
-    1cd0:      	bl	0x1cd0 <vbc_mux_adc_source_put+0x6c>
-    1cd4:      	adrp	x4, 0x1000 <vbc_src_put+0x20>
-    1cd8:      	add	x4, x4, #0x0
-    1cdc:      	b	0x1d14 <vbc_mux_adc_source_put+0xb0>
-    1ce0:      	adrp	x1, 0x1000 <vbc_src_put+0x20>
-    1ce4:      	adrp	x0, 0x1000 <vbc_src_put+0x20>
-    1ce8:      	add	x1, x1, #0x0
-    1cec:      	add	x0, x0, #0x0
-    1cf0:      	mov	w2, #0x401              // =1025
-    1cf4:      	mov	x3, x1
-    1cf8:      	bl	0x1cf8 <vbc_mux_adc_source_put+0x94>
-    1cfc:      	mov	w0, #-0x16              // =-22
-    1d00:      	b	0x1d7c <vbc_mux_adc_source_put+0x118>
-    1d04:      	b.hs	0x1dc4 <vbc_mux_adc_source_put+0x160>
-    1d08:      	adrp	x8, 0x1000 <vbc_src_put+0x20>
-    1d0c:      	add	x8, x8, #0x0
-    1d10:      	ldr	x4, [x8, x19, lsl #3]
-    1d14:      	ldr	x8, [x22, #0x10]
-    1d18:      	sbfiz	x9, x20, #3, #32
-    1d1c:      	adrp	x1, 0x1000 <vbc_src_put+0x20>
-    1d20:      	adrp	x0, 0x1000 <vbc_src_put+0x20>
-    1d24:      	ldr	x5, [x8, x9]
-    1d28:      	add	x1, x1, #0x0
-    1d2c:      	add	x0, x0, #0x0
-    1d30:      	mov	w2, #0x405              // =1029
-    1d34:      	mov	x3, x1
-    1d38:      	bl	0x1d38 <vbc_mux_adc_source_put+0xd4>
-    1d3c:      	cmp	w19, #0x3
-    1d40:      	b.hi	0x1dc4 <vbc_mux_adc_source_put+0x160>
-    1d44:      	add	x8, x21, x19, lsl #3
-    1d48:      	mov	x4, sp
-    1d4c:      	mov	w1, #0xa                // =10
-    1d50:      	mov	w2, #-0x1               // =-1
-    1d54:      	mov	w3, #0x9                // =9
-    1d58:      	mov	w5, #0x8                // =8
-    1d5c:      	mov	w6, #-0x1               // =-1
-    1d60:      	mov	w0, wzr
-    1d64:      	str	w19, [x8, #0x234]
-    1d68:      	str	w20, [x8, #0x238]
-    1d6c:      	stp	w19, w20, [sp]
-    1d70:      	bl	0x1d70 <vbc_mux_adc_source_put+0x10c>
-    1d74:      	tbnz	w0, #0x1f, 0x1da8 <vbc_mux_adc_source_put+0x144>
-    1d78:      	mov	w0, #0x1                // =1
-    1d7c:      	adrp	x9, 0x1000 <vbc_src_put+0x20>
-    1d80:      	ldr	x8, [sp, #0x8]
-    1d84:      	ldr	x9, [x9]
-    1d88:      	cmp	x9, x8
-    1d8c:      	b.ne	0x1dcc <vbc_mux_adc_source_put+0x168>
-    1d90:      	ldp	x29, x30, [sp, #0x10]
-    1d94:      	ldp	x20, x19, [sp, #0x30]
-    1d98:      	ldp	x22, x21, [sp, #0x20]
-    1d9c:      	ldr	x30, [x18, #-0x8]!
-    1da0:      	add	sp, sp, #0x40
-    1da4:      	ret
-    1da8:      	mov	w2, w0
-    1dac:      	adrp	x0, 0x1000 <vbc_src_put+0x20>
-    1db0:      	adrp	x1, 0x1000 <vbc_src_put+0x20>
-    1db4:      	add	x0, x0, #0x0
-    1db8:      	add	x1, x1, #0x0
-    1dbc:      	bl	0x1dbc <vbc_mux_adc_source_put+0x158>
-    1dc0:      	b	0x1d78 <vbc_mux_adc_source_put+0x114>
-    1dc4:      	mov	w0, #0x12               // =18
-    1dc8:      	bl	0x1dc8 <vbc_mux_adc_source_put+0x164>
-    1dcc:      	bl	0x1dcc <vbc_mux_adc_source_put+0x168>
-
-0000000000001dd0 <vbc_mux_dac_out_get>:
-    1dd0:      	str	x30, [x18], #0x8
-    1dd4:      	stp	x29, x30, [sp, #-0x10]!
-    1dd8:      	mov	x29, sp
-    1ddc:      	ldr	x8, [x0, #0x78]
-    1de0:      	ldr	w8, [x8]
-    1de4:      	cmp	w8, #0x2
-    1de8:      	b.hs	0x1e14 <vbc_mux_dac_out_get+0x44>
-    1dec:      	ldr	x9, [x0, #0x80]
-    1df0:      	mov	w0, wzr
-    1df4:      	ldr	x9, [x9, #0x18]
-    1df8:      	ldr	x9, [x9, #0x98]
-    1dfc:      	add	x8, x9, x8, lsl #3
+0	INT	2	VBC DAC0 DSP MDG Set                     0 1
+1	INT	2	VBC DAC1 DSP MDG Set                     0 4
+2	INT	2	VBC DAC0 AUD MDG Set                     0 1
+3	INT	2	VBC DAC0 AUD23 MDG Set                   0 1
+4	INT	1	VBC_SRC_DAC0                             0
+5	INT	1	VBC_SRC_DAC1                             0
+6	INT	1	VBC_SRC_ADC0                             0
+7	INT	1	VBC_SRC_ADC1                             0
+8	INT	1	VBC_SRC_ADC2                             0
+9	INT	1	VBC_SRC_ADC3                             0
+10	INT	1	VBC_SRC_BT_DAC                           0
+11	INT	1	VBC_SRC_BT_ADC                           0
+12	INT	1	VBC_SRC_FM                               0
+13	INT	2	VBC DAC0 DG Set                          0 0
+14	INT	2	VBC DAC1 DG Set                          0 0
+15	INT	2	VBC ADC0 DG Set                          21 21
+16	INT	2	VBC ADC1 DG Set                          0 0
+17	INT	2	VBC ADC2 DG Set                          0 0
+18	INT	2	VBC ADC3 DG Set                          0 0
+19	INT	2	VBC FM DG Set                            0 0
+20	INT	2	VBC ST DG Set                            0 0
+21	INT	2	OFFLOAD DG Set                           0 0
+22	INT	2	VBC_SMTHDG_DAC0                          0 0
+23	INT	1	VBC_SMTHDG_DAC0_STEP                     0
+24	INT	2	VBC_MIXERDG_DAC0_MAIN                    0 0
+25	INT	2	VBC_MIXERDG_DAC0_MIX                     0 0
+26	INT	2	VBC_MIXERDG_DAC1_MAIN                    0 0
+27	INT	2	VBC_MIXERDG_DAC1_MIX                     0 0
+28	INT	1	VBC_MIXERDG_STEP                         0
+29	ENUM	1	VBC_MIXER0_DAC0                          NOT_MIX
+30	ENUM	1	VBC_MIXER1_DAC0                          NOT_MIX
+31	ENUM	1	VBC_MIXER0_DAC1                          NOT_MIX
+32	ENUM	1	VBC_MIXER_ST                             NOT_MIX
+33	ENUM	1	VBC_MIXER_FM                             NOT_MIX
+34	ENUM	1	VBC_MUX_ADC0_SOURCE                      ADC_SOURCE_IIS
+35	ENUM	1	VBC_MUX_ADC1_SOURCE                      ADC_SOURCE_IIS
+36	ENUM	1	VBC_MUX_ADC2_SOURCE                      ADC_SOURCE_IIS
+37	ENUM	1	VBC_MUX_ADC3_SOURCE                      ADC_SOURCE_IIS
+38	ENUM	1	VBC_MUX_DAC0_OUT_SEL                     DAC_OUT_FROM_IIS
+39	ENUM	1	VBC_MUX_DAC1_OUT_SEL                     DAC_OUT_FROM_IIS
+40	ENUM	1	VBC_MUX_ADC0                             ADC_IN_IIS0_ADC
+41	ENUM	1	VBC_MUX_ADC1                             ADC_IN_IIS0_ADC
+42	ENUM	1	VBC_MUX_ADC2                             ADC_IN_IIS0_ADC
+43	ENUM	1	VBC_MUX_ADC3                             ADC_IN_IIS0_ADC
+44	ENUM	1	VBC_MUX_FM                               FM_IN_FM_SRC_OUT
+45	ENUM	1	VBC_MUX_ST                               ST_IN_ADC0
+46	ENUM	1	VBC_MUX_LOOP_DAC0                        DAC0_SMTHDG_OUT
+47	ENUM	1	VBC_MUX_LOOP_DAC1                        DAC1_MIXER_OUT
+48	ENUM	1	VBC_MUX_LOOP_DAC0_DAC1                   DAC0_DAC1_SEL_DAC1
+49	ENUM	1	VBC_MUX_AUDRCD01                         AUDRCD_IN_ADC0
+50	ENUM	1	VBC_MUX_AUDRCD23                         AUDRCD_IN_ADC0
+51	ENUM	1	VBC_MUX_TDM_AUDRCD23                     AUDRCD23_TDM_SEL_AUDRCD23
+52	ENUM	1	VBC_MUX_AP01_DSP_PLY                     AP01_TO_DSP_DISABLE
+53	ENUM	1	VBC_MUX_AP01_DSP_RCD                     AP01_TO_DSP_DISABLE
+54	ENUM	1	VBC_MUX_DAC0_IIS_PORT_SEL                VBC_IIS_PORT_IIS0
+55	ENUM	1	VBC_MUX_DAC1_IIS_PORT_SEL                VBC_IIS_PORT_IIS1
+56	ENUM	1	VBC_MUX_DAC2_IIS_PORT_SEL                VBC_IIS_PORT_IIS2
+57	ENUM	1	VBC_MUX_ADC0_IIS_PORT_SEL                VBC_IIS_PORT_IIS0
+58	ENUM	1	VBC_MUX_ADC1_IIS_PORT_SEL                VBC_IIS_PORT_IIS0
+59	ENUM	1	VBC_MUX_ADC2_IIS_PORT_SEL                VBC_IIS_PORT_IIS0
+60	ENUM	1	VBC_MUX_ADC3_IIS_PORT_SEL                VBC_IIS_PORT_IIS3
+61	ENUM	1	VBC_MUX_IIS0_PORT_DO_SEL                 IIS_DO_VAL_DAC0
+62	ENUM	1	VBC_MUX_IIS1_PORT_DO_SEL                 IIS_DO_VAL_DAC1
+63	ENUM	1	VBC_MUX_IIS2_PORT_DO_SEL                 IIS_DO_VAL_DAC2
+64	ENUM	1	VBC_MUX_IIS3_PORT_DO_SEL                 IIS_DO_VAL_DAC0
+65	ENUM	1	VBC_MUX_MST_IIS0_PORT_DO_SEL             IIS_DO_VAL_DAC0
+66	ENUM	1	VBC_ADDER_OFLD                           ADDER_MOD_IGNORE
+67	ENUM	1	VBC_ADDER_FM_DAC0                        ADDER_MOD_IGNORE
+68	ENUM	1	VBC_ADDER_ST_DAC0                        ADDER_MOD_IGNORE
+69	INT	1	VBC_DSP_LOOPBACK_ARM_RATE                0
+70	INT	1	VBC_DSP_LOOPBACK_VOICE_FMT               0
+71	INT	1	VBC_DSP_LOOPBACK_LOOP_MODE               0
+72	ENUM	1	VBC_DSP_LOOPBACK_TYPE                    ADDA
+73	ENUM	1	VBC_DAC0_DP_EN                           disable
+74	ENUM	1	VBC_DAC1_DP_EN                           disable
+75	ENUM	1	VBC_DAC2_DP_EN                           disable
+76	ENUM	1	VBC_ADC0_DP_EN                           disable
+77	ENUM	1	VBC_ADC1_DP_EN                           disable
+78	ENUM	1	VBC_ADC2_DP_EN                           disable
+79	ENUM	1	VBC_ADC3_DP_EN                           disable
+80	ENUM	1	VBC_OFLD_DP_EN                           disable
+81	ENUM	1	VBC_FM_DP_EN                             disable
+82	ENUM	1	VBC_ST_DP_EN                             disable
+83	ENUM	1	VBC_UL_MUTE                              disable
+84	ENUM	1	VBC_DL_MUTE                              disable
+85	ENUM	1	VBC IIS Master Setting                   disable_iis0
+86	BOOL	1	agdsp_access_en                          On
+87	BOOL	1	agdsp_access_a2dp_en                     On
+88	INT	1	VBC FM_MUTE_SMOOTHDG STEP                1
+89	ENUM	1	VBC_FM_UNMUTE_SMOOTH                     mute
+90	INT	1	VBC_VOLUME                               0
+91	INT	1	Audio Structure Profile Update           0
+92	INT	1	DSP VBC Profile Update                   0
+93	INT	1	CVS Profile Update                       0
+94	INT	1	DSP SMARTAMP Update                      0
+95	INT	1	Audio Structure Profile Select           0
+96	INT	1	DSP VBC Profile Select                   0
+97	INT	1	NXP Profile Select                       0
+98	INT	1	DSP FFSMARTAMP Select                    0
+99	ENUM	1	VBC_IIS_TX0_WD_SEL                       WD_24BIT
+100	ENUM	1	VBC_IIS_TX1_WD_SEL                       WD_16BIT
+101	ENUM	1	VBC_IIS_TX2_WD_SEL                       WD_16BIT
+102	ENUM	1	VBC_IIS_RX0_WD_SEL                       WD_24BIT
+103	ENUM	1	VBC_IIS_RX1_WD_SEL                       WD_24BIT
+104	ENUM	1	VBC_IIS_RX2_WD_SEL                       WD_24BIT
+105	ENUM	1	VBC_IIS_RX3_WD_SEL                       WD_16BIT
+106	ENUM	1	VBC_IIS_TX0_LRMOD_SEL                    LEFT_HIGH
+107	ENUM	1	VBC_IIS_TX1_LRMOD_SEL                    LEFT_HIGH
+108	ENUM	1	VBC_IIS_TX2_LRMOD_SEL                    LEFT_HIGH
+109	ENUM	1	VBC_IIS_RX0_LRMOD_SEL                    LEFT_HIGH
+110	ENUM	1	VBC_IIS_RX1_LRMOD_SEL                    LEFT_HIGH
+111	ENUM	1	VBC_IIS_RX2_LRMOD_SEL                    LEFT_HIGH
+112	ENUM	1	VBC_IIS_RX3_LRMOD_SEL                    LEFT_HIGH
+113	ENUM	1	VBC_IIS_MASTER_ENALBE                    disable
+114	ENUM	1	VBC_IIS_MST_SEL_0_TYPE                   VBC_MASTER_EXTERNAL
+115	ENUM	1	VBC_IIS_MST_SEL_1_TYPE                   VBC_MASTER_EXTERNAL
+116	ENUM	1	VBC_IIS_MST_SEL_2_TYPE                   VBC_MASTER_EXTERNAL
+117	ENUM	1	VBC_IIS_MST_SEL_3_TYPE                   VBC_MASTER_EXTERNAL
+118	ENUM	1	VBC_IIS_MST_WIDTH_SET                    WD_16BIT
+119	ENUM	1	VBC_DSP_MAINMIC_PATH_SEL                 MAINMIC_FROM_LEFT
+120	ENUM	1	VBC_DSP_MAINMIC_REF_PATH_SEL             MAINMIC_FROM_LEFT
+121	ENUM	1	IVSENCE_FUNC_DSP                         disable
+122	ENUM	1	ag_iis0_ext_sel                          disable
+123	ENUM	1	ag_iis1_ext_sel                          disable
+124	ENUM	1	ag_iis2_ext_sel                          disable
+125	ENUM	1	ag_iis0_ext_sel_v1                       top_dac_iis
+126	ENUM	1	ag_iis1_ext_sel_v1                       top_adc_iis0
+127	ENUM	1	ag_iis2_ext_sel_v1                       l5_top_usb_iism
+128	ENUM	1	ag_iis4_ext_sel_v1                       top_adc_iis1
+129	ENUM	1	ag_iis0_ext_sel_v2                       pad_top
+130	ENUM	1	ag_iis1_ext_sel_v2                       aud_4ad_iis0_ad0
+131	ENUM	1	ag_iis2_ext_sel_v2                       pad_top
+132	ENUM	1	ag_iis4_ext_sel_v2                       pad_top
+133	ENUM	1	ag_iis3_ext_sel_v2                       pad_top
+134	ENUM	1	SYS_IIS0                                 vbc_iis0
+135	ENUM	1	SYS_IIS1                                 ap_iis0
+136	ENUM	1	SYS_IIS2                                 vbc_iis0
+137	ENUM	1	SYS_IIS3                                 vbc_iis0
+138	ENUM	1	SYS_IIS4                                 vbc_iis0
+139	ENUM	1	SYS_IIS5                                 vbc_iis0
+140	ENUM	1	SYS_IIS6                                 vbc_iis0
+141	INT	1	VBC_BAK_REG_SET                          0
+142	ENUM	1	VBC_DUMP_POS                             DUMP_POS_DAC0_E
+143	ENUM	1	VBC_DUMP_POS_CMD                         DUMP_POS_DAC0_E
+144	BYTE	64	SBC_PARAS                                 00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+145	ENUM	1	VBC_IIS_INF_SYS_SEL                      vbc_iis_to_aon_usb
+146	ENUM	1	DMIC_CHN_SEL                             VBC_DMIC_NONE
+147	ENUM	1	VBC_DSP_VOICE_CAPTURE_TYPE               VOICE_CAPTURE_DOWNLINK
+148	ENUM	1	VBC_DSP_VOICE_PCM_PLAY_MODE              VOICE_PCM_PLAY_UPLINK_MIX
+149	ENUM	1	VAD_DIN_AD_SEL                           vad_din_sel_add0
+150	BOOL	1	HP_CROSSTALK_EN                          Off
+151	INT	2	HP_CROSSTALK_GAIN                        0 0
+152	ENUM	1	DSP_AUX_MIC2_SEL                         disable
+153	ENUM	1	DSP_SMARTAMP_IV_EXCHANGE                 disable
+154	ENUM	1	DSP_DAC0_LR_EXCHANGE                     disable
+155	ENUM	1	VBC_CUSTM_DEV_CHANGE                     TYPE_INIT
+156	ENUM	1	VBC_SYSTEM_DEV_CHANGE                    TYPE_INIT
+157	ENUM	1	VBC_CUSTM_VOL_CHANGE                     VOL_DOWN
+158	BOOL	1	AUDIO_ZOOM_ST                            Off
+159	INT	1	AUDIO_ZOOM_RATIO                         0
+160	BYTE	20	AUDIO_ZOOM_FOCUS                          00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+161	BYTE	20	DSP IIS Port En                           00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+162	BYTE	20	DSP IIS Params                            00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+163	ENUM	1	SYS_DMIC0                                pdm_dmic0
+164	ENUM	1	SYS_DMIC1                                pdm_dmic0
+165	ENUM	1	SYS_DMIC2                                pdm_dmic0
+166	ENUM	1	Aud Codec Info                           ump9620
+167	INT	1	Inter PA Config                          303
+168	ENUM	1	DAC LRCLK Select                         normal
+169	ENUM	1	ADC LRCLK Select                         invert
+170	ENUM	1	ADC1 LRCLK Select                        invert
+171	INT	1	HP mix mode                              0
+172	INT	1	SPK DG fall                              1
+173	ENUM	1	DAS Input Mux                            L+R
+174	INT	1	TEST_FIXED_RATE                          48000
+175	BOOL	1	Codec Digital Access Disable             Off
+176	ENUM	1	IVSENCE_DMIC_SEL                         NONE
+177	BOOL	1	DALDO BYPASS                             Off
+178	ENUM	1	CLK 26M IN SEL                           in_26m
+179	INT	1	DRV SOFT T                               0
+180	ENUM	1	DAAOL BUF DCCAL                          HW_CAL_MODE
+181	ENUM	1	DAAOR BUF DCCAL                          HW_CAL_MODE
+182	ENUM	1	DAHP OS INV                              normal
+183	INT	1	DAHP OS D                                0
+184	ENUM	1	DAHPL BUF DCCAL                          HW_CAL_MODE
+185	ENUM	1	DAHPR BUF DCCAL                          HW_CAL_MODE
+186	BOOL	1	RCV POP RAMP                             Off
+187	INT	1	SDM_L SET                                0
+188	INT	1	SDM_H SET                                0
+189	ENUM	1	HP CHN TYPE                              HP_LR_TYPE
+190	ENUM	1	ADD0 DATA SEL                            ADD0_DATA_MIC13
+191	BOOL	1	BIAS Power                               Off
+192	INT	1	Codec Chip ID                            40962
+193	BOOL	1	PDM MODULE EN                            Off
+194	INT	1	PDM ADC0L DG                             16
+195	INT	1	PDM ADC0R DG                             16
+196	INT	1	PDM ADC2L DG                             16
+197	INT	1	PDM ADC2R DG                             16
+198	INT	1	DP Data Width                            24
+199	BOOL	1	Speaker Function                         Off
+200	BOOL	1	Speaker1 Function                        Off
+201	BOOL	1	Earpiece Function                        Off
+202	BOOL	1	HeadPhone Function                       Off
+203	BOOL	1	Line Function                            Off
+204	BOOL	1	Mic Function                             On
+205	BOOL	1	Aux Mic Function                         Off
+206	BOOL	1	Aux Mic2 Function                        On
+207	BOOL	1	HP Mic Function                          Off
+208	BOOL	1	DMic Function                            Off
+209	BOOL	1	DMic1 Function                           Off
+210	BOOL	1	Digital FM Function                      Off
+211	BOOL	1	Speaker Mute                             Off
+212	BOOL	1	Speaker2 Mute                            Off
+213	BOOL	1	HeadPhone Mute                           Off
+214	BOOL	1	Earpiece Mute                            Off
+215	ENUM	1	SmartAmp Boost                           Bypass
+216	BOOL	1	S_NORMAL_AP01_P_CODEC SWITCH             Off
+217	BOOL	1	S_NORMAL_AP01_C_CODEC SWITCH             Off
+218	BOOL	1	S_NORMAL_AP23_P_CODEC SWITCH             Off
+219	BOOL	1	S_NORMAL_AP23_C_CODEC SWITCH             Off
+220	BOOL	1	S_CAPTURE_DSP_CODEC SWITCH               Off
+221	BOOL	1	S_FAST_P_CODEC SWITCH                    Off
+222	BOOL	1	S_FAST_P_CODEC_MM SWITCH                 Off
+223	BOOL	1	S_OFFLOAD_CODEC SWITCH                   Off
+224	BOOL	1	S_VOICE_P_CODEC SWITCH                   Off
+225	BOOL	1	S_VOICE_C_CODEC SWITCH                   Off
+226	BOOL	1	S_VOIP_P_CODEC SWITCH                    Off
+227	BOOL	1	S_VOIP_C_CODEC SWITCH                    Off
+228	BOOL	1	S_FM_CODEC SWITCH                        Off
+229	BOOL	1	S_LOOP_P_CODEC SWITCH                    Off
+230	BOOL	1	S_LOOP_C_CODEC SWITCH                    Off
+231	BOOL	1	S_FM_DSP_CODEC SWITCH                    Off
+232	BOOL	1	S_NORMAL_AP01_P_USB SWITCH               Off
+233	BOOL	1	S_NORMAL_AP01_C_USB SWITCH               Off
+234	BOOL	1	S_NORMAL_AP23_P_USB SWITCH               Off
+235	BOOL	1	S_NORMAL_AP23_C_USB SWITCH               Off
+236	BOOL	1	S_CAPTURE_DSP_USB SWITCH                 Off
+237	BOOL	1	S_FAST_P_USB SWITCH                      Off
+238	BOOL	1	S_OFFLOAD_USB SWITCH                     Off
+239	BOOL	1	S_VOICE_P_USB SWITCH                     Off
+240	BOOL	1	S_VOICE_C_USB SWITCH                     Off
+241	BOOL	1	S_VOIP_P_USB SWITCH                      Off
+242	BOOL	1	S_VOIP_C_USB SWITCH                      Off
+243	BOOL	1	S_FM_USB SWITCH                          Off
+244	BOOL	1	S_LOOP_P_USB SWITCH                      Off
+245	BOOL	1	S_LOOP_C_USB SWITCH                      Off
+246	BOOL	1	S_FM_DSP_USB SWITCH                      Off
+247	BOOL	1	S_OFFLOAD_A2DP SWITCH                    Off
+248	BOOL	1	S_PCM_A2DP SWITCH                        Off
+249	BOOL	1	S_VOICE_P_BT SWITCH                      Off
+250	BOOL	1	S_VOICE_C_BT SWITCH                      Off
+251	BOOL	1	S_VOIP_P_BT SWITCH                       Off
+252	BOOL	1	S_VOIP_C_BT SWITCH                       Off
+253	BOOL	1	S_LOOP_P_BT SWITCH                       Off
+254	BOOL	1	S_LOOP_C_BT SWITCH                       Off
+255	BOOL	1	S_CAPTURE_BT SWITCH                      Off
+256	BOOL	1	S_FAST_P_BT SWITCH                       Off
+257	BOOL	1	S_NORMAL_AP01_P_BT SWITCH                Off
+258	BOOL	1	S_NORMAL_AP01_P_HIFI SWITCH              Off
+259	BOOL	1	S_NORMAL_AP23_P_HIFI SWITCH              Off
+260	BOOL	1	S_FAST_P_HIFI SWITCH                     Off
+261	BOOL	1	S_OFFLOAD_HIFI SWITCH                    Off
+262	BOOL	1	S_VOICE_P_HIFI SWITCH                    Off
+263	BOOL	1	S_VOIP_P_HIFI SWITCH                     Off
+264	BOOL	1	S_FM_HIFI SWITCH                         Off
+265	BOOL	1	S_LOOP_P_HIFI SWITCH                     Off
+266	BOOL	1	S_FM_DSP_HIFI SWITCH                     Off
+267	BOOL	1	S_VOICE_CAP_C SWITCH                     Off
+268	BOOL	1	S_FM_CAP_C SWITCH                        Off
+269	BOOL	1	S_FM_CAP_DSP_C SWITCH                    Off
+270	BOOL	1	S_BTSCO_CAP_DSP_C SWITCH                 Off
+271	BOOL	1	S_VBC_DUMP SWITCH                        Off
+272	BOOL	1	S_HFP_P SWITCH                           Off
+273	BOOL	1	S_HFP_C SWITCH                           Off
+274	BOOL	1	S_CAPTURE_RECOGNISE_CODEC SWITCH         Off
+275	BOOL	1	S_VOICE_PCM_P SWITCH                     Off
+276	BOOL	1	S_NORMAL_AP01_P_SMTPA SWITCH             Off
+277	BOOL	1	S_NORMAL_AP23_P_SMTPA SWITCH             Off
+278	BOOL	1	S_FAST_P_SMTPA SWITCH                    Off
+279	BOOL	1	S_FAST_P_SMART_AMP SWITCH                Off
+280	BOOL	1	S_OFFLOAD_SMTPA SWITCH                   Off
+281	BOOL	1	S_VOICE_P_SMTPA SWITCH                   Off
+282	BOOL	1	S_VOIP_P_SMTPA SWITCH                    Off
+283	BOOL	1	S_FM_SMTPA SWITCH                        Off
+284	BOOL	1	S_LOOP_P_SMTPA SWITCH                    Off
+285	BOOL	1	S_FM_DSP_SMTPA SWITCH                    Off
+286	BOOL	1	S_HIFI_P SWITCH                          Off
+287	BOOL	1	S_DSP_HIFI_FAST_P SWITCH                 Off
+288	BOOL	1	S_AGCP_IIS0_TX SWITCH                    Off
+289	BOOL	1	S_NORMAL_AP01_EXCODEC SWITCH             On
+290	BOOL	1	S_NORMAL_AP23_ECXCODEC SWITCH            On
+291	BOOL	1	S_CAPTURE_DSP_EXCODEC SWITCH             On
+292	BOOL	1	S_VOICE_EXCODEC SWITCH                   On
+293	BOOL	1	S_VOIP_EXCODEC SWITCH                    On
+294	BOOL	1	S_NORMAL_AP01_C_DMIC0 SWITCH             Off
+295	BOOL	1	S_NORMAL_AP23_C_DMIC0 SWITCH             Off
+296	BOOL	1	S_CAPTURE_DSP_DMIC0 SWITCH               Off
+297	BOOL	1	S_VOICE_C_DMIC0 SWITCH                   Off
+298	BOOL	1	S_VOIP_C_DMIC0 SWITCH                    Off
+299	BOOL	1	S_LOOP_DMIC0 SWITCH                      Off
+300	BOOL	1	ADC_1 Mixer MIC1PGA_1 Switch             On
+301	BOOL	1	ADC_1 Mixer HPMICPGA_1 Switch            Off
+302	BOOL	1	ADC_2 Mixer MIC2PGA_2 Switch             Off
+303	BOOL	1	ADC_2 Mixer HPMICPGA_2 Switch            Off
+304	BOOL	1	ADC_3 Mixer MIC3PGA_3 Switch             On
+305	BOOL	1	ADC_3 Mixer HPMICPGA_3 Switch            Off
+306	BOOL	1	VAD_SMIC1 Switch                         Off
+307	BOOL	1	VAD_SMIC2 Switch                         Off
+308	BOOL	1	VAD_SMIC3 Switch                         Off
+309	BOOL	1	AUD ADC0L Switch                         On
+310	BOOL	1	AUD ADC0R Switch                         On
+311	BOOL	1	AUD ADC1L Switch                         Off
+312	BOOL	1	AUD ADC1R Switch                         Off
+313	INT	1	ADC_1 Gain ADC_1 Capture Volume          6
+314	INT	1	ADC_2 Gain ADC_2 Capture Volume          7
+315	INT	1	ADC_3 Gain ADC_3 Capture Volume          6
+316	INT	1	VAD_AD Gain VAD Capture Volume           0
+317	INT	1	DAC Gain DAC Playback Volume             0
+318	INT	1	AO Gain AO Playback Volume               0
+319	BOOL	1	AO Mixer AOL Switch                      Off
+320	BOOL	1	AO Mixer AOR Switch                      Off
+321	ENUM	1	AOL EAR Sel                              EAR
+322	BOOL	1	DA AOR Switch                            Off
+323	INT	1	HPL Gain HPL Playback Volume             15
+324	INT	1	HPR Gain HPR Playback Volume             15
+325	BOOL	1	HPL Mixer DACLHPL Switch                 Off
+326	BOOL	1	HPR Mixer DACRHPR Switch                 Off
+327	BOOL	1	HP Virt Switch                           Off
+328	INT	1	EAR Gain EAR Playback Volume             15
+329	BOOL	1	EAR_HPL Mixer DACHPL Switch              Off
+330	BOOL	1	EAR_AOL Mixer DACAOL Switch              Off
+331	ENUM	1	HPL EAR Sel                              EAR
+332	BOOL	1	Virt Output Switch                       Off
+333	BOOL	1	ADC-DAC Adie Loop switch                 Off
+334	BOOL	1	ADC1-DAC Adie Loop switch                Off
+335	BOOL	1	ADC-DAC Digital Loop switch              Off
+336	BOOL	1	ADC1-DAC Digital Loop switch             Off
+337	ENUM	1	Digital ADC In Sel                       ADC
+338	ENUM	1	Digital ADC1 In Sel                      ADC
+339	BOOL	1	VAD_VirtL Switch                         Off
+340	BOOL	1	VAD_VirtR Switch                         Off
+341	BOOL	1	PDM_DMIC0 Switch                         Off
+342	BOOL	1	PDM_DMIC1 Switch                         Off
+343	BOOL	1	PDM_DMIC2 Switch                         Off
+zhifawang@Mac 7870_audio_ko % adb shell su -c '/system/bin/tinymix -D 0 -a'
+Mixer name: 'sprdphone-sc2730'
+Number of controls: 344
+ctl	type	num	name                                     value
+	range/values
+0	INT	2	VBC DAC0 DSP MDG Set                     0 1 (dsrange 0->8191)
+1	INT	2	VBC DAC1 DSP MDG Set                     0 4 (dsrange 0->8191)
+2	INT	2	VBC DAC0 AUD MDG Set                     0 1 (dsrange 0->8191)
+3	INT	2	VBC DAC0 AUD23 MDG Set                   0 1 (dsrange 0->8191)
+4	INT	1	VBC_SRC_DAC0                             0 (dsrange 0->48000)
+5	INT	1	VBC_SRC_DAC1                             0 (dsrange 0->48000)
+6	INT	1	VBC_SRC_ADC0                             0 (dsrange 0->48000)
+7	INT	1	VBC_SRC_ADC1                             0 (dsrange 0->48000)
+8	INT	1	VBC_SRC_ADC2                             0 (dsrange 0->48000)
+9	INT	1	VBC_SRC_ADC3                             0 (dsrange 0->48000)
+10	INT	1	VBC_SRC_BT_DAC                           0 (dsrange 0->48000)
+11	INT	1	VBC_SRC_BT_ADC                           0 (dsrange 0->48000)
+12	INT	1	VBC_SRC_FM                               0 (dsrange 0->48000)
+13	INT	2	VBC DAC0 DG Set                          0 0 (dsrange 0->127)
+14	INT	2	VBC DAC1 DG Set                          0 0 (dsrange 0->127)
+15	INT	2	VBC ADC0 DG Set                          21 21 (dsrange 0->127)
+16	INT	2	VBC ADC1 DG Set                          0 0 (dsrange 0->127)
+17	INT	2	VBC ADC2 DG Set                          0 0 (dsrange 0->127)
+18	INT	2	VBC ADC3 DG Set                          0 0 (dsrange 0->127)
+19	INT	2	VBC FM DG Set                            0 0 (dsrange 0->127)
+20	INT	2	VBC ST DG Set                            0 0 (dsrange 0->127)
+21	INT	2	OFFLOAD DG Set                           0 0 (dsrange 0->4096)
+22	INT	2	VBC_SMTHDG_DAC0                          0 0 (dsrange 0->65535)
+23	INT	1	VBC_SMTHDG_DAC0_STEP                     0 (dsrange 0->8191)
+24	INT	2	VBC_MIXERDG_DAC0_MAIN                    0 0 (dsrange 0->65535)
+25	INT	2	VBC_MIXERDG_DAC0_MIX                     0 0 (dsrange 0->65535)
+26	INT	2	VBC_MIXERDG_DAC1_MAIN                    0 0 (dsrange 0->65535)
+27	INT	2	VBC_MIXERDG_DAC1_MIX                     0 0 (dsrange 0->65535)
+28	INT	1	VBC_MIXERDG_STEP                         0 (dsrange 0->65535)
+29	ENUM	1	VBC_MIXER0_DAC0                          >NOT_MIX INTERCHANGE HALF_ADD HALF_SUB DATA_INV INTERCHANGE_INV HALF_ADD_INV HALF_SUB_INV
+30	ENUM	1	VBC_MIXER1_DAC0                          >NOT_MIX INTERCHANGE HALF_ADD HALF_SUB DATA_INV INTERCHANGE_INV HALF_ADD_INV HALF_SUB_INV
+31	ENUM	1	VBC_MIXER0_DAC1                          >NOT_MIX INTERCHANGE HALF_ADD HALF_SUB DATA_INV INTERCHANGE_INV HALF_ADD_INV HALF_SUB_INV
+32	ENUM	1	VBC_MIXER_ST                             >NOT_MIX INTERCHANGE HALF_ADD HALF_SUB DATA_INV INTERCHANGE_INV HALF_ADD_INV HALF_SUB_INV
+33	ENUM	1	VBC_MIXER_FM                             >NOT_MIX INTERCHANGE HALF_ADD HALF_SUB DATA_INV INTERCHANGE_INV HALF_ADD_INV HALF_SUB_INV
+34	ENUM	1	VBC_MUX_ADC0_SOURCE                      >ADC_SOURCE_IIS ADC_SOURCE_VBCIF
+35	ENUM	1	VBC_MUX_ADC1_SOURCE                      >ADC_SOURCE_IIS ADC_SOURCE_VBCIF
+36	ENUM	1	VBC_MUX_ADC2_SOURCE                      >ADC_SOURCE_IIS ADC_SOURCE_VBCIF
+37	ENUM	1	VBC_MUX_ADC3_SOURCE                      >ADC_SOURCE_IIS ADC_SOURCE_VBCIF
+38	ENUM	1	VBC_MUX_DAC0_OUT_SEL                     >DAC_OUT_FROM_IIS DAC_OUT_FROM_VBCIF
+39	ENUM	1	VBC_MUX_DAC1_OUT_SEL                     >DAC_OUT_FROM_IIS DAC_OUT_FROM_VBCIF
+40	ENUM	1	VBC_MUX_ADC0                             >ADC_IN_IIS0_ADC ADC_IN_IIS1_ADC ADC_IN_IIS2_ADC ADC_IN_IIS3_ADC ADC_IN_DAC0 ADC_IN_DAC1 ADC_IN_DAC_LOOP ADC_IN_TDM
+41	ENUM	1	VBC_MUX_ADC1                             >ADC_IN_IIS0_ADC ADC_IN_IIS1_ADC ADC_IN_IIS2_ADC ADC_IN_IIS3_ADC ADC_IN_DAC0 ADC_IN_DAC1 ADC_IN_DAC_LOOP ADC_IN_TDM
+42	ENUM	1	VBC_MUX_ADC2                             >ADC_IN_IIS0_ADC ADC_IN_IIS1_ADC ADC_IN_IIS2_ADC ADC_IN_IIS3_ADC ADC_IN_DAC0 ADC_IN_DAC1 ADC_IN_DAC_LOOP ADC_IN_TDM
+43	ENUM	1	VBC_MUX_ADC3                             >ADC_IN_IIS0_ADC ADC_IN_IIS1_ADC ADC_IN_IIS2_ADC ADC_IN_IIS3_ADC ADC_IN_DAC0 ADC_IN_DAC1 ADC_IN_DAC_LOOP ADC_IN_TDM
+44	ENUM	1	VBC_MUX_FM                               >FM_IN_FM_SRC_OUT FM_IN_VBC_IF_ADC0 FM_IN_VBC_IF_ADC1 FM_IN_VBC_IF_ADC2
+45	ENUM	1	VBC_MUX_ST                               >ST_IN_ADC0 ST_IN_ADC0_DG ST_IN_ADC1 ST_IN_ADC1_DG ST_IN_ADC2 ST_IN_ADC2_DG ST_IN_ADC3 ST_IN_ADC3_DG
+46	ENUM	1	VBC_MUX_LOOP_DAC0                        >DAC0_SMTHDG_OUT DAC0_MIX1_OUT DAC0_EQ4_OUT DAC0_MBDRC_OUT
+47	ENUM	1	VBC_MUX_LOOP_DAC1                        >DAC1_MIXER_OUT DAC1_MIXERDG_OUT
+48	ENUM	1	VBC_MUX_LOOP_DAC0_DAC1                   >DAC0_DAC1_SEL_DAC1 DAC0_DAC1_SEL_DAC0
+49	ENUM	1	VBC_MUX_AUDRCD01                         >AUDRCD_IN_ADC0 AUDRCD_IN_ADC1 AUDRCD_IN_ADC2 AUDRCD_IN_ADC3
+50	ENUM	1	VBC_MUX_AUDRCD23                         >AUDRCD_IN_ADC0 AUDRCD_IN_ADC1 AUDRCD_IN_ADC2 AUDRCD_IN_ADC3
+51	ENUM	1	VBC_MUX_TDM_AUDRCD23                     >AUDRCD23_TDM_SEL_AUDRCD23 AUDRCD23_TDM_SEL_TDM
+52	ENUM	1	VBC_MUX_AP01_DSP_PLY                     >AP01_TO_DSP_DISABLE AP01_TO_DSP_ENABLE
+53	ENUM	1	VBC_MUX_AP01_DSP_RCD                     >AP01_TO_DSP_DISABLE AP01_TO_DSP_ENABLE
+54	ENUM	1	VBC_MUX_DAC0_IIS_PORT_SEL                >VBC_IIS_PORT_IIS0 VBC_IIS_PORT_IIS1 VBC_IIS_PORT_IIS2 VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
+55	ENUM	1	VBC_MUX_DAC1_IIS_PORT_SEL                VBC_IIS_PORT_IIS0 >VBC_IIS_PORT_IIS1 VBC_IIS_PORT_IIS2 VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
+56	ENUM	1	VBC_MUX_DAC2_IIS_PORT_SEL                VBC_IIS_PORT_IIS0 VBC_IIS_PORT_IIS1 >VBC_IIS_PORT_IIS2 VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
+57	ENUM	1	VBC_MUX_ADC0_IIS_PORT_SEL                >VBC_IIS_PORT_IIS0 VBC_IIS_PORT_IIS1 VBC_IIS_PORT_IIS2 VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
+58	ENUM	1	VBC_MUX_ADC1_IIS_PORT_SEL                >VBC_IIS_PORT_IIS0 VBC_IIS_PORT_IIS1 VBC_IIS_PORT_IIS2 VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
+59	ENUM	1	VBC_MUX_ADC2_IIS_PORT_SEL                >VBC_IIS_PORT_IIS0 VBC_IIS_PORT_IIS1 VBC_IIS_PORT_IIS2 VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
+60	ENUM	1	VBC_MUX_ADC3_IIS_PORT_SEL                VBC_IIS_PORT_IIS0 VBC_IIS_PORT_IIS1 VBC_IIS_PORT_IIS2 >VBC_IIS_PORT_IIS3 VBC_IIS_PORT_MST_IIS0
+61	ENUM	1	VBC_MUX_IIS0_PORT_DO_SEL                 >IIS_DO_VAL_DAC0 IIS_DO_VAL_DAC1 IIS_DO_VAL_DAC2
+62	ENUM	1	VBC_MUX_IIS1_PORT_DO_SEL                 IIS_DO_VAL_DAC0 >IIS_DO_VAL_DAC1 IIS_DO_VAL_DAC2
+63	ENUM	1	VBC_MUX_IIS2_PORT_DO_SEL                 IIS_DO_VAL_DAC0 IIS_DO_VAL_DAC1 >IIS_DO_VAL_DAC2
+64	ENUM	1	VBC_MUX_IIS3_PORT_DO_SEL                 >IIS_DO_VAL_DAC0 IIS_DO_VAL_DAC1 IIS_DO_VAL_DAC2
+65	ENUM	1	VBC_MUX_MST_IIS0_PORT_DO_SEL             >IIS_DO_VAL_DAC0 IIS_DO_VAL_DAC1 IIS_DO_VAL_DAC2
+66	ENUM	1	VBC_ADDER_OFLD                           >ADDER_MOD_IGNORE ADDER_MOD_ADD ADDER_MOD_MINUS
+67	ENUM	1	VBC_ADDER_FM_DAC0                        >ADDER_MOD_IGNORE ADDER_MOD_ADD ADDER_MOD_MINUS
+68	ENUM	1	VBC_ADDER_ST_DAC0                        >ADDER_MOD_IGNORE ADDER_MOD_ADD ADDER_MOD_MINUS
+69	INT	1	VBC_DSP_LOOPBACK_ARM_RATE                0 (dsrange 0->-1)
+70	INT	1	VBC_DSP_LOOPBACK_VOICE_FMT               0 (dsrange 0->-1)
+71	INT	1	VBC_DSP_LOOPBACK_LOOP_MODE               0 (dsrange 0->-1)
+72	ENUM	1	VBC_DSP_LOOPBACK_TYPE                    >ADDA AD_ULDL_DA_PROCESS AD_UL_ENCODE_DECODE_DL_DA_PROCESS
+73	ENUM	1	VBC_DAC0_DP_EN                           >disable enable
+74	ENUM	1	VBC_DAC1_DP_EN                           >disable enable
+75	ENUM	1	VBC_DAC2_DP_EN                           >disable enable
+76	ENUM	1	VBC_ADC0_DP_EN                           >disable enable
+77	ENUM	1	VBC_ADC1_DP_EN                           >disable enable
+78	ENUM	1	VBC_ADC2_DP_EN                           >disable enable
+79	ENUM	1	VBC_ADC3_DP_EN                           >disable enable
+80	ENUM	1	VBC_OFLD_DP_EN                           >disable enable
+81	ENUM	1	VBC_FM_DP_EN                             >disable enable
+82	ENUM	1	VBC_ST_DP_EN                             >disable enable
+83	ENUM	1	VBC_UL_MUTE                              >disable enable
+84	ENUM	1	VBC_DL_MUTE                              >disable enable
+85	ENUM	1	VBC IIS Master Setting                   >disable_iis0 disable_loop iis0 loop
+86	BOOL	1	agdsp_access_en                          On
+87	BOOL	1	agdsp_access_a2dp_en                     On
+88	INT	1	VBC FM_MUTE_SMOOTHDG STEP                1 (dsrange 0->4095)
+89	ENUM	1	VBC_FM_UNMUTE_SMOOTH                     >mute unmute
+90	INT	1	VBC_VOLUME                               0 (dsrange 0->-1)
+91	INT	1	Audio Structure Profile Update           0 (dsrange 0->2)
+92	INT	1	DSP VBC Profile Update                   0 (dsrange 0->2)
+93	INT	1	CVS Profile Update                       0 (dsrange 0->2)
+94	INT	1	DSP SMARTAMP Update                      0 (dsrange 0->2)
+95	INT	1	Audio Structure Profile Select           0 (dsrange 0->268435455)
+96	INT	1	DSP VBC Profile Select                   0 (dsrange 0->268435455)
+97	INT	1	NXP Profile Select                       0 (dsrange 0->268435455)
+98	INT	1	DSP FFSMARTAMP Select                    0 (dsrange 0->268435455)
+99	ENUM	1	VBC_IIS_TX0_WD_SEL                       WD_16BIT >WD_24BIT
+100	ENUM	1	VBC_IIS_TX1_WD_SEL                       >WD_16BIT WD_24BIT
+101	ENUM	1	VBC_IIS_TX2_WD_SEL                       >WD_16BIT WD_24BIT
+102	ENUM	1	VBC_IIS_RX0_WD_SEL                       WD_16BIT >WD_24BIT
+103	ENUM	1	VBC_IIS_RX1_WD_SEL                       WD_16BIT >WD_24BIT
+104	ENUM	1	VBC_IIS_RX2_WD_SEL                       WD_16BIT >WD_24BIT
+105	ENUM	1	VBC_IIS_RX3_WD_SEL                       >WD_16BIT WD_24BIT
+106	ENUM	1	VBC_IIS_TX0_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
+107	ENUM	1	VBC_IIS_TX1_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
+108	ENUM	1	VBC_IIS_TX2_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
+109	ENUM	1	VBC_IIS_RX0_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
+110	ENUM	1	VBC_IIS_RX1_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
+111	ENUM	1	VBC_IIS_RX2_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
+112	ENUM	1	VBC_IIS_RX3_LRMOD_SEL                    >LEFT_HIGH RIGHT_HIGH
+113	ENUM	1	VBC_IIS_MASTER_ENALBE                    >disable enable
+114	ENUM	1	VBC_IIS_MST_SEL_0_TYPE                   >VBC_MASTER_EXTERNAL VBC_MASTER_INTERNAL
+115	ENUM	1	VBC_IIS_MST_SEL_1_TYPE                   >VBC_MASTER_EXTERNAL VBC_MASTER_INTERNAL
+116	ENUM	1	VBC_IIS_MST_SEL_2_TYPE                   >VBC_MASTER_EXTERNAL VBC_MASTER_INTERNAL
+117	ENUM	1	VBC_IIS_MST_SEL_3_TYPE                   >VBC_MASTER_EXTERNAL VBC_MASTER_INTERNAL
+118	ENUM	1	VBC_IIS_MST_WIDTH_SET                    >WD_16BIT WD_24BIT
+119	ENUM	1	VBC_DSP_MAINMIC_PATH_SEL                 >MAINMIC_FROM_LEFT MAINMIC_FROM_RIGHT
+120	ENUM	1	VBC_DSP_MAINMIC_REF_PATH_SEL             >MAINMIC_FROM_LEFT MAINMIC_FROM_RIGHT
+121	ENUM	1	IVSENCE_FUNC_DSP                         >disable enable
+122	ENUM	1	ag_iis0_ext_sel                          >disable enable
+123	ENUM	1	ag_iis1_ext_sel                          >disable enable
+124	ENUM	1	ag_iis2_ext_sel                          >disable enable
+125	ENUM	1	ag_iis0_ext_sel_v1                       >top_dac_iis pdm_top_iis0 l5_top
+126	ENUM	1	ag_iis1_ext_sel_v1                       >top_adc_iis0 pdm_top_iis1 l5_top
+127	ENUM	1	ag_iis2_ext_sel_v1                       >l5_top_usb_iism top_adc_iis1 pdm_iis2
+128	ENUM	1	ag_iis4_ext_sel_v1                       >top_adc_iis1 pdm_iis2 l5_top
+129	ENUM	1	ag_iis0_ext_sel_v2                       >pad_top aud_4ad_iis0_da0 pdm_top_iis0
+130	ENUM	1	ag_iis1_ext_sel_v2                       pad_top >aud_4ad_iis0_ad0 pdm_top_iis1
+131	ENUM	1	ag_iis2_ext_sel_v2                       >pad_top aud_4ad_iis1_ad0 pdm_top_iis2
+132	ENUM	1	ag_iis4_ext_sel_v2                       >pad_top aud_4ad_iis1_ad0 pdm_top_iis2
+133	ENUM	1	ag_iis3_ext_sel_v2                       >pad_top aud_4ad_iis_da0
+134	ENUM	1	SYS_IIS0                                 >vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
+135	ENUM	1	SYS_IIS1                                 vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 >ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
+136	ENUM	1	SYS_IIS2                                 >vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
+137	ENUM	1	SYS_IIS3                                 >vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
+138	ENUM	1	SYS_IIS4                                 >vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
+139	ENUM	1	SYS_IIS5                                 >vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
+140	ENUM	1	SYS_IIS6                                 >vbc_iis0 vbc_iis1 vbc_iis2 vbc_iis3 vbc_iism0 ap_iis0 audcp_iis0 audcp_iis1 audcp_tdm3 audcp_tdm4
+141	INT	1	VBC_BAK_REG_SET                          0 (dsrange 0->2)
+142	ENUM	1	VBC_DUMP_POS                             >DUMP_POS_DAC0_E DUMP_POS_DAC1_E DUMP_POS_A4 DUMP_POS_A3 DUMP_POS_A2 DUMP_POS_A1 DUMP_POS_V2 DUMP_POS_V1 DUMP_POS_DAC0_TO_ADC1 DUMP_POS_DAC0_TO_ADC2 DUMP_POS_DAC0_TO_ADC3
+143	ENUM	1	VBC_DUMP_POS_CMD                         >DUMP_POS_DAC0_E DUMP_POS_DAC1_E DUMP_POS_A4 DUMP_POS_A3 DUMP_POS_A2 DUMP_POS_A1 DUMP_POS_V2 DUMP_POS_V1 DUMP_POS_DAC0_TO_ADC1 DUMP_POS_DAC0_TO_ADC2 DUMP_POS_DAC0_TO_ADC3
+144	BYTE	64	SBC_PARAS                                 00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+145	ENUM	1	VBC_IIS_INF_SYS_SEL                      vbc_iis_to_pad >vbc_iis_to_aon_usb
+146	ENUM	1	DMIC_CHN_SEL                             >VBC_DMIC_NONE VBC_DMIC_0L VBC_DMIC_0R VBC_DMIC_0L_0R VBC_DMIC_1L VBC_DMIC_0L_1L VBC_DMIC_0R_1L VBC_DMIC_0L_0R_1L VBC_DMIC_1R VBC_DMIC_0L_1R VBC_DMIC_0R_1R VBC_DMIC_0L_0R_1R VBC_DMIC_1L_1R VBC_DMIC_0L_1L_1R VBC_DMIC_0R_1L_1R VBC_DMIC_0L_0R_1L_1R
+147	ENUM	1	VBC_DSP_VOICE_CAPTURE_TYPE               >VOICE_CAPTURE_DOWNLINK VOICE_CAPTURE_UPLINK VOICE_CAPTURE_UPLINK_DOWNLINK
+148	ENUM	1	VBC_DSP_VOICE_PCM_PLAY_MODE              >VOICE_PCM_PLAY_UPLINK_MIX VOICE_PCM_PLAY_UPLINK_ONLY
+149	ENUM	1	VAD_DIN_AD_SEL                           >vad_din_sel_add0 vad_din_sel_add1
+150	BOOL	1	HP_CROSSTALK_EN                          Off
+151	INT	2	HP_CROSSTALK_GAIN                        0 0 (dsrange 0->65535)
+152	ENUM	1	DSP_AUX_MIC2_SEL                         >disable enable
+153	ENUM	1	DSP_SMARTAMP_IV_EXCHANGE                 >disable enable
+154	ENUM	1	DSP_DAC0_LR_EXCHANGE                     >disable enable
+155	ENUM	1	VBC_CUSTM_DEV_CHANGE                     >TYPE_INIT TYPE_RCV TYPE_HP TYPE_SPK TYPE_MIC TYPE_BT TYPE_USB_HP
+156	ENUM	1	VBC_SYSTEM_DEV_CHANGE                    >TYPE_INIT TYPE_RCV TYPE_HP TYPE_SPK TYPE_MIC TYPE_BT TYPE_USB_HP
+157	ENUM	1	VBC_CUSTM_VOL_CHANGE                     >VOL_DOWN VOL_UP
+158	BOOL	1	AUDIO_ZOOM_ST                            Off
+159	INT	1	AUDIO_ZOOM_RATIO                         0 (dsrange 0->-1)
+160	BYTE	20	AUDIO_ZOOM_FOCUS                          00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+161	BYTE	20	DSP IIS Port En                           00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+162	BYTE	20	DSP IIS Params                            00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+163	ENUM	1	SYS_DMIC0                                >pdm_dmic0 pdm_dmic1 pdm_dmic2
+164	ENUM	1	SYS_DMIC1                                >pdm_dmic0 pdm_dmic1 pdm_dmic2
+165	ENUM	1	SYS_DMIC2                                >pdm_dmic0 pdm_dmic1 pdm_dmic2
+166	ENUM	1	Aud Codec Info                           2713 2723 2723E 2723T 2731S Realtek 2721 2730 >ump9620
+167	INT	1	Inter PA Config                          303 (dsrange 0->2147483647)
+168	ENUM	1	DAC LRCLK Select                         >normal invert
+169	ENUM	1	ADC LRCLK Select                         normal >invert
+170	ENUM	1	ADC1 LRCLK Select                        normal >invert
+171	INT	1	HP mix mode                              0 (dsrange 0->2147483647)
+172	INT	1	SPK DG fall                              1 (dsrange 0->2147483647)
+173	ENUM	1	DAS Input Mux                            >L+R L*2 R*2 ZERO
+174	INT	1	TEST_FIXED_RATE                          48000 (dsrange 0->2147483647)
+175	BOOL	1	Codec Digital Access Disable             Off
+176	ENUM	1	IVSENCE_DMIC_SEL                         >NONE DMIC0 DMIC1 DMIC0_1
+177	BOOL	1	DALDO BYPASS                             Off
+178	ENUM	1	CLK 26M IN SEL                           >in_26m in_pll
+179	INT	1	DRV SOFT T                               0 (dsrange 0->7)
+180	ENUM	1	DAAOL BUF DCCAL                          >HW_CAL_MODE SW_CAL_MODE NOT_CAL
+181	ENUM	1	DAAOR BUF DCCAL                          >HW_CAL_MODE SW_CAL_MODE NOT_CAL
+182	ENUM	1	DAHP OS INV                              >normal invert
+183	INT	1	DAHP OS D                                0 (dsrange 0->7)
+184	ENUM	1	DAHPL BUF DCCAL                          >HW_CAL_MODE SW_CAL_MODE NOT_CAL
+185	ENUM	1	DAHPR BUF DCCAL                          >HW_CAL_MODE SW_CAL_MODE NOT_CAL
+186	BOOL	1	RCV POP RAMP                             Off
+187	INT	1	SDM_L SET                                0 (dsrange 0->2147483647)
+188	INT	1	SDM_H SET                                0 (dsrange 0->2147483647)
+189	ENUM	1	HP CHN TYPE                              >HP_LR_TYPE HP_R_TYPE HP_L_TYPE
+190	ENUM	1	ADD0 DATA SEL                            ADD0_DATA_MIC12 >ADD0_DATA_MIC13 ADD0_DATA_MIC23
+191	BOOL	1	BIAS Power                               Off
+192	INT	1	Codec Chip ID                            40962 (dsrange 0->2147483647)
+193	BOOL	1	PDM MODULE EN                            Off
+194	INT	1	PDM ADC0L DG                             16 (dsrange 0->255)
+195	INT	1	PDM ADC0R DG                             16 (dsrange 0->255)
+196	INT	1	PDM ADC2L DG                             16 (dsrange 0->255)
+197	INT	1	PDM ADC2R DG                             16 (dsrange 0->255)
+198	INT	1	DP Data Width                            24 (dsrange 0->24)
+199	BOOL	1	Speaker Function                         Off
+200	BOOL	1	Speaker1 Function                        Off
+201	BOOL	1	Earpiece Function                        Off
+202	BOOL	1	HeadPhone Function                       Off
+203	BOOL	1	Line Function                            Off
+204	BOOL	1	Mic Function                             On
+205	BOOL	1	Aux Mic Function                         Off
+206	BOOL	1	Aux Mic2 Function                        On
+207	BOOL	1	HP Mic Function                          Off
+208	BOOL	1	DMic Function                            Off
+209	BOOL	1	DMic1 Function                           Off
+210	BOOL	1	Digital FM Function                      Off
+211	BOOL	1	Speaker Mute                             Off
+212	BOOL	1	Speaker2 Mute                            Off
+213	BOOL	1	HeadPhone Mute                           Off
+214	BOOL	1	Earpiece Mute                            Off
+215	ENUM	1	SmartAmp Boost                           >Bypass 5V
+216	BOOL	1	S_NORMAL_AP01_P_CODEC SWITCH             Off
+217	BOOL	1	S_NORMAL_AP01_C_CODEC SWITCH             Off
+218	BOOL	1	S_NORMAL_AP23_P_CODEC SWITCH             Off
+219	BOOL	1	S_NORMAL_AP23_C_CODEC SWITCH             Off
+220	BOOL	1	S_CAPTURE_DSP_CODEC SWITCH               Off
+221	BOOL	1	S_FAST_P_CODEC SWITCH                    Off
+222	BOOL	1	S_FAST_P_CODEC_MM SWITCH                 Off
+223	BOOL	1	S_OFFLOAD_CODEC SWITCH                   Off
+224	BOOL	1	S_VOICE_P_CODEC SWITCH                   Off
+225	BOOL	1	S_VOICE_C_CODEC SWITCH                   Off
+226	BOOL	1	S_VOIP_P_CODEC SWITCH                    Off
+227	BOOL	1	S_VOIP_C_CODEC SWITCH                    Off
+228	BOOL	1	S_FM_CODEC SWITCH                        Off
+229	BOOL	1	S_LOOP_P_CODEC SWITCH                    Off
+230	BOOL	1	S_LOOP_C_CODEC SWITCH                    Off
+231	BOOL	1	S_FM_DSP_CODEC SWITCH                    Off
+232	BOOL	1	S_NORMAL_AP01_P_USB SWITCH               Off
+233	BOOL	1	S_NORMAL_AP01_C_USB SWITCH               Off
+234	BOOL	1	S_NORMAL_AP23_P_USB SWITCH               Off
+235	BOOL	1	S_NORMAL_AP23_C_USB SWITCH               Off
+236	BOOL	1	S_CAPTURE_DSP_USB SWITCH                 Off
+237	BOOL	1	S_FAST_P_USB SWITCH                      Off
+238	BOOL	1	S_OFFLOAD_USB SWITCH                     Off
+239	BOOL	1	S_VOICE_P_USB SWITCH                     Off
+240	BOOL	1	S_VOICE_C_USB SWITCH                     Off
+241	BOOL	1	S_VOIP_P_USB SWITCH                      Off
+242	BOOL	1	S_VOIP_C_USB SWITCH                      Off
+243	BOOL	1	S_FM_USB SWITCH                          Off
+244	BOOL	1	S_LOOP_P_USB SWITCH                      Off
+245	BOOL	1	S_LOOP_C_USB SWITCH                      Off
+246	BOOL	1	S_FM_DSP_USB SWITCH                      Off
+247	BOOL	1	S_OFFLOAD_A2DP SWITCH                    Off
+248	BOOL	1	S_PCM_A2DP SWITCH                        Off
+249	BOOL	1	S_VOICE_P_BT SWITCH                      Off
+250	BOOL	1	S_VOICE_C_BT SWITCH                      Off
+251	BOOL	1	S_VOIP_P_BT SWITCH                       Off
+252	BOOL	1	S_VOIP_C_BT SWITCH                       Off
+253	BOOL	1	S_LOOP_P_BT SWITCH                       Off
+254	BOOL	1	S_LOOP_C_BT SWITCH                       Off
+255	BOOL	1	S_CAPTURE_BT SWITCH                      Off
+256	BOOL	1	S_FAST_P_BT SWITCH                       Off
+257	BOOL	1	S_NORMAL_AP01_P_BT SWITCH                Off
+258	BOOL	1	S_NORMAL_AP01_P_HIFI SWITCH              Off
+259	BOOL	1	S_NORMAL_AP23_P_HIFI SWITCH              Off
+260	BOOL	1	S_FAST_P_HIFI SWITCH                     Off
+261	BOOL	1	S_OFFLOAD_HIFI SWITCH                    Off
+262	BOOL	1	S_VOICE_P_HIFI SWITCH                    Off
+263	BOOL	1	S_VOIP_P_HIFI SWITCH                     Off
+264	BOOL	1	S_FM_HIFI SWITCH                         Off
+265	BOOL	1	S_LOOP_P_HIFI SWITCH                     Off
+266	BOOL	1	S_FM_DSP_HIFI SWITCH                     Off
+267	BOOL	1	S_VOICE_CAP_C SWITCH                     Off
+268	BOOL	1	S_FM_CAP_C SWITCH                        Off
+269	BOOL	1	S_FM_CAP_DSP_C SWITCH                    Off
+270	BOOL	1	S_BTSCO_CAP_DSP_C SWITCH                 Off
+271	BOOL	1	S_VBC_DUMP SWITCH                        Off
+272	BOOL	1	S_HFP_P SWITCH                           Off
+273	BOOL	1	S_HFP_C SWITCH                           Off
+274	BOOL	1	S_CAPTURE_RECOGNISE_CODEC SWITCH         Off
+275	BOOL	1	S_VOICE_PCM_P SWITCH                     Off
+276	BOOL	1	S_NORMAL_AP01_P_SMTPA SWITCH             Off
+277	BOOL	1	S_NORMAL_AP23_P_SMTPA SWITCH             Off
+278	BOOL	1	S_FAST_P_SMTPA SWITCH                    Off
+279	BOOL	1	S_FAST_P_SMART_AMP SWITCH                Off
+280	BOOL	1	S_OFFLOAD_SMTPA SWITCH                   Off
+281	BOOL	1	S_VOICE_P_SMTPA SWITCH                   Off
+282	BOOL	1	S_VOIP_P_SMTPA SWITCH                    Off
+283	BOOL	1	S_FM_SMTPA SWITCH                        Off
+284	BOOL	1	S_LOOP_P_SMTPA SWITCH                    Off
+285	BOOL	1	S_FM_DSP_SMTPA SWITCH                    Off
+286	BOOL	1	S_HIFI_P SWITCH                          Off
+287	BOOL	1	S_DSP_HIFI_FAST_P SWITCH                 Off
+288	BOOL	1	S_AGCP_IIS0_TX SWITCH                    Off
+289	BOOL	1	S_NORMAL_AP01_EXCODEC SWITCH             On
+290	BOOL	1	S_NORMAL_AP23_ECXCODEC SWITCH            On
+291	BOOL	1	S_CAPTURE_DSP_EXCODEC SWITCH             On
+292	BOOL	1	S_VOICE_EXCODEC SWITCH                   On
+293	BOOL	1	S_VOIP_EXCODEC SWITCH                    On
+294	BOOL	1	S_NORMAL_AP01_C_DMIC0 SWITCH             Off
+295	BOOL	1	S_NORMAL_AP23_C_DMIC0 SWITCH             Off
+296	BOOL	1	S_CAPTURE_DSP_DMIC0 SWITCH               Off
+297	BOOL	1	S_VOICE_C_DMIC0 SWITCH                   Off
+298	BOOL	1	S_VOIP_C_DMIC0 SWITCH                    Off
+299	BOOL	1	S_LOOP_DMIC0 SWITCH                      Off
+300	BOOL	1	ADC_1 Mixer MIC1PGA_1 Switch             On
+301	BOOL	1	ADC_1 Mixer HPMICPGA_1 Switch            Off
+302	BOOL	1	ADC_2 Mixer MIC2PGA_2 Switch             Off
+303	BOOL	1	ADC_2 Mixer HPMICPGA_2 Switch            Off
+304	BOOL	1	ADC_3 Mixer MIC3PGA_3 Switch             On
+305	BOOL	1	ADC_3 Mixer HPMICPGA_3 Switch            Off
+306	BOOL	1	VAD_SMIC1 Switch                         Off
+307	BOOL	1	VAD_SMIC2 Switch                         Off
+308	BOOL	1	VAD_SMIC3 Switch                         Off
+309	BOOL	1	AUD ADC0L Switch                         On
+310	BOOL	1	AUD ADC0R Switch                         On
+311	BOOL	1	AUD ADC1L Switch                         Off
+312	BOOL	1	AUD ADC1R Switch                         Off
+313	INT	1	ADC_1 Gain ADC_1 Capture Volume          6 (dsrange 0->7)
+314	INT	1	ADC_2 Gain ADC_2 Capture Volume          7 (dsrange 0->7)
+315	INT	1	ADC_3 Gain ADC_3 Capture Volume          6 (dsrange 0->7)
+316	INT	1	VAD_AD Gain VAD Capture Volume           0 (dsrange 0->7)
+317	INT	1	DAC Gain DAC Playback Volume             0 (dsrange 0->2)
+318	INT	1	AO Gain AO Playback Volume               0 (dsrange 0->15)
+319	BOOL	1	AO Mixer AOL Switch                      Off
+320	BOOL	1	AO Mixer AOR Switch                      Off
+321	ENUM	1	AOL EAR Sel                              >EAR AOL
+322	BOOL	1	DA AOR Switch                            Off
+323	INT	1	HPL Gain HPL Playback Volume             15 (dsrange 0->15)
+324	INT	1	HPR Gain HPR Playback Volume             15 (dsrange 0->15)
+325	BOOL	1	HPL Mixer DACLHPL Switch                 Off
+326	BOOL	1	HPR Mixer DACRHPR Switch                 Off
+327	BOOL	1	HP Virt Switch                           Off
+328	INT	1	EAR Gain EAR Playback Volume             15 (dsrange 0->15)
+329	BOOL	1	EAR_HPL Mixer DACHPL Switch              Off
+330	BOOL	1	EAR_AOL Mixer DACAOL Switch              Off
+331	ENUM	1	HPL EAR Sel                              >EAR HPL
+332	BOOL	1	Virt Output Switch                       Off
+333	BOOL	1	ADC-DAC Adie Loop switch                 Off
+334	BOOL	1	ADC1-DAC Adie Loop switch                Off
+335	BOOL	1	ADC-DAC Digital Loop switch              Off
+336	BOOL	1	ADC1-DAC Digital Loop switch             Off
+337	ENUM	1	Digital ADC In Sel                       >ADC DAC DMIC
+338	ENUM	1	Digital ADC1 In Sel                      >ADC DAC DMIC
+339	BOOL	1	VAD_VirtL Switch                         Off
+340	BOOL	1	VAD_VirtR Switch                         Off
+341	BOOL	1	PDM_DMIC0 Switch                         Off
+342	BOOL	1	PDM_DMIC1 Switch                         Off
+343	BOOL	1	PDM_DMIC2 Switch                         Off
+zhifawang@Mac 7870_audio_ko % 
