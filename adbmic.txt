@@ -1,354 +1,1933 @@
-Mixer name: 'sprdphone-sc2730'
-Number of controls: 344
-ctl	type	num	name                                     value
+Last login: Mon Nov 16 07:28:43 on ttys000
+zhifawang@zhifadeMac-mini ~ % adb shell '
+quote> DT=/sys/firmware/devicetree/base
+quote> 
+quote> echo "========== RUNTIME PROPERTIES =========="
+quote> getprop sys.lsec.tdm
+quote> getprop sys.lsec.optType
+quote> getprop sys.lsec.dmicMono
+quote> 
+quote> echo
+quote> echo "========== SOUND CARD 0 =========="
+quote> find "$DT/sound@0" -maxdepth 4 -type f 2>/dev/null | sort
+quote> 
+quote> echo
+quote> echo "========== SOUND CARD 0 DAI LINKS =========="
+quote> for n in "$DT"/sound@0/sprd-audio-card,dai-link*; do
+quote>     [ -d "$n" ] || continue
+quote>     echo
+quote>     echo "----- $n -----"
+quote>     for sub in cpu codec plat; do
+quote>         d="$n/$sub"
+quote>         [ -d "$d" ] || continue
+quote>         echo "[$sub]"
+quote>         for f in "$d"/*; do
+quote>             [ -f "$f" ] || continue
+quote>             printf "%s = " "$(basename "$f")"
+quote>             od -An -tx1 "$f" | tr "\n" " "
+quote>             echo
+quote>         done
+quote>     done
+quote> done
+quote> 
+quote> echo
+quote> echo "========== PHANDLE MAP: AUDIO CONTROLLERS =========="
+quote> for n in "$DT"/soc/*/* "$DT"/soc/*/*/*; do
+quote>     [ -d "$n" ] || continue
+quote>     [ -f "$n/phandle" ] || continue
+quote>     h=$(od -An -tx1 "$n/phandle" | tr -d " \n")
+quote>     case "$h" in
+quote>         00000124|00000127|00000128)
+quote>             echo "$h  $n"
+quote>             ;;
+quote>     esac
+quote> done
+quote> 
+quote> echo
+quote> echo "========== PINCTRL PROPERTIES =========="
+quote> for n in \
+quote>     "$DT/soc/agcp/sprd-tdm-audio@563a0000" \
+quote>     "$DT/soc/agcp/i2s@56270800" \
+quote>     "$DT/soc/ap-apb/i2s@b0000"; do
+quote>     echo
+quote>     echo "----- $n -----"
+quote>     for f in "$n"/*; do
+quote>         [ -f "$f" ] || continue
+quote>         case "$(basename "$f")" in
+quote>             pinctrl*|status|sprd,*mode*|sprd,*port*)
+quote>                 printf "%s = " "$(basename "$f")"
+quote>                 od -An -tx1 "$f" | tr "\n" " "
+quote>                 echo
+quote>                 ;;
+quote>         esac
+quote>     done
+quote> done
+quote> 
+quote> echo
+quote> echo "========== ALSA PCM DEVICES =========="
+quote> cat /proc/asound/pcm 2>/dev/null
+quote> '
+========== RUNTIME PROPERTIES ==========
 
-0	INT	2	VBC DAC0 DSP MDG Set                     0 1
-1	INT	2	VBC DAC1 DSP MDG Set                     0 4
-2	INT	2	VBC DAC0 AUD MDG Set                     0 1
-3	INT	2	VBC DAC0 AUD23 MDG Set                   0 1
-4	INT	1	VBC_SRC_DAC0                             0
-5	INT	1	VBC_SRC_DAC1                             0
-6	INT	1	VBC_SRC_ADC0                             0
-7	INT	1	VBC_SRC_ADC1                             0
-8	INT	1	VBC_SRC_ADC2                             0
-9	INT	1	VBC_SRC_ADC3                             0
-10	INT	1	VBC_SRC_BT_DAC                           0
-11	INT	1	VBC_SRC_BT_ADC                           0
-12	INT	1	VBC_SRC_FM                               0
-13	INT	2	VBC DAC0 DG Set                          0 0
-14	INT	2	VBC DAC1 DG Set                          0 0
-15	INT	2	VBC ADC0 DG Set                          21 21
-16	INT	2	VBC ADC1 DG Set                          0 0
-17	INT	2	VBC ADC2 DG Set                          0 0
-18	INT	2	VBC ADC3 DG Set                          0 0
-19	INT	2	VBC FM DG Set                            0 0
-20	INT	2	VBC ST DG Set                            0 0
-21	INT	2	OFFLOAD DG Set                           0 0
-22	INT	2	VBC_SMTHDG_DAC0                          0 0
-23	INT	1	VBC_SMTHDG_DAC0_STEP                     0
-24	INT	2	VBC_MIXERDG_DAC0_MAIN                    0 0
-25	INT	2	VBC_MIXERDG_DAC0_MIX                     0 0
-26	INT	2	VBC_MIXERDG_DAC1_MAIN                    0 0
-27	INT	2	VBC_MIXERDG_DAC1_MIX                     0 0
-28	INT	1	VBC_MIXERDG_STEP                         0
-29	ENUM	1	VBC_MIXER0_DAC0                          NOT_MIX
-30	ENUM	1	VBC_MIXER1_DAC0                          NOT_MIX
-31	ENUM	1	VBC_MIXER0_DAC1                          NOT_MIX
-32	ENUM	1	VBC_MIXER_ST                             NOT_MIX
-33	ENUM	1	VBC_MIXER_FM                             NOT_MIX
-34	ENUM	1	VBC_MUX_ADC0_SOURCE                      ADC_SOURCE_IIS
-35	ENUM	1	VBC_MUX_ADC1_SOURCE                      ADC_SOURCE_IIS
-36	ENUM	1	VBC_MUX_ADC2_SOURCE                      ADC_SOURCE_IIS
-37	ENUM	1	VBC_MUX_ADC3_SOURCE                      ADC_SOURCE_IIS
-38	ENUM	1	VBC_MUX_DAC0_OUT_SEL                     DAC_OUT_FROM_IIS
-39	ENUM	1	VBC_MUX_DAC1_OUT_SEL                     DAC_OUT_FROM_IIS
-40	ENUM	1	VBC_MUX_ADC0                             ADC_IN_IIS0_ADC
-41	ENUM	1	VBC_MUX_ADC1                             ADC_IN_IIS0_ADC
-42	ENUM	1	VBC_MUX_ADC2                             ADC_IN_IIS0_ADC
-43	ENUM	1	VBC_MUX_ADC3                             ADC_IN_IIS0_ADC
-44	ENUM	1	VBC_MUX_FM                               FM_IN_FM_SRC_OUT
-45	ENUM	1	VBC_MUX_ST                               ST_IN_ADC0
-46	ENUM	1	VBC_MUX_LOOP_DAC0                        DAC0_SMTHDG_OUT
-47	ENUM	1	VBC_MUX_LOOP_DAC1                        DAC1_MIXER_OUT
-48	ENUM	1	VBC_MUX_LOOP_DAC0_DAC1                   DAC0_DAC1_SEL_DAC1
-49	ENUM	1	VBC_MUX_AUDRCD01                         AUDRCD_IN_ADC0
-50	ENUM	1	VBC_MUX_AUDRCD23                         AUDRCD_IN_ADC0
-51	ENUM	1	VBC_MUX_TDM_AUDRCD23                     AUDRCD23_TDM_SEL_AUDRCD23
-52	ENUM	1	VBC_MUX_AP01_DSP_PLY                     AP01_TO_DSP_DISABLE
-53	ENUM	1	VBC_MUX_AP01_DSP_RCD                     AP01_TO_DSP_DISABLE
-54	ENUM	1	VBC_MUX_DAC0_IIS_PORT_SEL                VBC_IIS_PORT_IIS0
-55	ENUM	1	VBC_MUX_DAC1_IIS_PORT_SEL                VBC_IIS_PORT_IIS1
-56	ENUM	1	VBC_MUX_DAC2_IIS_PORT_SEL                VBC_IIS_PORT_IIS2
-57	ENUM	1	VBC_MUX_ADC0_IIS_PORT_SEL                VBC_IIS_PORT_IIS0
-58	ENUM	1	VBC_MUX_ADC1_IIS_PORT_SEL                VBC_IIS_PORT_IIS0
-59	ENUM	1	VBC_MUX_ADC2_IIS_PORT_SEL                VBC_IIS_PORT_IIS0
-60	ENUM	1	VBC_MUX_ADC3_IIS_PORT_SEL                VBC_IIS_PORT_IIS3
-61	ENUM	1	VBC_MUX_IIS0_PORT_DO_SEL                 IIS_DO_VAL_DAC0
-62	ENUM	1	VBC_MUX_IIS1_PORT_DO_SEL                 IIS_DO_VAL_DAC1
-63	ENUM	1	VBC_MUX_IIS2_PORT_DO_SEL                 IIS_DO_VAL_DAC2
-64	ENUM	1	VBC_MUX_IIS3_PORT_DO_SEL                 IIS_DO_VAL_DAC0
-65	ENUM	1	VBC_MUX_MST_IIS0_PORT_DO_SEL             IIS_DO_VAL_DAC0
-66	ENUM	1	VBC_ADDER_OFLD                           ADDER_MOD_IGNORE
-67	ENUM	1	VBC_ADDER_FM_DAC0                        ADDER_MOD_IGNORE
-68	ENUM	1	VBC_ADDER_ST_DAC0                        ADDER_MOD_IGNORE
-69	INT	1	VBC_DSP_LOOPBACK_ARM_RATE                0
-70	INT	1	VBC_DSP_LOOPBACK_VOICE_FMT               0
-71	INT	1	VBC_DSP_LOOPBACK_LOOP_MODE               0
-72	ENUM	1	VBC_DSP_LOOPBACK_TYPE                    ADDA
-73	ENUM	1	VBC_DAC0_DP_EN                           disable
-74	ENUM	1	VBC_DAC1_DP_EN                           disable
-75	ENUM	1	VBC_DAC2_DP_EN                           disable
-76	ENUM	1	VBC_ADC0_DP_EN                           disable
-77	ENUM	1	VBC_ADC1_DP_EN                           disable
-78	ENUM	1	VBC_ADC2_DP_EN                           disable
-79	ENUM	1	VBC_ADC3_DP_EN                           disable
-80	ENUM	1	VBC_OFLD_DP_EN                           disable
-81	ENUM	1	VBC_FM_DP_EN                             disable
-82	ENUM	1	VBC_ST_DP_EN                             disable
-83	ENUM	1	VBC_UL_MUTE                              disable
-84	ENUM	1	VBC_DL_MUTE                              disable
-85	ENUM	1	VBC IIS Master Setting                   disable_iis0
-86	BOOL	1	agdsp_access_en                          On
-87	BOOL	1	agdsp_access_a2dp_en                     On
-88	INT	1	VBC FM_MUTE_SMOOTHDG STEP                1
-89	ENUM	1	VBC_FM_UNMUTE_SMOOTH                     mute
-90	INT	1	VBC_VOLUME                               0
-91	INT	1	Audio Structure Profile Update           0
-92	INT	1	DSP VBC Profile Update                   0
-93	INT	1	CVS Profile Update                       0
-94	INT	1	DSP SMARTAMP Update                      0
-95	INT	1	Audio Structure Profile Select           0
-96	INT	1	DSP VBC Profile Select                   0
-97	INT	1	NXP Profile Select                       0
-98	INT	1	DSP FFSMARTAMP Select                    0
-99	ENUM	1	VBC_IIS_TX0_WD_SEL                       WD_24BIT
-100	ENUM	1	VBC_IIS_TX1_WD_SEL                       WD_16BIT
-101	ENUM	1	VBC_IIS_TX2_WD_SEL                       WD_16BIT
-102	ENUM	1	VBC_IIS_RX0_WD_SEL                       WD_24BIT
-103	ENUM	1	VBC_IIS_RX1_WD_SEL                       WD_24BIT
-104	ENUM	1	VBC_IIS_RX2_WD_SEL                       WD_24BIT
-105	ENUM	1	VBC_IIS_RX3_WD_SEL                       WD_16BIT
-106	ENUM	1	VBC_IIS_TX0_LRMOD_SEL                    LEFT_HIGH
-107	ENUM	1	VBC_IIS_TX1_LRMOD_SEL                    LEFT_HIGH
-108	ENUM	1	VBC_IIS_TX2_LRMOD_SEL                    LEFT_HIGH
-109	ENUM	1	VBC_IIS_RX0_LRMOD_SEL                    LEFT_HIGH
-110	ENUM	1	VBC_IIS_RX1_LRMOD_SEL                    LEFT_HIGH
-111	ENUM	1	VBC_IIS_RX2_LRMOD_SEL                    LEFT_HIGH
-112	ENUM	1	VBC_IIS_RX3_LRMOD_SEL                    LEFT_HIGH
-113	ENUM	1	VBC_IIS_MASTER_ENALBE                    disable
-114	ENUM	1	VBC_IIS_MST_SEL_0_TYPE                   VBC_MASTER_EXTERNAL
-115	ENUM	1	VBC_IIS_MST_SEL_1_TYPE                   VBC_MASTER_EXTERNAL
-116	ENUM	1	VBC_IIS_MST_SEL_2_TYPE                   VBC_MASTER_EXTERNAL
-117	ENUM	1	VBC_IIS_MST_SEL_3_TYPE                   VBC_MASTER_EXTERNAL
-118	ENUM	1	VBC_IIS_MST_WIDTH_SET                    WD_16BIT
-119	ENUM	1	VBC_DSP_MAINMIC_PATH_SEL                 MAINMIC_FROM_LEFT
-120	ENUM	1	VBC_DSP_MAINMIC_REF_PATH_SEL             MAINMIC_FROM_LEFT
-121	ENUM	1	IVSENCE_FUNC_DSP                         disable
-122	ENUM	1	ag_iis0_ext_sel                          disable
-123	ENUM	1	ag_iis1_ext_sel                          disable
-124	ENUM	1	ag_iis2_ext_sel                          disable
-125	ENUM	1	ag_iis0_ext_sel_v1                       top_dac_iis
-126	ENUM	1	ag_iis1_ext_sel_v1                       top_adc_iis0
-127	ENUM	1	ag_iis2_ext_sel_v1                       l5_top_usb_iism
-128	ENUM	1	ag_iis4_ext_sel_v1                       top_adc_iis1
-129	ENUM	1	ag_iis0_ext_sel_v2                       pad_top
-130	ENUM	1	ag_iis1_ext_sel_v2                       aud_4ad_iis0_ad0
-131	ENUM	1	ag_iis2_ext_sel_v2                       pad_top
-132	ENUM	1	ag_iis4_ext_sel_v2                       pad_top
-133	ENUM	1	ag_iis3_ext_sel_v2                       pad_top
-134	ENUM	1	SYS_IIS0                                 vbc_iis0
-135	ENUM	1	SYS_IIS1                                 ap_iis0
-136	ENUM	1	SYS_IIS2                                 vbc_iis0
-137	ENUM	1	SYS_IIS3                                 vbc_iis0
-138	ENUM	1	SYS_IIS4                                 vbc_iis0
-139	ENUM	1	SYS_IIS5                                 vbc_iis0
-140	ENUM	1	SYS_IIS6                                 vbc_iis0
-141	INT	1	VBC_BAK_REG_SET                          0
-142	ENUM	1	VBC_DUMP_POS                             DUMP_POS_DAC0_E
-143	ENUM	1	VBC_DUMP_POS_CMD                         DUMP_POS_DAC0_E
-144	BYTE	64	SBC_PARAS                                 00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
-145	ENUM	1	VBC_IIS_INF_SYS_SEL                      vbc_iis_to_aon_usb
-146	ENUM	1	DMIC_CHN_SEL                             VBC_DMIC_NONE
-147	ENUM	1	VBC_DSP_VOICE_CAPTURE_TYPE               VOICE_CAPTURE_DOWNLINK
-148	ENUM	1	VBC_DSP_VOICE_PCM_PLAY_MODE              VOICE_PCM_PLAY_UPLINK_MIX
-149	ENUM	1	VAD_DIN_AD_SEL                           vad_din_sel_add0
-150	BOOL	1	HP_CROSSTALK_EN                          Off
-151	INT	2	HP_CROSSTALK_GAIN                        0 0
-152	ENUM	1	DSP_AUX_MIC2_SEL                         disable
-153	ENUM	1	DSP_SMARTAMP_IV_EXCHANGE                 disable
-154	ENUM	1	DSP_DAC0_LR_EXCHANGE                     disable
-155	ENUM	1	VBC_CUSTM_DEV_CHANGE                     TYPE_INIT
-156	ENUM	1	VBC_SYSTEM_DEV_CHANGE                    TYPE_INIT
-157	ENUM	1	VBC_CUSTM_VOL_CHANGE                     VOL_DOWN
-158	BOOL	1	AUDIO_ZOOM_ST                            Off
-159	INT	1	AUDIO_ZOOM_RATIO                         0
-160	BYTE	20	AUDIO_ZOOM_FOCUS                          00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
-161	BYTE	20	DSP IIS Port En                           00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
-162	BYTE	20	DSP IIS Params                            00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
-163	ENUM	1	SYS_DMIC0                                pdm_dmic0
-164	ENUM	1	SYS_DMIC1                                pdm_dmic0
-165	ENUM	1	SYS_DMIC2                                pdm_dmic0
-166	ENUM	1	Aud Codec Info                           ump9620
-167	INT	1	Inter PA Config                          303
-168	ENUM	1	DAC LRCLK Select                         normal
-169	ENUM	1	ADC LRCLK Select                         invert
-170	ENUM	1	ADC1 LRCLK Select                        invert
-171	INT	1	HP mix mode                              0
-172	INT	1	SPK DG fall                              1
-173	ENUM	1	DAS Input Mux                            L+R
-174	INT	1	TEST_FIXED_RATE                          48000
-175	BOOL	1	Codec Digital Access Disable             Off
-176	ENUM	1	IVSENCE_DMIC_SEL                         NONE
-177	BOOL	1	DALDO BYPASS                             Off
-178	ENUM	1	CLK 26M IN SEL                           in_26m
-179	INT	1	DRV SOFT T                               0
-180	ENUM	1	DAAOL BUF DCCAL                          HW_CAL_MODE
-181	ENUM	1	DAAOR BUF DCCAL                          HW_CAL_MODE
-182	ENUM	1	DAHP OS INV                              normal
-183	INT	1	DAHP OS D                                0
-184	ENUM	1	DAHPL BUF DCCAL                          HW_CAL_MODE
-185	ENUM	1	DAHPR BUF DCCAL                          HW_CAL_MODE
-186	BOOL	1	RCV POP RAMP                             Off
-187	INT	1	SDM_L SET                                0
-188	INT	1	SDM_H SET                                0
-189	ENUM	1	HP CHN TYPE                              HP_LR_TYPE
-190	ENUM	1	ADD0 DATA SEL                            ADD0_DATA_MIC13
-191	BOOL	1	BIAS Power                               Off
-192	INT	1	Codec Chip ID                            40962
-193	BOOL	1	PDM MODULE EN                            Off
-194	INT	1	PDM ADC0L DG                             16
-195	INT	1	PDM ADC0R DG                             16
-196	INT	1	PDM ADC2L DG                             16
-197	INT	1	PDM ADC2R DG                             16
-198	INT	1	DP Data Width                            24
-199	BOOL	1	Speaker Function                         Off
-200	BOOL	1	Speaker1 Function                        Off
-201	BOOL	1	Earpiece Function                        Off
-202	BOOL	1	HeadPhone Function                       Off
-203	BOOL	1	Line Function                            Off
-204	BOOL	1	Mic Function                             On
-205	BOOL	1	Aux Mic Function                         Off
-206	BOOL	1	Aux Mic2 Function                        On
-207	BOOL	1	HP Mic Function                          Off
-208	BOOL	1	DMic Function                            Off
-209	BOOL	1	DMic1 Function                           Off
-210	BOOL	1	Digital FM Function                      Off
-211	BOOL	1	Speaker Mute                             Off
-212	BOOL	1	Speaker2 Mute                            Off
-213	BOOL	1	HeadPhone Mute                           Off
-214	BOOL	1	Earpiece Mute                            Off
-215	ENUM	1	SmartAmp Boost                           Bypass
-216	BOOL	1	S_NORMAL_AP01_P_CODEC SWITCH             Off
-217	BOOL	1	S_NORMAL_AP01_C_CODEC SWITCH             Off
-218	BOOL	1	S_NORMAL_AP23_P_CODEC SWITCH             Off
-219	BOOL	1	S_NORMAL_AP23_C_CODEC SWITCH             Off
-220	BOOL	1	S_CAPTURE_DSP_CODEC SWITCH               Off
-221	BOOL	1	S_FAST_P_CODEC SWITCH                    Off
-222	BOOL	1	S_FAST_P_CODEC_MM SWITCH                 Off
-223	BOOL	1	S_OFFLOAD_CODEC SWITCH                   Off
-224	BOOL	1	S_VOICE_P_CODEC SWITCH                   Off
-225	BOOL	1	S_VOICE_C_CODEC SWITCH                   Off
-226	BOOL	1	S_VOIP_P_CODEC SWITCH                    Off
-227	BOOL	1	S_VOIP_C_CODEC SWITCH                    Off
-228	BOOL	1	S_FM_CODEC SWITCH                        Off
-229	BOOL	1	S_LOOP_P_CODEC SWITCH                    Off
-230	BOOL	1	S_LOOP_C_CODEC SWITCH                    Off
-231	BOOL	1	S_FM_DSP_CODEC SWITCH                    Off
-232	BOOL	1	S_NORMAL_AP01_P_USB SWITCH               Off
-233	BOOL	1	S_NORMAL_AP01_C_USB SWITCH               Off
-234	BOOL	1	S_NORMAL_AP23_P_USB SWITCH               Off
-235	BOOL	1	S_NORMAL_AP23_C_USB SWITCH               Off
-236	BOOL	1	S_CAPTURE_DSP_USB SWITCH                 Off
-237	BOOL	1	S_FAST_P_USB SWITCH                      Off
-238	BOOL	1	S_OFFLOAD_USB SWITCH                     Off
-239	BOOL	1	S_VOICE_P_USB SWITCH                     Off
-240	BOOL	1	S_VOICE_C_USB SWITCH                     Off
-241	BOOL	1	S_VOIP_P_USB SWITCH                      Off
-242	BOOL	1	S_VOIP_C_USB SWITCH                      Off
-243	BOOL	1	S_FM_USB SWITCH                          Off
-244	BOOL	1	S_LOOP_P_USB SWITCH                      Off
-245	BOOL	1	S_LOOP_C_USB SWITCH                      Off
-246	BOOL	1	S_FM_DSP_USB SWITCH                      Off
-247	BOOL	1	S_OFFLOAD_A2DP SWITCH                    Off
-248	BOOL	1	S_PCM_A2DP SWITCH                        Off
-249	BOOL	1	S_VOICE_P_BT SWITCH                      Off
-250	BOOL	1	S_VOICE_C_BT SWITCH                      Off
-251	BOOL	1	S_VOIP_P_BT SWITCH                       Off
-252	BOOL	1	S_VOIP_C_BT SWITCH                       Off
-253	BOOL	1	S_LOOP_P_BT SWITCH                       Off
-254	BOOL	1	S_LOOP_C_BT SWITCH                       Off
-255	BOOL	1	S_CAPTURE_BT SWITCH                      Off
-256	BOOL	1	S_FAST_P_BT SWITCH                       Off
-257	BOOL	1	S_NORMAL_AP01_P_BT SWITCH                Off
-258	BOOL	1	S_NORMAL_AP01_P_HIFI SWITCH              Off
-259	BOOL	1	S_NORMAL_AP23_P_HIFI SWITCH              Off
-260	BOOL	1	S_FAST_P_HIFI SWITCH                     Off
-261	BOOL	1	S_OFFLOAD_HIFI SWITCH                    Off
-262	BOOL	1	S_VOICE_P_HIFI SWITCH                    Off
-263	BOOL	1	S_VOIP_P_HIFI SWITCH                     Off
-264	BOOL	1	S_FM_HIFI SWITCH                         Off
-265	BOOL	1	S_LOOP_P_HIFI SWITCH                     Off
-266	BOOL	1	S_FM_DSP_HIFI SWITCH                     Off
-267	BOOL	1	S_VOICE_CAP_C SWITCH                     Off
-268	BOOL	1	S_FM_CAP_C SWITCH                        Off
-269	BOOL	1	S_FM_CAP_DSP_C SWITCH                    Off
-270	BOOL	1	S_BTSCO_CAP_DSP_C SWITCH                 Off
-271	BOOL	1	S_VBC_DUMP SWITCH                        Off
-272	BOOL	1	S_HFP_P SWITCH                           Off
-273	BOOL	1	S_HFP_C SWITCH                           Off
-274	BOOL	1	S_CAPTURE_RECOGNISE_CODEC SWITCH         Off
-275	BOOL	1	S_VOICE_PCM_P SWITCH                     Off
-276	BOOL	1	S_NORMAL_AP01_P_SMTPA SWITCH             Off
-277	BOOL	1	S_NORMAL_AP23_P_SMTPA SWITCH             Off
-278	BOOL	1	S_FAST_P_SMTPA SWITCH                    Off
-279	BOOL	1	S_FAST_P_SMART_AMP SWITCH                Off
-280	BOOL	1	S_OFFLOAD_SMTPA SWITCH                   Off
-281	BOOL	1	S_VOICE_P_SMTPA SWITCH                   Off
-282	BOOL	1	S_VOIP_P_SMTPA SWITCH                    Off
-283	BOOL	1	S_FM_SMTPA SWITCH                        Off
-284	BOOL	1	S_LOOP_P_SMTPA SWITCH                    Off
-285	BOOL	1	S_FM_DSP_SMTPA SWITCH                    Off
-286	BOOL	1	S_HIFI_P SWITCH                          Off
-287	BOOL	1	S_DSP_HIFI_FAST_P SWITCH                 Off
-288	BOOL	1	S_AGCP_IIS0_TX SWITCH                    Off
-289	BOOL	1	S_NORMAL_AP01_EXCODEC SWITCH             On
-290	BOOL	1	S_NORMAL_AP23_ECXCODEC SWITCH            On
-291	BOOL	1	S_CAPTURE_DSP_EXCODEC SWITCH             On
-292	BOOL	1	S_VOICE_EXCODEC SWITCH                   On
-293	BOOL	1	S_VOIP_EXCODEC SWITCH                    On
-294	BOOL	1	S_NORMAL_AP01_C_DMIC0 SWITCH             Off
-295	BOOL	1	S_NORMAL_AP23_C_DMIC0 SWITCH             Off
-296	BOOL	1	S_CAPTURE_DSP_DMIC0 SWITCH               Off
-297	BOOL	1	S_VOICE_C_DMIC0 SWITCH                   Off
-298	BOOL	1	S_VOIP_C_DMIC0 SWITCH                    Off
-299	BOOL	1	S_LOOP_DMIC0 SWITCH                      Off
-300	BOOL	1	ADC_1 Mixer MIC1PGA_1 Switch             On
-301	BOOL	1	ADC_1 Mixer HPMICPGA_1 Switch            Off
-302	BOOL	1	ADC_2 Mixer MIC2PGA_2 Switch             Off
-303	BOOL	1	ADC_2 Mixer HPMICPGA_2 Switch            Off
-304	BOOL	1	ADC_3 Mixer MIC3PGA_3 Switch             On
-305	BOOL	1	ADC_3 Mixer HPMICPGA_3 Switch            Off
-306	BOOL	1	VAD_SMIC1 Switch                         Off
-307	BOOL	1	VAD_SMIC2 Switch                         Off
-308	BOOL	1	VAD_SMIC3 Switch                         Off
-309	BOOL	1	AUD ADC0L Switch                         On
-310	BOOL	1	AUD ADC0R Switch                         On
-311	BOOL	1	AUD ADC1L Switch                         Off
-312	BOOL	1	AUD ADC1R Switch                         Off
-313	INT	1	ADC_1 Gain ADC_1 Capture Volume          6
-314	INT	1	ADC_2 Gain ADC_2 Capture Volume          7
-315	INT	1	ADC_3 Gain ADC_3 Capture Volume          6
-316	INT	1	VAD_AD Gain VAD Capture Volume           0
-317	INT	1	DAC Gain DAC Playback Volume             0
-318	INT	1	AO Gain AO Playback Volume               0
-319	BOOL	1	AO Mixer AOL Switch                      Off
-320	BOOL	1	AO Mixer AOR Switch                      Off
-321	ENUM	1	AOL EAR Sel                              EAR
-322	BOOL	1	DA AOR Switch                            Off
-323	INT	1	HPL Gain HPL Playback Volume             15
-324	INT	1	HPR Gain HPR Playback Volume             15
-325	BOOL	1	HPL Mixer DACLHPL Switch                 Off
-326	BOOL	1	HPR Mixer DACRHPR Switch                 Off
-327	BOOL	1	HP Virt Switch                           Off
-328	INT	1	EAR Gain EAR Playback Volume             15
-329	BOOL	1	EAR_HPL Mixer DACHPL Switch              Off
-330	BOOL	1	EAR_AOL Mixer DACAOL Switch              Off
-331	ENUM	1	HPL EAR Sel                              EAR
-332	BOOL	1	Virt Output Switch                       Off
-333	BOOL	1	ADC-DAC Adie Loop switch                 Off
-334	BOOL	1	ADC1-DAC Adie Loop switch                Off
-335	BOOL	1	ADC-DAC Digital Loop switch              Off
-336	BOOL	1	ADC1-DAC Digital Loop switch             Off
-337	ENUM	1	Digital ADC In Sel                       ADC
-338	ENUM	1	Digital ADC1 In Sel                      ADC
-339	BOOL	1	VAD_VirtL Switch                         Off
-340	BOOL	1	VAD_VirtR Switch                         Off
-341	BOOL	1	PDM_DMIC0 Switch                         Off
-342	BOOL	1	PDM_DMIC1 Switch                         Off
-343	BOOL	1	PDM_DMIC2 Switch                         Off
-adb shell cat /proc/asound/pcm
-adb shell cat /proc/asound/card0/pcm2c/sub0/status
-adb shell cat /proc/asound/card0/pcm2c/sub0/hw_params
+
+
+
+========== SOUND CARD 0 ==========
+/sys/firmware/devicetree/base/sound@0/compatible
+/sys/firmware/devicetree/base/sound@0/name
+/sys/firmware/devicetree/base/sound@0/phandle
+/sys/firmware/devicetree/base/sound@0/sprd,syscon-agcp-ahb
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/ignore-pmdown-time
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/ignore-pmdown-time
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/ignore-pmdown-time
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/ignore-pmdown-time
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/ignore-pmdown-time
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/ignore-pmdown-time
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/ignore-pmdown-time
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/dai-format
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/ignore-pmdown-time
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/dynamic
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90/trigger
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91/dpcm-playback
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/ignore-pmdown-time
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/ignore-pmdown-time
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/ignore-pmdown-time
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/ignore-pmdown-time
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/be-id
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/codec/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/codec/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/cpu/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/cpu/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/dpcm-capture
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/ignore-pmdown-time
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/ignore-suspend
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/link-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/no-pcm
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/plat/name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/plat/sound-dai
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96/stream-name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,headset
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,name
+/sys/firmware/devicetree/base/sound@0/sprd-audio-card,routing
+/sys/firmware/devicetree/base/sound@0/status
+
+========== SOUND CARD 0 DAI LINKS ==========
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@0 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 00 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@1 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 01 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@10 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 0a 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@100 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 40 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 01 23 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@101 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 41 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 01 23 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@102 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 42 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 01 23 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@103 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 43 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 01 23 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@104 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 44 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 01 23 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@105 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 45 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 01 23 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@11 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 0b 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1f 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@12 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 0c 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@13 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 0d 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@14 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 0e 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@15 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 0f 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@16 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 10 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@17 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 11 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@18 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 00 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@19 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 01 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@2 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 02 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@20 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 02 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@21 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 03 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@22 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 04 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@23 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 05 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@24 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 06 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@25 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 07 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@26 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 08 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@27 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 09 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@28 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 0a 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@29 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 0b 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@3 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 03 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@30 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 0c 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@31 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 0d 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@32 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 0e 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@33 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 0f 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@34 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 10 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@35 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 11 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@36 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 12 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@37 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 13 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@38 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 14 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@39 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 15 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@4 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 04 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1f 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@40 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 16 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@41 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 17 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@42 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 18 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@43 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 19 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@44 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 1a 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@45 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 1b 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@46 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 1c 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@47 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 1d 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@48 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 1e 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@49 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 13 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@5 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 05 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@50 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 1f 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 01 22 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@51 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 20 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@52 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 21 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@6 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 06 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@65 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 24 00 00 00 39 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 01 25 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@66 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 18 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@68 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 12 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@69 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 2d 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@7 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 07 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@70 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 14 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@71 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 2b 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@8 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 08 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@81 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 1f 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 01 23 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@9 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 09 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@90 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 1e 00 00 00 19 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 1d 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@91 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 39 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 01 22 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@92 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 3b 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@93 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 3c 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@94 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 3d 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@95 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 3e 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+----- /sys/firmware/devicetree/base/sound@0/sprd-audio-card,dai-link@96 -----
+[cpu]
+name =  63 70 75 00 
+sound-dai =  00 00 01 21 00 00 00 3f 
+[codec]
+name =  63 6f 64 65 63 00 
+sound-dai =  00 00 00 00 00 00 00 00 
+[plat]
+name =  70 6c 61 74 00 
+sound-dai =  00 00 01 20 
+
+========== PHANDLE MAP: AUDIO CONTROLLERS ==========
+00000124  /sys/firmware/devicetree/base/soc/agcp/i2s@56270800
+00000127  /sys/firmware/devicetree/base/soc/agcp/sprd-tdm-audio@563a0000
+00000128  /sys/firmware/devicetree/base/soc/ap-apb/i2s@b0000
+
+========== PINCTRL PROPERTIES ==========
+
+----- /sys/firmware/devicetree/base/soc/agcp/sprd-tdm-audio@563a0000 -----
+sprd,duplex_mode =  00 00 00 00 
+sprd,trx_data_mode =  00 00 00 00 
+sprd,trx_msb_mode =  00 00 00 00 
+sprd,trx_mst_mode =  00 00 00 01 
+sprd,trx_pulse_mode =  00 00 00 00 
+sprd,trx_sync_mode =  00 00 00 01 
+status =  6f 6b 61 79 00 
+
+----- /sys/firmware/devicetree/base/soc/agcp/i2s@56270800 -----
+sprd,bus-frame-mode =  00 00 00 01 
+sprd,div-mode =  00 00 00 02 
+sprd,hw-port =  00 00 00 00 
+sprd,rtx-mode =  00 00 00 03 
+sprd,sync-mode =  00 00 00 00 
+sprd,trans-mode =  00 00 00 00 
+sprd,work-mode =  00 00 00 00 
+status =  6f 6b 61 79 00 
+
+----- /sys/firmware/devicetree/base/soc/ap-apb/i2s@b0000 -----
+sprd,hw_port =  00 00 00 00 
+sprd,rtx_mode =  00 00 00 03 
+sprd,slave_mode =  00 00 00 00 
+status =  6f 6b 61 79 00 
+
+========== ALSA PCM DEVICES ==========
 00-00: FE_ST_NORMAL_AP01 (*) :  : playback 1 : capture 1
 00-01: FE_ST_NORMAL_AP23 (*) :  : playback 1 : capture 1
 00-02: FE_ST_CAPTURE_DSP (*) :  : capture 1
@@ -372,20 +1951,4 @@ adb shell cat /proc/asound/card0/pcm2c/sub0/hw_params
 00-60: FE_ST_HFP (*) :  : playback 1 : capture 1
 01-00: tdm-dai-snd-soc-dummy-dai snd-soc-dummy-dai-0 :  : playback 1 : capture 1
 01-01: i2s_bt_sco0-snd-soc-dummy-dai snd-soc-dummy-dai-1 :  : playback 1 : capture 1
-state: RUNNING
-owner_pid   : 20569
-trigger_time: 13456.913585835
-tstamp      : 0.000000000
-delay       : 0
-avail       : 0
-avail_max   : 0
------
-hw_ptr      : 0
-appl_ptr    : 0
-access: MMAP_INTERLEAVED
-format: S16_LE
-subformat: STD
-channels: 2
-rate: 16000 (16000/1)
-period_size: 960
-buffer_size: 3840
+zhifawang@zhifadeMac-mini ~ %
